@@ -5,5 +5,76 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="@string/acc_title_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="188dp" />
+
+
+        <TextView
+            android:id="@+id/tvwTextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acc_login_google"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/vieBackgroundButton"
+            app:layout_constraintEnd_toEndOf="@+id/vieBackgroundButton"
+            app:layout_constraintStart_toStartOf="@+id/vieBackgroundButton"
+            app:layout_constraintTop_toTopOf="@+id/vieBackgroundButton" />
+
+        <View
+            android:id="@+id/vieBackgroundButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_button"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imvIconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="@+id/vieBackgroundButton"
+            app:layout_constraintStart_toStartOf="@+id/vieBackgroundButton"
+            app:layout_constraintTop_toTopOf="@+id/vieBackgroundButton"
+            app:srcCompat="@drawable/ic_google" />
+
+        <Button
+            android:id="@+id/btnAccessWithGoogle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/vieBackgroundButton"
+            app:layout_constraintEnd_toEndOf="@+id/vieBackgroundButton"
+            app:layout_constraintStart_toStartOf="@+id/vieBackgroundButton"
+            app:layout_constraintTop_toTopOf="@+id/vieBackgroundButton" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acc_login_or"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
