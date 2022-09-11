@@ -1,9 +1,9 @@
 package br.com.raphaelmaracaipe.portfolio.di
 
-import br.com.raphaelmaracaipe.portfolio.ui.login.LoginSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginSubcomponent
 import dagger.Module
 
 @Module(subcomponents = [
-    LoginSubcomponent::class
+    UserLoginSubcomponent::class
 ])
 object ApplicationSubcomponent

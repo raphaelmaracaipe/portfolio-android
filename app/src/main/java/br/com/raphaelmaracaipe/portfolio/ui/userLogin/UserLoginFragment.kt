@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.ui.login
+package br.com.raphaelmaracaipe.portfolio.ui.userLogin
 
 import android.content.Context
 import android.os.Bundle
@@ -12,16 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
-import br.com.raphaelmaracaipe.portfolio.databinding.FragmentLoginBinding
+import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserLoginBinding
 import javax.inject.Inject
 
-class LoginFragment : Fragment() {
+class UserLoginFragment : Fragment() {
 
-    private lateinit var bind: FragmentLoginBinding
+    private lateinit var bind: FragmentUserLoginBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<LoginViewModel> { viewModelFactory }
+    private val viewModel by viewModels<UserLoginViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,8 +37,8 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
-        bind = FragmentLoginBinding.bind(view)
+        val view = inflater.inflate(R.layout.fragment_user_login, container, false)
+        bind = FragmentUserLoginBinding.bind(view)
         return bind.root
     }
 

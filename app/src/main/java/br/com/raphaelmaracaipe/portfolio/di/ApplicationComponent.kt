@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.di
 
 import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
-import br.com.raphaelmaracaipe.portfolio.ui.login.LoginSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginSubcomponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -22,6 +22,6 @@ interface ApplicationComponent {
         fun create(@BindsInstance applicationContext: Context): ApplicationComponent
     }
 
-    fun loginSubcomponent(): LoginSubcomponent.Factory
+    fun loginSubcomponent(): UserLoginSubcomponent.Factory
 
 }
