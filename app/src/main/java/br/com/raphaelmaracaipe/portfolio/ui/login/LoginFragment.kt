@@ -1,22 +1,36 @@
 package br.com.raphaelmaracaipe.portfolio.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentLoginBinding
-import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
 
     private lateinit var bind: FragmentLoginBinding
 
-    private val viewModel: LoginViewModel by hiltNavGraphViewModels(R.id.nav_graph_login)
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<LoginViewModel> { viewModelFactory }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        prepareInject()
+    }
+
+    private fun prepareInject() {
+        (requireActivity().application as App).appComponent.loginSubcomponent().create().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +48,10 @@ class LoginFragment: Fragment() {
     }
 
     private fun testViewModel() {
-        viewModel.registerLoginInDatabase(UserEntity(name = "Foi?"))
-        viewModel.success.observe(viewLifecycleOwner){}
+        viewModel.registerLoginInDatabase(UserEntity(name = "Fo1i?"))
+        viewModel.success.observe(viewLifecycleOwner) {
+            Log.i("RAPHAEL", "A")
+        }
     }
 
 }

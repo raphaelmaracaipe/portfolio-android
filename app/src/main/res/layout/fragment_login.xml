@@ -11,13 +11,13 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:gravity="center"
             android:text="@string/acc_title_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="188dp" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/vieBackgroundButton"
+            app:layout_constraintEnd_toEndOf="@+id/vieBackgroundButton"
+            app:layout_constraintStart_toStartOf="@+id/vieBackgroundButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -37,11 +37,11 @@
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_button"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imvIconButton"
@@ -70,11 +70,11 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/acc_login_or"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/vieBackgroundButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.portfolio.data.UserRepository
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel(){

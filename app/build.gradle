@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -55,11 +54,11 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.room:room-ktx:2.4.3"
-    implementation "com.google.dagger:hilt-android:2.38.1"
     implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+    implementation "com.google.dagger:dagger:2.38.1"
 
+    kapt "com.google.dagger:dagger-compiler:2.38.1"
     kapt "androidx.room:room-compiler:2.4.3"
-    kapt "com.google.dagger:hilt-compiler:2.38.1"
 
     testImplementation "junit:junit:$test_junit"
 
