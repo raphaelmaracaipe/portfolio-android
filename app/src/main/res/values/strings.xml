@@ -14,5 +14,6 @@
     <string name="reg_field_set_hit">email@email.com</string>
     <string name="reg_button_next">Próximo</string>
     <string name="reg_confim_register">Confirmar registro</string>
+    <string name="reg_error_field_email">Por favor, informe um e-mail válido.</string>
 
 </resources>
