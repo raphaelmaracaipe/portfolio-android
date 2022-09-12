@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvwTextTitle"
+            style="@style/Title1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/reg_title_step_three"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtNumber1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumber2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tvwTextTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvwTextTitle" />
+
+        <EditText
+            android:id="@+id/edtNumber2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edtNumber1"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumber3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edtNumber1"
+            app:layout_constraintTop_toTopOf="@+id/edtNumber1" />
+
+        <EditText
+            android:id="@+id/edtNumber3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edtNumber4"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumber4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edtNumber2"
+            app:layout_constraintTop_toTopOf="@+id/edtNumber2" />
+
+        <EditText
+            android:id="@+id/edtNumber4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edtNumber1"
+            app:layout_constraintEnd_toEndOf="@+id/tvwTextTitle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edtNumber3"
+            app:layout_constraintTop_toTopOf="@+id/edtNumber1" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/reg_confim_register"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edtNumber4"
+            app:layout_constraintStart_toStartOf="@+id/edtNumber1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

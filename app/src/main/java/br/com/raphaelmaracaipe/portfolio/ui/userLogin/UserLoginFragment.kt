@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserLoginBinding
 import javax.inject.Inject
 
-class UserLoginFragment : Fragment() {
+class UserLoginFragment : Fragment(), View.OnClickListener {
 
     private lateinit var bind: FragmentUserLoginBinding
 
@@ -45,6 +46,11 @@ class UserLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         testViewModel()
+        applyActionsInButtons()
+    }
+
+    private fun applyActionsInButtons() {
+        bind.btnGoToRegister.setOnClickListener(this)
     }
 
     private fun testViewModel() {
@@ -52,6 +58,16 @@ class UserLoginFragment : Fragment() {
         viewModel.success.observe(viewLifecycleOwner) {
             Log.i("RAPHAEL", "A")
         }
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id) {
+            R.id.btnGoToRegister -> goToRegister()
+        }
+    }
+
+    private fun goToRegister() {
+        findNavController().navigate(R.id.action_loginFragment_to_userRegisterStepOneFragment)
     }
 
 }

@@ -22,6 +22,7 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:gravity="center"
             android:text="@string/acc_title_top"
             android:textStyle="bold"
@@ -87,7 +88,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/outlinedButton"
+            android:id="@+id/btnGoToRegister"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_login"
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
         android:name="br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_user_login">
+        <action
+            android:id="@+id/action_loginFragment_to_userRegisterStepOneFragment"
+            app:destination="@id/userRegisterStepOneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRegisterStepOneFragment"
+        android:name="br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepOneFragment"
+        android:label="UserRegisterStepOneFragment"
+        tools:layout="@layout/fragment_user_register_step_one">
+        <action
+            android:id="@+id/action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment"
+            app:destination="@id/userRegisterStepTwoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRegisterStepTwoFragment"
+        android:name="br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepTwoFragment"
+        android:label="UserRegisterStepTwoFragment"
+        tools:layout="@layout/fragment_user_register_step_two">
+        <action
+            android:id="@+id/action_userRegisterStepTwoFragment_to_userRegisterStepThreeFragment"
+            app:destination="@id/userRegisterStepThreeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRegisterStepThreeFragment"
+        android:name="br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepThreeFragment"
+        android:label="UserRegisterStepThreeFragment"
+        tools:layout="@layout/fragment_user_register_step_three" />
 </navigation>
