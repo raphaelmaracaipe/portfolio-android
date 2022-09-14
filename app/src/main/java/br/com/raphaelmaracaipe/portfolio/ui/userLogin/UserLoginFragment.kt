@@ -30,7 +30,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     private fun prepareInject() {
-        (requireActivity().application as App).appComponent.loginSubcomponent().create().inject(this)
+        (requireActivity().application as App).appComponent.userLoginSubcomponent().create().inject(this)
     }
 
     override fun onCreateView(

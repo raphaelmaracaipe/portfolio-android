@@ -6,6 +6,7 @@ import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterSubcomponent
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Module
 import javax.inject.Singleton
 
 @Singleton
@@ -23,7 +24,15 @@ interface ApplicationComponent {
         fun create(@BindsInstance applicationContext: Context): ApplicationComponent
     }
 
-    fun loginSubcomponent(): UserLoginSubcomponent.Factory
+    fun userLoginSubcomponent(): UserLoginSubcomponent.Factory
     fun userRegisterSubcomponent(): UserRegisterSubcomponent.Factory
 
 }
+
+@Module(
+    subcomponents = [
+        UserLoginSubcomponent::class,
+        UserRegisterSubcomponent::class
+    ]
+)
+object ApplicationSubcomponent
