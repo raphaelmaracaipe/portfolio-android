@@ -7,6 +7,9 @@
     <string name="acc_login_or">OU</string>
     <string name="acc_login_register">Registro</string>
 
+    <!-- ALERT -->
+    <string name="alt_msg_warning">Atenção</string>
+
     <!-- REGISTER -->
     <string name="reg_title_step_one">Por favor, informe o seu e-mail.</string>
     <string name="reg_title_step_two">Por favor, informe a sua senha.</string>

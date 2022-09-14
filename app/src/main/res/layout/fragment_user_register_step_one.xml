@@ -47,8 +47,8 @@
             android:layout_marginBottom="16dp"
             android:text="@string/reg_button_next"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textField"
-            app:layout_constraintStart_toStartOf="@+id/textField"
+            app:layout_constraintEnd_toEndOf="@+id/tfdEmail"
+            app:layout_constraintStart_toStartOf="@+id/tfdEmail"
             tools:ignore="TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

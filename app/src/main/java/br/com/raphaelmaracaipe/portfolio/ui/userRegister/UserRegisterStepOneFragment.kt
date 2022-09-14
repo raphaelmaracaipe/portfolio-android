@@ -2,7 +2,6 @@ package br.com.raphaelmaracaipe.portfolio.ui.userRegister
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
+import br.com.raphaelmaracaipe.portfolio.ui.main.MainMessageBottomSheet
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.email.ValidationEmail
 import javax.inject.Inject
@@ -19,6 +19,7 @@ import javax.inject.Inject
 class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
 
     private lateinit var bind: FragmentUserRegisterStepOneBinding
+    private var isOkWithValidation = false
 
     @Inject
     @ValidationModule.Email
@@ -49,14 +50,20 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         applyActionInButtons()
+        applyActionEditTextEmail()
+    }
+
+    private fun applyActionEditTextEmail() {
         bind.tietEmail.addTextChangedListener {
             val text = bind.tietEmail.text.toString()
-            if(validationEmail.isValidEmail(text)) {
+
+            isOkWithValidation = if (validationEmail.isValidEmail(text)) {
                 bind.tfdEmail.error = ""
+                true
             } else {
                 bind.tfdEmail.error = resources.getString(R.string.reg_error_field_email)
+                false
             }
-            Log.i("RAPHAEL", "AAAAAAAAA => ${text}")
         }
     }
 
@@ -71,7 +78,10 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
     }
 
     private fun goToNextStep() {
-        findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment)
+        MainMessageBottomSheet().show(childFragmentManager, MainMessageBottomSheet.TAG)
+        if(isOkWithValidation) {
+            findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment)
+        }
     }
 
 }
