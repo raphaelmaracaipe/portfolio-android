@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.di
 
 import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
+import br.com.raphaelmaracaipe.portfolio.data.flow.di.FlowModule
 import br.com.raphaelmaracaipe.portfolio.ui.main.di.MainSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userLogin.di.UserLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
@@ -14,6 +15,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         DataBaseModule::class,
+        FlowModule::class,
         ViewModelBuilderModule::class,
         ApplicationSubcomponent::class
     ]
