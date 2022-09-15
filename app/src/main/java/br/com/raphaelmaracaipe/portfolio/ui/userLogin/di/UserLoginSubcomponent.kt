@@ -1,5 +1,6 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userLogin
+package br.com.raphaelmaracaipe.portfolio.ui.userLogin.di
 
+import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginFragment
 import dagger.Subcomponent
 
 @Subcomponent(modules = [UserLoginModule::class])

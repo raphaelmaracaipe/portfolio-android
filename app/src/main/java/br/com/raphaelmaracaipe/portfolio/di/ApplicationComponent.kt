@@ -2,8 +2,9 @@ package br.com.raphaelmaracaipe.portfolio.di
 
 import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
-import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginSubcomponent
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.main.di.MainSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.userLogin.di.UserLoginSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -24,6 +25,7 @@ interface ApplicationComponent {
         fun create(@BindsInstance applicationContext: Context): ApplicationComponent
     }
 
+    fun mainSubcomponent(): MainSubcomponent.Factory
     fun userLoginSubcomponent(): UserLoginSubcomponent.Factory
     fun userRegisterSubcomponent(): UserRegisterSubcomponent.Factory
 
@@ -31,6 +33,7 @@ interface ApplicationComponent {
 
 @Module(
     subcomponents = [
+        MainSubcomponent::class,
         UserLoginSubcomponent::class,
         UserRegisterSubcomponent::class
     ]

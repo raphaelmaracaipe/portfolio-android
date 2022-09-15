@@ -1,5 +1,6 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userRegister
+package br.com.raphaelmaracaipe.portfolio.ui.userRegister.di
 
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepOneFragment
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import dagger.Subcomponent
 
