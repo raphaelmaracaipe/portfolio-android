@@ -64,7 +64,10 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger"
     kapt "androidx.room:room-compiler:$room_ktx"
 
+    testImplementation "io.mockk:mockk:$test_mockk"
     testImplementation "junit:junit:$test_junit"
+    testImplementation "androidx.test:core:$test_core"
+    testImplementation "org.robolectric:robolectric:$test_rebolectric"
 
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
