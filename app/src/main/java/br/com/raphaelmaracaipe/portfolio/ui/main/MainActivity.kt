@@ -6,9 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.di.ViewModelFactory
-import br.com.raphaelmaracaipe.portfolio.ui.main.MainViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {

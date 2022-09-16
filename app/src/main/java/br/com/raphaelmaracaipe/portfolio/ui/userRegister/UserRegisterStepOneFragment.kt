@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
-import br.com.raphaelmaracaipe.portfolio.ui.main.MainMessageBottomSheet
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.email.ValidationEmail
 import javax.inject.Inject
@@ -78,8 +77,7 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
     }
 
     private fun goToNextStep() {
-        MainMessageBottomSheet().show(childFragmentManager, MainMessageBottomSheet.TAG)
-        if(isOkWithValidation) {
+        if (isOkWithValidation) {
             findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment)
         }
     }
