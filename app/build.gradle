@@ -41,10 +41,13 @@ android {
         enabled = true
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
     }
+
 }
 
 dependencies {
@@ -64,12 +67,16 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger"
     kapt "androidx.room:room-compiler:$room_ktx"
 
+    testImplementation "org.mockito:mockito-core:$test_mockito_core"
+    testImplementation "androidx.test.ext:junit-ktx:$test_junit"
     testImplementation "io.mockk:mockk:$test_mockk"
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.test:core:$test_core"
     testImplementation "org.robolectric:robolectric:$test_rebolectric"
 
+    debugImplementation "androidx.fragment:fragment-testing:$test_fragment_test"
+
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
 }
