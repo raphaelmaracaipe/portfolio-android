@@ -71,11 +71,11 @@ dependencies {
     testImplementation "androidx.test.ext:junit-ktx:$test_junit"
     testImplementation "io.mockk:mockk:$test_mockk"
     testImplementation "junit:junit:$test_junit"
-    testImplementation "androidx.test:core:$test_core"
     testImplementation "org.robolectric:robolectric:$test_rebolectric"
 
     debugImplementation "androidx.fragment:fragment-testing:$test_fragment_test"
 
+    androidTestImplementation "androidx.test:core-ktx:1.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
