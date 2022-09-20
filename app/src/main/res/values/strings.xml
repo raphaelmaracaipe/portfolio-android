@@ -19,4 +19,11 @@
     <string name="reg_confim_register">Confirmar registro</string>
     <string name="reg_error_field_email">Por favor, informe um e-mail válido.</string>
 
+    <!-- GERAL -->
+    <string name="ger_loading">Carregando…</string>
+
+    <!-- ERROR -->
+    <string name="err_email_invalid">Por favor, informe um e-mail valido.</string>
+    <string name="err_general_server">Ocorreu um error! Por favor, tente novamente mais tarde.</string>
+
 </resources>

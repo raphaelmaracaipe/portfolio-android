@@ -2,6 +2,6 @@ package br.com.raphaelmaracaipe.portfolio.data.api.user
 
 interface UserAPI {
 
-    suspend fun register() {}
+    suspend fun checkIfEmailExist(email: String): Boolean
 
 }

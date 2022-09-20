@@ -5,7 +5,8 @@ import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import dagger.Subcomponent
 
 @Subcomponent(modules = [
-    ValidationModule::class
+    ValidationModule::class,
+    UserRegisterModule::class
 ])
 interface UserRegisterSubcomponent {
 

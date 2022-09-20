@@ -20,10 +20,6 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
 
     private lateinit var bind: FragmentUserLoginBinding
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<UserLoginViewModel> { viewModelFactory }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         prepareInject()
@@ -45,20 +41,11 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        testViewModel()
         applyActionsInButtons()
     }
 
     private fun applyActionsInButtons() {
         bind.btnGoToRegister.setOnClickListener(this)
-    }
-
-    private fun testViewModel() {
-        viewModel.registerUser()
-        viewModel.registerLoginInDatabase(UserEntity(name = "Fo1i?"))
-        viewModel.success.observe(viewLifecycleOwner) {
-            Log.i("RAPHAEL", "A")
-        }
     }
 
     override fun onClick(view: View?) {

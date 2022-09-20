@@ -1,19 +1,26 @@
 package br.com.raphaelmaracaipe.portfolio.ui.userRegister
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
+import br.com.raphaelmaracaipe.portfolio.const.BROADCAST_KEY_LOADING
+import br.com.raphaelmaracaipe.portfolio.const.BROADCAST_LOADING_IS_SHOW
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
+import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.email.ValidationEmail
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
@@ -24,6 +31,10 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
     @Inject
     @ValidationModule.Email
     lateinit var validationEmail: ValidationEmail
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<UserRegisterViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,6 +62,18 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         applyActionInButtons()
         applyActionEditTextEmail()
+        initLiveDatas()
+    }
+
+    private fun initLiveDatas() {
+        viewModel.errors.observe(viewLifecycleOwner) { msgErrors ->
+            MainActivity.hiddenLoading(requireContext())
+            Snackbar.make(bind.root, msgErrors, Snackbar.LENGTH_LONG).show()
+        }
+
+        viewModel.emailExist.observe(viewLifecycleOwner) {
+            MainActivity.hiddenLoading(requireContext())
+        }
     }
 
     private fun applyActionEditTextEmail() {
@@ -79,12 +102,19 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
 
     private fun goToNextStep() {
         if (isOkWithValidation) {
-            findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment)
+            initProcessToServer()
         } else {
             showAlertMessage(
                 childFragmentManager,
                 resources.getString(R.string.reg_error_field_email)
             )
+        }
+    }
+
+    private fun initProcessToServer() {
+        context?.let { ctx ->
+            MainActivity.showLoading(ctx)
+            viewModel.checkIfEmailExist(bind.tietEmail.text.toString())
         }
     }
 
