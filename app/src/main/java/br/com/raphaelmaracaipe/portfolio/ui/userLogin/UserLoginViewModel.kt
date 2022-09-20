@@ -28,4 +28,10 @@ class UserLoginViewModel @Inject constructor(
         }
     }
 
+    fun registerUser() {
+        viewModelScope.launch {
+            userRepository.registerUserInApi()
+        }
+    }
+
 }

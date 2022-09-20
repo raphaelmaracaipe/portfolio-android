@@ -54,6 +54,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     private fun testViewModel() {
+        viewModel.registerUser()
         viewModel.registerLoginInDatabase(UserEntity(name = "Fo1i?"))
         viewModel.success.observe(viewLifecycleOwner) {
             Log.i("RAPHAEL", "A")
