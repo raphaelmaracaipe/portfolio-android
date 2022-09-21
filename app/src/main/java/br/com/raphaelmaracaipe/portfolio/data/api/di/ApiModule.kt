@@ -4,6 +4,8 @@ import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServiceImpl
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
@@ -19,7 +21,8 @@ object ApiModule {
     @Provides
     fun providerUserAPI(context: Context): UserAPI = UserAPIImpl(
         context,
-        ConfigurationServiceImpl()
+        ConfigurationServiceImpl(),
+        DeviceNetworkImpl(context)
     )
 
 }

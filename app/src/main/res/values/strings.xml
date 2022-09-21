@@ -24,6 +24,7 @@
     <string name="ger_loading">Carregando…</string>
 
     <!-- ERROR -->
+    <string name="err_not_connection_internet">Você está sem conexão com a internet. Para continuar, é necessário conectar na internet.</string>
     <string name="err_email_invalid">Por favor, informe um e-mail valido.</string>
     <string name="err_general_server">Ocorreu um error! Por favor, tente novamente mais tarde.</string>
 

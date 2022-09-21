@@ -19,6 +19,8 @@ import br.com.raphaelmaracaipe.portfolio.const.BROADCAST_LOADING_IS_SHOW
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.email.ValidationEmail
 import com.google.android.material.snackbar.Snackbar

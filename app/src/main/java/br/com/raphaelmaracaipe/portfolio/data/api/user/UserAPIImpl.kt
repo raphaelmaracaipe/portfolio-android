@@ -8,28 +8,40 @@ import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.enums.CodeError.USER_
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.enums.translateIntegerToEnum
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import com.google.gson.Gson
+import javax.inject.Inject
 
 class UserAPIImpl(
     private val context: Context,
-    private val configurationServer: ConfigurationServer
+    private val configurationServer: ConfigurationServer,
+    private val deviceNetwork: DeviceNetwork
 ) : UserAPI {
 
     override suspend fun checkIfEmailExist(email: String): Boolean {
-        val returnAfterOfExecution = configurationServer.create(
-            UserService::class.java
-        ).userConsultEmail(email)
-
-        if (returnAfterOfExecution.isSuccessful) {
-            return returnAfterOfExecution.body()?.isExist ?: false
+        if(!deviceNetwork.isNetworkConnected()) {
+            throw Exception(context.getString(R.string.err_not_connection_internet))
         }
 
-        val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
-        val resID = when (codeError(bodyError)) {
-            USER_EMAIL_INVALID -> R.string.err_email_invalid
-            else -> R.string.err_general_server
-        }
+        var resID = R.string.err_general_server
+        try {
+            val returnAfterOfExecution = configurationServer.create(
+                UserService::class.java
+            ).userConsultEmail(email)
 
+            if (returnAfterOfExecution.isSuccessful) {
+                return returnAfterOfExecution.body()?.isExist ?: false
+            }
+
+            val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
+            resID = when (codeError(bodyError)) {
+                USER_EMAIL_INVALID -> R.string.err_email_invalid
+                else -> R.string.err_general_server
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         throw Exception(context.getString(resID))
     }
 

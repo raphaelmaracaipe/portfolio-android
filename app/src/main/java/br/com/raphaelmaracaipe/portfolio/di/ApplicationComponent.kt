@@ -5,6 +5,7 @@ import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
 import br.com.raphaelmaracaipe.portfolio.ui.userLogin.di.UserLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -16,7 +17,8 @@ import javax.inject.Singleton
         DataBaseModule::class,
         ApiModule::class,
         ViewModelBuilderModule::class,
-        ApplicationSubcomponent::class
+        ApplicationSubcomponent::class,
+        DeviceModule::class
     ]
 )
 interface ApplicationComponent {
