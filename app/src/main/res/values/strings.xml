@@ -18,6 +18,7 @@
     <string name="reg_button_next">Próximo</string>
     <string name="reg_confim_register">Confirmar registro</string>
     <string name="reg_error_field_email">Por favor, informe um e-mail válido.</string>
+    <string name="reg_error_email_exist">O e-mail que você informou já existe na base.</string>
 
     <!-- GERAL -->
     <string name="ger_loading">Carregando…</string>

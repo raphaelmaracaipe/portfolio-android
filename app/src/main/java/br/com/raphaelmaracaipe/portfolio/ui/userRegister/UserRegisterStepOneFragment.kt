@@ -11,6 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.BROADCAST_KEY_LOADING
@@ -71,8 +72,14 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
             Snackbar.make(bind.root, msgErrors, Snackbar.LENGTH_LONG).show()
         }
 
-        viewModel.emailExist.observe(viewLifecycleOwner) {
+        viewModel.emailExist.observe(viewLifecycleOwner) { exist ->
             MainActivity.hiddenLoading(requireContext())
+            if(exist) {
+                Snackbar.make(bind.root, resources.getString(R.string.reg_error_email_exist), Snackbar.LENGTH_LONG).show()
+                return@observe
+            }
+
+            findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment)
         }
     }
 
