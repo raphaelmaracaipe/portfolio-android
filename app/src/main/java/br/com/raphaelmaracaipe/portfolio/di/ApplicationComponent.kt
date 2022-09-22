@@ -3,6 +3,7 @@ package br.com.raphaelmaracaipe.portfolio.di
 import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
+import br.com.raphaelmaracaipe.portfolio.ui.main.di.MainSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userLogin.di.UserLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
@@ -30,13 +31,14 @@ interface ApplicationComponent {
 
     fun userLoginSubcomponent(): UserLoginSubcomponent.Factory
     fun userRegisterSubcomponent(): UserRegisterSubcomponent.Factory
-
+    fun mainSubcomponent(): MainSubcomponent.Factory
 }
 
 @Module(
     subcomponents = [
         UserLoginSubcomponent::class,
-        UserRegisterSubcomponent::class
+        UserRegisterSubcomponent::class,
+        MainSubcomponent::class
     ]
 )
 object ApplicationSubcomponent

@@ -1,9 +1,7 @@
 package br.com.raphaelmaracaipe.portfolio.ui.userRegister
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.const.BROADCAST_KEY_LOADING
-import br.com.raphaelmaracaipe.portfolio.const.BROADCAST_LOADING_IS_SHOW
+import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
-import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
-import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
+import br.com.raphaelmaracaipe.portfolio.utils.events.Event
+import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.email.ValidationEmail
 import com.google.android.material.snackbar.Snackbar
@@ -34,6 +31,10 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
     @Inject
     @ValidationModule.Email
     lateinit var validationEmail: ValidationEmail
+
+    @Inject
+    @EventModule.Events
+    lateinit var event: Event
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -70,12 +71,12 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
 
     private fun initLiveDatas() {
         viewModel.errors.observe(viewLifecycleOwner) { msgErrors ->
-            MainActivity.hiddenLoading(requireContext())
+            event.send(EVENT_KEY_LOADING, false)
             Snackbar.make(bind.root, msgErrors, Snackbar.LENGTH_LONG).show()
         }
 
         viewModel.emailExist.observe(viewLifecycleOwner) { exist ->
-            MainActivity.hiddenLoading(requireContext())
+            event.send(EVENT_KEY_LOADING, false)
             if(exist) {
                 Snackbar.make(bind.root, resources.getString(R.string.reg_error_email_exist), Snackbar.LENGTH_LONG).show()
                 return@observe
@@ -122,7 +123,7 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
 
     private fun initProcessToServer() {
         context?.let { ctx ->
-            MainActivity.showLoading(ctx)
+            event.send(EVENT_KEY_LOADING, true)
             viewModel.checkIfEmailExist(bind.tietEmail.text.toString())
         }
     }

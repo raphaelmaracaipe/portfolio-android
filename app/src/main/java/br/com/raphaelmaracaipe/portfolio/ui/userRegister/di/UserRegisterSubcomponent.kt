@@ -1,12 +1,14 @@
 package br.com.raphaelmaracaipe.portfolio.ui.userRegister.di
 
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepOneFragment
+import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
 import dagger.Subcomponent
 
 @Subcomponent(modules = [
     ValidationModule::class,
-    UserRegisterModule::class
+    UserRegisterModule::class,
+    EventModule::class
 ])
 interface UserRegisterSubcomponent {
 
