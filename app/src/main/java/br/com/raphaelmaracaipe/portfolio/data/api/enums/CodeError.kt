@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.data.api.retrofit.enums
+package br.com.raphaelmaracaipe.portfolio.data.api.enums
 
 enum class CodeError (val code: Int) {
     USER_EXIST_IN_DB(1000),

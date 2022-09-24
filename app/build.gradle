@@ -83,6 +83,7 @@ dependencies {
     testImplementation "junit:junit:$test_junit"
     testImplementation "org.robolectric:robolectric:$test_rebolectric"
 
+    debugImplementation "com.squareup.okhttp3:mockwebserver:$okHttp"
     debugImplementation "androidx.fragment:fragment-testing:$test_fragment_test"
 
     androidTestImplementation "androidx.test:core-ktx:1.4.0"

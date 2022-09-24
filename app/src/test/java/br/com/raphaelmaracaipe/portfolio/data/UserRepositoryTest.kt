@@ -12,6 +12,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.any
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -31,18 +32,7 @@ class UserRepositoryTest {
             AppDataBase::class.java
         ).allowMainThreadQueries().build()
 
-        userRepository = UserRepository(db)
-    }
-
-    @Test
-    fun `should saved of user in db`() = runBlocking {
-        val nameToTest = "Test of name"
-        userRepository.saveInDataBase(UserEntity(
-            name = nameToTest
-        ))
-
-        val users = db.userDAO().listAll()
-        Assert.assertEquals(1, users.size)
+        userRepository = UserRepository(db, any())
     }
 
 

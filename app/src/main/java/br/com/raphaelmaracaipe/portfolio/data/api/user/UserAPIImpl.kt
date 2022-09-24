@@ -3,15 +3,13 @@ package br.com.raphaelmaracaipe.portfolio.data.api.user
 import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServer
-import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.enums.CodeError.GENERAL_ERROR
-import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.enums.CodeError.USER_EMAIL_INVALID
-import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.enums.translateIntegerToEnum
-import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.models.HttpError
+import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.GENERAL_ERROR
+import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.USER_EMAIL_INVALID
+import br.com.raphaelmaracaipe.portfolio.data.api.enums.translateIntegerToEnum
+import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
-import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import com.google.gson.Gson
-import javax.inject.Inject
 
 class UserAPIImpl(
     private val context: Context,
