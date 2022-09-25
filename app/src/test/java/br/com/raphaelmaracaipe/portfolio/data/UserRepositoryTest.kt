@@ -5,8 +5,14 @@ import android.os.Build
 import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServiceImpl
+import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
+import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
 import br.com.raphaelmaracaipe.portfolio.data.db.AppDataBase
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -22,6 +28,7 @@ class UserRepositoryTest {
 
     private lateinit var userRepository: UserRepository
     private lateinit var db: AppDataBase
+    private lateinit var userAPI: UserAPI
 
     @Before
     fun setUp() {
@@ -32,8 +39,26 @@ class UserRepositoryTest {
             AppDataBase::class.java
         ).allowMainThreadQueries().build()
 
-        userRepository = UserRepository(db, any())
+        userAPI = mockk()
+        userRepository = UserRepository(db, userAPI)
     }
 
+    @Test
+    fun `when check if email is valid should return false`() = runBlocking {
+        coEvery { userAPI.checkIfEmailExist(any()) } returns false
+
+        val email = "test"
+        val returnInformationAfterCalled = userRepository.checkIfEmailExist(email)
+        Assert.assertFalse(returnInformationAfterCalled)
+    }
+
+    @Test
+    fun `when check if email is valid should return true`() = runBlocking {
+        coEvery { userAPI.checkIfEmailExist(any()) } returns true
+
+        val email = "test@test.com"
+        val returnInformationAfterCalled = userRepository.checkIfEmailExist(email)
+        Assert.assertTrue(returnInformationAfterCalled)
+    }
 
 }
