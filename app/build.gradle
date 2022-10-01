@@ -77,6 +77,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger"
     kapt "androidx.room:room-compiler:$room_ktx"
 
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.mockito:mockito-core:$test_mockito_core"
     testImplementation "androidx.test.ext:junit-ktx:$test_junit"
     testImplementation "io.mockk:mockk:$test_mockk"
