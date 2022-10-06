@@ -24,7 +24,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         prepareInject()
         settingBindOfView()
+        settingActionBar()
         callbackOfEventLoading()
+    }
+
+    private fun settingActionBar() {
+        setSupportActionBar(bind.toolbar)
     }
 
     private fun callbackOfEventLoading() {
