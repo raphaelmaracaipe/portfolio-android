@@ -15,6 +15,7 @@
     <string name="reg_title_step_two">Por favor, informe a sua senha.</string>
     <string name="reg_title_step_three">Por favor, informe o código enviado pelo o e-mail.</string>
     <string name="reg_field_set_hit">email@email.com</string>
+    <string name="reg_field_password_hit">Sua senha.</string>
     <string name="reg_button_next">Próximo</string>
     <string name="reg_confim_register">Confirmar registro</string>
     <string name="reg_error_field_email">Por favor, informe um e-mail válido.</string>

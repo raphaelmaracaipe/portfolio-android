@@ -19,16 +19,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editTextTextPassword"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tfdPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="textPassword"
+            android:hint="@string/reg_field_password_hit"
             app:layout_constraintEnd_toEndOf="@+id/tvwTextTitle"
             app:layout_constraintStart_toStartOf="@+id/tvwTextTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvwTextTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvwTextTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnNext"
@@ -37,7 +46,7 @@
             android:layout_marginBottom="16dp"
             android:text="@string/reg_button_next"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword"
-            app:layout_constraintStart_toStartOf="@+id/editTextTextPassword" />
+            app:layout_constraintEnd_toEndOf="@+id/tfdPassword"
+            app:layout_constraintStart_toStartOf="@+id/tfdPassword" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
