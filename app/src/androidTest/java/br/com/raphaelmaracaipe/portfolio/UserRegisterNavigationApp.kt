@@ -25,7 +25,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class UserLoginNavigationApp {
+class UserRegisterNavigationApp {
 
     private val mockWebServer = MockWebServer()
     private lateinit var scenario: ActivityScenario<MainActivity>
@@ -89,45 +89,6 @@ class UserLoginNavigationApp {
     }
 
     @Test
-    fun whenUserWantRegisterOnAppAndEmailNoExistInDB_shouldClickButtonToRegisterAndGoToNextToView() {
-        val json = ConsultEmail(false).toJSON()
-
-        with(mockWebServer) {
-            enqueue(
-                MockResponse().setResponseCode(200).setBody(json)
-            )
-        }
-
-        scenario = launchActivity(Intent(context, MainActivity::class.java))
-
-        onView(
-            allOf(
-                withId(R.id.tvwTitle), withText(context.resources.getString(R.string.acc_title_top))
-            )
-        ).check(matches(isDisplayed()))
-
-        onView(
-            allOf(
-                withId(R.id.btnGoToRegister)
-            )
-        ).perform(click())
-
-        onView(withId(R.id.tietEmail)).perform(replaceText("test@test.com"))
-        onView(
-            allOf(
-                withId(R.id.btnNext)
-            )
-        ).perform(click())
-
-        onView(
-            allOf(
-                withId(R.id.tvwTextTitle),
-                withText(context.resources.getString(R.string.reg_title_step_two))
-            )
-        ).check(matches(isDisplayed()))
-    }
-
-    @Test
     fun whenUserWantRegisterOnAppAndEmailAlReadyExistInDB_shouldClickButtonToRegisterAndShowMessage() {
         val json = ConsultEmail(true).toJSON()
 
@@ -162,6 +123,109 @@ class UserLoginNavigationApp {
             allOf(
                 withId(R.id.tvwTextTitle),
                 withText(context.resources.getString(R.string.reg_title_step_one))
+            )
+        ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenUserWantRegisterOnAppAndEmailNoExistInDB_shouldClickButtonToRegisterAndGoToNextToView() {
+        checkAndGoToRegister()
+    }
+
+    @Test
+    fun whenUserTapPasswordWithSizeSix_shouldMessage() {
+        checkAndGoToRegister()
+        onView(withId(R.id.tietPassword)).perform(replaceText("1"))
+
+        onView(
+            allOf(
+                withId(R.id.tvwTextTitle),
+                withText(context.resources.getString(R.string.reg_title_step_two))
+            )
+        ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenUserTapPasswordWithLatterUppercaseAndLowerCase_shouldMessage() {
+        checkAndGoToRegister()
+        onView(withId(R.id.tietPassword)).perform(replaceText("AbCdEfGh"))
+
+        onView(
+            allOf(
+                withId(R.id.tvwTextTitle),
+                withText(context.resources.getString(R.string.reg_title_step_two))
+            )
+        ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenUserTapPasswordOnlyNumber_shouldMessage() {
+        checkAndGoToRegister()
+        onView(withId(R.id.tietPassword)).perform(replaceText("123456"))
+
+        onView(
+            allOf(
+                withId(R.id.tvwTextTitle),
+                withText(context.resources.getString(R.string.reg_title_step_two))
+            )
+        ).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenUserTapPasswordWithPatter_shouldGoToCode() {
+        checkAndGoToRegister()
+        onView(withId(R.id.tietPassword)).perform(replaceText("Rap51234"))
+
+        onView(
+            allOf(
+                withId(R.id.btnNext)
+            )
+        ).perform(click())
+
+        onView(
+            allOf(
+                withId(R.id.tvwTextTitle),
+                withText(context.resources.getString(R.string.reg_title_step_three))
+            )
+        ).check(matches(isDisplayed()))
+    }
+
+    private fun checkAndGoToRegister() {
+        val json = ConsultEmail(false).toJSON()
+
+        with(mockWebServer) {
+            enqueue(
+                MockResponse().setResponseCode(200).setBody(json)
+            )
+        }
+
+        scenario = launchActivity(Intent(context, MainActivity::class.java))
+
+        onView(
+            allOf(
+                withId(R.id.tvwTitle), withText(context.resources.getString(R.string.acc_title_top))
+            )
+        ).check(matches(isDisplayed()))
+
+        onView(
+            allOf(
+                withId(R.id.btnGoToRegister)
+            )
+        ).perform(click())
+
+        onView(withId(R.id.tietEmail)).perform(replaceText("test@test.com"))
+        onView(
+            allOf(
+                withId(R.id.btnNext)
+            )
+        ).perform(click())
+
+        Thread.sleep(100)
+
+        onView(
+            allOf(
+                withId(R.id.tvwTextTitle),
+                withText(context.resources.getString(R.string.reg_title_step_two))
             )
         ).check(matches(isDisplayed()))
     }

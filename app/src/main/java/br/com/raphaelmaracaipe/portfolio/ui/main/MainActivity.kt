@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         settingBindOfView()
         settingActionBar()
         callbackOfEventLoading()
+        event.registerEvent(EVENT_KEY_LOADING)
     }
 
     private fun settingActionBar() {
@@ -47,13 +48,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(bind.root)
     }
 
-    override fun onStart() {
-        super.onStart()
-        event.registerEvent(EVENT_KEY_LOADING)
-    }
-
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         event.unregisterEvent()
     }
 

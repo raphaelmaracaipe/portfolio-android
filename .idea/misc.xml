@@ -5,6 +5,10 @@
       <map>
         <entry key="..\:/desenvolvimento/portfolio-android/app/src/main/res/layout/activity_main.xml" value="0.365625" />
         <entry key="..\:/desenvolvimento/portfolio-android/app/src/main/res/layout/fragment_login.xml" value="0.24583333333333332" />
+        <entry key="..\:/desenvolvimento/portfolio-android/app/src/main/res/layout/fragment_user_register_step_one.xml" value="0.175" />
+        <entry key="..\:/desenvolvimento/portfolio-android/app/src/main/res/layout/fragment_user_register_step_three.xml" value="0.175" />
+        <entry key="..\:/desenvolvimento/portfolio-android/app/src/main/res/layout/fragment_user_register_step_two.xml" value="0.175" />
+        <entry key="..\:/desenvolvimento/portfolio-android/app/src/main/res/layout/include_button_google.xml" value="0.19736842105263158" />
       </map>
     </option>
   </component>

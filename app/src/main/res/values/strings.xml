@@ -20,6 +20,13 @@
     <string name="reg_confim_register">Confirmar registro</string>
     <string name="reg_error_field_email">Por favor, informe um e-mail válido.</string>
     <string name="reg_error_email_exist">O e-mail que você informou já existe na base.</string>
+    <string name="reg_password_ruler_title">Sua senha precisa conter:</string>
+    <string name="reg_password_ruler_size">Sua senha tem de ter 8 letras no mínimo.</string>
+    <string name="reg_password_ruler_1">Conter caracter maiusculo. Ex: a-b</string>
+    <string name="reg_password_ruler_2">Conter caracter minusculo. Ex: A-B</string>
+    <string name="reg_password_ruler_3">Conter caracter número. Ex: 0-9</string>
+    <string name="reg_password_ruler_4">Não deve conter caracteres especiais. Ex: @,?,!...</string>
+    <string name="reg_password_ruler_5">Não deve conter acentuação.</string>
 
     <!-- GERAL -->
     <string name="ger_loading">Carregando…</string>

@@ -19,4 +19,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="subTitle" parent="Widget.AppCompat.TextView">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

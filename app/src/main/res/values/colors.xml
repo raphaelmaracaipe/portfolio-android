@@ -9,6 +9,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black_transparency">#80000000</color>
+    <color name="green">#5A9E70</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
