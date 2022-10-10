@@ -3,7 +3,6 @@ package br.com.raphaelmaracaipe.portfolio.di
 import android.content.Context
 import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
-import br.com.raphaelmaracaipe.portfolio.data.sp.di.SharedPreferenceModule
 import br.com.raphaelmaracaipe.portfolio.ui.main.di.MainSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userLogin.di.UserLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
@@ -18,7 +17,6 @@ import javax.inject.Singleton
     modules = [
         DataBaseModule::class,
         ApiModule::class,
-        SharedPreferenceModule::class,
         ViewModelBuilderModule::class,
         ApplicationSubcomponent::class,
         DeviceModule::class

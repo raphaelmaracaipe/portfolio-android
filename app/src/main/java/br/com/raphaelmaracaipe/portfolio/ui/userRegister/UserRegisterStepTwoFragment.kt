@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.ui.userRegister
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,45 +11,40 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.data.sp.userPassword.UserPassword
-import br.com.raphaelmaracaipe.portfolio.data.sp.di.SharedPreferenceModule
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepTwoBinding
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.adapters.UserRegisterAdapterStepPassword
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_CONTAIN
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_NOT_CONTAIN
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidate
-import javax.inject.Inject
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidateModel
 
 class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
 
-    @Inject
-    @SharedPreferenceModule.UserPasswordSP
-    lateinit var userPasswordSP: UserPassword
-
     private lateinit var bind: FragmentUserRegisterStepTwoBinding
     private lateinit var userRegisterAdapterStepPassword: UserRegisterAdapterStepPassword
+    private var userRegisterModel = UserRegisterModel()
 
     private val itemsWithRulesToValidateOfPassword by lazy {
         arrayOf(
-            UserRegisterPasswordValidate(
+            UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_size), sizeToValidation = 8
             ),
-            UserRegisterPasswordValidate(
+            UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_1), regex = "[a-z]".toRegex()
             ),
-            UserRegisterPasswordValidate(
+            UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_2), regex = "[A-Z]".toRegex()
             ),
-            UserRegisterPasswordValidate(
+            UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_3), regex = "[0-9]".toRegex()
             ),
-            UserRegisterPasswordValidate(
+            UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_4),
                 regex = "[!\\\"#\$%&'()*+,-./:;\\\\\\\\<=>?@\\\\[\\\\]^_`{|}~]".toRegex(),
                 whatsFormToComparation = MUST_NOT_CONTAIN,
                 isValid = true
             ),
-            UserRegisterPasswordValidate(
+            UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_5),
                 regex = "[áéíóúêâîôûãõÁÉÍÓÚÊÂÎÔÛÃÕ]".toRegex(),
                 whatsFormToComparation = MUST_NOT_CONTAIN,
@@ -63,10 +59,7 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
     }
 
     private fun prepareInject() {
-        (requireActivity().application as App)
-            .appComponent
-            .userRegisterSubcomponent()
-            .create()
+        (requireActivity().application as App).appComponent.userRegisterSubcomponent().create()
             .inject(this)
     }
 
@@ -80,9 +73,19 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getValueOfArgs()
         applyActionInButton()
         applyTextPasswordChanged()
         prepareRecyclerViewWithOptionsValidations()
+    }
+
+    private fun getValueOfArgs() {
+        arguments?.let {
+            val ars: UserRegisterStepTwoFragmentArgs = UserRegisterStepTwoFragmentArgs.fromBundle(
+                it
+            )
+            userRegisterModel = ars.userRegisterModel ?: UserRegisterModel()
+        }
     }
 
     private fun applyTextPasswordChanged() {
@@ -135,7 +138,6 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
     }
 
     private fun goToCode() {
-        userPasswordSP.save(bind.tietPassword.text.toString())
         findNavController().navigate(R.id.action_userRegisterStepTwoFragment_to_userRegisterStepThreeFragment)
     }
 

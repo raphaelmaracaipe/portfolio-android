@@ -23,16 +23,29 @@
             android:id="@+id/action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment"
             app:destination="@id/userRegisterStepTwoFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="userRegisterModel"
+                android:defaultValue="@null"
+                app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+                app:nullable="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/userRegisterStepTwoFragment"
         android:name="br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepTwoFragment"
         android:label="UserRegisterStepTwoFragment"
         tools:layout="@layout/fragment_user_register_step_two">
+        <argument
+            android:name="userRegisterModel"
+            android:defaultValue="@null"
+            app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+            app:nullable="true" />
         <action
             android:id="@+id/action_userRegisterStepTwoFragment_to_userRegisterStepThreeFragment"
-            app:destination="@id/userRegisterStepThreeFragment" />
+            app:destination="@id/userRegisterStepThreeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/userRegisterStepThreeFragment"

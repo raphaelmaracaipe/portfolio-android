@@ -14,8 +14,8 @@ import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
-import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
@@ -46,17 +46,12 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
     }
 
     private fun prepareInject() {
-        (requireActivity().application as App)
-            .appComponent
-            .userRegisterSubcomponent()
-            .create()
+        (requireActivity().application as App).appComponent.userRegisterSubcomponent().create()
             .inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         bind = FragmentUserRegisterStepOneBinding.inflate(inflater)
         return bind.root
@@ -77,13 +72,23 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
 
         viewModel.emailExist.observe(viewLifecycleOwner) { exist ->
             event.send(EVENT_KEY_LOADING, false)
-            if(exist) {
-                Snackbar.make(bind.root, resources.getString(R.string.reg_error_email_exist), Snackbar.LENGTH_LONG).show()
+            if (exist) {
+                Snackbar.make(
+                    bind.root,
+                    resources.getString(R.string.reg_error_email_exist),
+                    Snackbar.LENGTH_LONG
+                ).show()
                 return@observe
             }
 
-            findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userRegisterStepTwoFragment)
+            redirectNextScreen()
         }
+    }
+
+    private fun redirectNextScreen() {
+        val userModel = UserRegisterModel(bind.tietEmail.text.toString())
+        val directions = UserRegisterStepOneFragmentDirections.actionUserRegisterStepOneFragmentToUserRegisterStepTwoFragment(userModel)
+        findNavController().navigate(directions)
     }
 
     private fun applyActionEditTextEmail() {
@@ -115,8 +120,7 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
             initProcessToServer()
         } else {
             showAlertMessage(
-                childFragmentManager,
-                resources.getString(R.string.reg_error_field_email)
+                childFragmentManager, resources.getString(R.string.reg_error_field_email)
             )
         }
     }

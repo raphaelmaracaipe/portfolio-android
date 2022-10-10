@@ -3,7 +3,7 @@ package br.com.raphaelmaracaipe.portfolio.ui.userRegister.models
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_CONTAIN
 
-data class UserRegisterPasswordValidate(
+data class UserRegisterPasswordValidateModel(
     val textOfValidation: String,
     val sizeToValidation: Int = 0,
     val regex: Regex = Regex(""),

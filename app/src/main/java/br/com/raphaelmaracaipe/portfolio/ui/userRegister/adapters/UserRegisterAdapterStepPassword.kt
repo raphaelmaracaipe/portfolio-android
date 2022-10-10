@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.raphaelmaracaipe.portfolio.databinding.AdapterUserRegisterStepPasswordBinding
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidate
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidateModel
 
 class UserRegisterAdapterStepPassword(
     private val context: Context
 ) : RecyclerView.Adapter<UserRegisterAdapterStepPassword.ViewHolder>() {
 
-    private var items: Array<UserRegisterPasswordValidate> = arrayOf()
+    private var items: Array<UserRegisterPasswordValidateModel> = arrayOf()
 
-    fun setItems(items: Array<UserRegisterPasswordValidate>) {
+    fun setItems(items: Array<UserRegisterPasswordValidateModel>) {
         this.items = items
         notifyDataSetChanged()
     }
@@ -38,8 +38,8 @@ class UserRegisterAdapterStepPassword(
         private val bind: AdapterUserRegisterStepPasswordBinding
     ) : RecyclerView.ViewHolder(bind.root) {
 
-        fun bindView(item: UserRegisterPasswordValidate) {
-            bind.userRegisterPasswordValidate = item
+        fun bindView(item: UserRegisterPasswordValidateModel) {
+            bind.userRegisterPasswordValidateModel = item
         }
 
     }
