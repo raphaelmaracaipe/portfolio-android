@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.user
 
 import android.content.Context
+import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServer
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.GENERAL_ERROR
@@ -8,21 +9,20 @@ import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.USER_EMAIL_INV
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.translateIntegerToEnum
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
+import br.com.raphaelmaracaipe.portfolio.data.sp.DeviceSP
+import br.com.raphaelmaracaipe.portfolio.models.RequestCodeModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import com.google.gson.Gson
+import org.json.JSONObject
 
 class UserAPIImpl(
     private val context: Context,
     private val configurationServer: ConfigurationServer,
-    private val deviceNetwork: DeviceNetwork
+    private val deviceSP: DeviceSP
 ) : UserAPI {
 
     override suspend fun checkIfEmailExist(email: String): Boolean {
-        if(!deviceNetwork.isNetworkConnected()) {
-            throw Exception(context.getString(R.string.err_not_connection_internet))
-        }
-
-        var resID = R.string.err_general_server
+        var resID = R.string.err_not_connection_internet
         try {
             val returnAfterOfExecution = configurationServer.create(
                 UserService::class.java
@@ -41,6 +41,27 @@ class UserAPIImpl(
             e.printStackTrace()
         }
         throw Exception(context.getString(resID))
+    }
+
+    override suspend fun requestCode(): Boolean {
+        try {
+            val requestCodeModel = RequestCodeModel(
+                uuid = deviceSP.getUUID()
+            )
+
+            val returnAfterOfExecution = configurationServer.create(
+                UserService::class.java
+            ).requestCode(requestCodeModel)
+
+            if (returnAfterOfExecution.isSuccessful) {
+                return true
+            }
+
+            throw Exception(context.getString(R.string.err_general_server))
+        } catch (e:Exception) {
+            e.printStackTrace()
+        }
+        throw Exception(context.getString(R.string.err_not_connection_internet))
     }
 
     private fun codeError(bodyError: String) = try {

@@ -11,7 +11,7 @@ import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
-import br.com.raphaelmaracaipe.portfolio.models.ConsultEmail
+import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import okhttp3.mockwebserver.MockResponse
@@ -46,7 +46,7 @@ class UserRegisterStepOneFragmentTest {
 
     @Test
     fun `when user tap email valid but email exist should show message to user`() {
-        val json = ConsultEmail(true).toJSON()
+        val json = ConsultEmailModel(true).toJSON()
 
         with(mockWebServer) {
             enqueue(
@@ -78,7 +78,7 @@ class UserRegisterStepOneFragmentTest {
 
     @Test
     fun `when user tap email valid and click button next should redirect to next step`() {
-        val json = ConsultEmail(false).toJSON()
+        val json = ConsultEmailModel(false).toJSON()
 
         with(mockWebServer) {
             enqueue(

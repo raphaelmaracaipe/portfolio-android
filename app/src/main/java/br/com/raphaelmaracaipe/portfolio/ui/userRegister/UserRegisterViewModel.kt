@@ -18,11 +18,25 @@ class UserRegisterViewModel @Inject constructor(
     private val _emailExist = MutableLiveData<Boolean>()
     val emailExist: LiveData<Boolean> = _emailExist
 
+    private val _afterCallCode = MutableLiveData<Boolean>()
+    val afterCallCode: LiveData<Boolean> = _afterCallCode
+
     fun checkIfEmailExist(email: String) {
         viewModelScope.launch {
             try {
                 val responseOfValidationEmail = userRepository.checkIfEmailExist(email)
                 _emailExist.postValue(responseOfValidationEmail)
+            } catch (e: Exception) {
+                _errors.postValue(e.message)
+            }
+        }
+    }
+
+    fun requestCode() {
+        viewModelScope.launch {
+            try {
+                val responseRequestCode = userRepository.requestCode()
+                _afterCallCode.postValue(responseRequestCode)
             } catch (e: Exception) {
                 _errors.postValue(e.message)
             }

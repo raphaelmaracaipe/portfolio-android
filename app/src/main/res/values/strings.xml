@@ -27,6 +27,8 @@
     <string name="reg_password_ruler_3">Conter caracter número. Ex: 0-9</string>
     <string name="reg_password_ruler_4">Não deve conter caracteres especiais. Ex: @,?,!...</string>
     <string name="reg_password_ruler_5">Não deve conter acentuação.</string>
+    <string name="reg_code_success">O código foi enviado para o seu e-mail.</string>
+    <string name="reg_code_error">Ocorrer um erro ao solicitar o código de validação. Por favor, tente novamente mais tarde.</string>
 
     <!-- GERAL -->
     <string name="ger_loading">Carregando…</string>

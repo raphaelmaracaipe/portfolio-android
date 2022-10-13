@@ -13,7 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
-import br.com.raphaelmaracaipe.portfolio.models.ConsultEmail
+import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -90,7 +90,7 @@ class UserRegisterNavigationApp {
 
     @Test
     fun whenUserWantRegisterOnAppAndEmailAlReadyExistInDB_shouldClickButtonToRegisterAndShowMessage() {
-        val json = ConsultEmail(true).toJSON()
+        val json = ConsultEmailModel(true).toJSON()
 
         with(mockWebServer) {
             enqueue(
@@ -191,7 +191,7 @@ class UserRegisterNavigationApp {
     }
 
     private fun checkAndGoToRegister() {
-        val json = ConsultEmail(false).toJSON()
+        val json = ConsultEmailModel(false).toJSON()
 
         with(mockWebServer) {
             enqueue(

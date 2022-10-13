@@ -4,4 +4,6 @@ interface UserAPI {
 
     suspend fun checkIfEmailExist(email: String): Boolean
 
+    suspend fun requestCode(): Boolean
+
 }
