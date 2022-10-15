@@ -17,8 +17,8 @@ class UserRepository @Inject constructor(
         userAPI.checkIfEmailExist(email)
     }
 
-    suspend fun requestCode() = withContext(Dispatchers.IO) {
-        userAPI.requestCode()
+    suspend fun requestCode(email: String) = withContext(Dispatchers.IO) {
+        userAPI.requestCode(email)
     }
 
 }

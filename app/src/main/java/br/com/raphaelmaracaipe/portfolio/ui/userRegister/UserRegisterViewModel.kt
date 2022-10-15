@@ -32,10 +32,10 @@ class UserRegisterViewModel @Inject constructor(
         }
     }
 
-    fun requestCode() {
+    fun requestCode(email: String) {
         viewModelScope.launch {
             try {
-                val responseRequestCode = userRepository.requestCode()
+                val responseRequestCode = userRepository.requestCode(email)
                 _afterCallCode.postValue(responseRequestCode)
             } catch (e: Exception) {
                 _errors.postValue(e.message)

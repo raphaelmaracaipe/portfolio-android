@@ -13,6 +13,16 @@
             android:id="@+id/action_loginFragment_to_userRegisterStepOneFragment"
             app:destination="@id/userRegisterStepOneFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_loginFragment_to_userRegisterStepThreeFragment"
+            app:destination="@id/userRegisterStepThreeFragment">
+
+            <argument
+                android:name="userRegisterModel"
+                android:defaultValue="@null"
+                app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+                app:nullable="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/userRegisterStepOneFragment"
@@ -51,5 +61,11 @@
         android:id="@+id/userRegisterStepThreeFragment"
         android:name="br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepThreeFragment"
         android:label="UserRegisterStepThreeFragment"
-        tools:layout="@layout/fragment_user_register_step_three" />
+        tools:layout="@layout/fragment_user_register_step_three">
+        <argument
+            android:name="userRegisterModel"
+            android:defaultValue="@null"
+            app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+            app:nullable="true" />
+    </fragment>
 </navigation>

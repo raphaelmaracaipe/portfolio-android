@@ -14,6 +14,8 @@ import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserLoginBinding
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepTwoFragmentDirections
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import javax.inject.Inject
 
 class UserLoginFragment : Fragment(), View.OnClickListener {
@@ -42,6 +44,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         applyActionsInButtons()
+        goToRegister()
     }
 
     private fun applyActionsInButtons() {
@@ -55,7 +58,11 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     private fun goToRegister() {
-        findNavController().navigate(R.id.action_loginFragment_to_userRegisterStepOneFragment)
+        val userModel = UserRegisterModel(email = "a@a.com")
+        val directions = UserLoginFragmentDirections.actionLoginFragmentToUserRegisterStepThreeFragment(
+            userModel
+        )
+        findNavController().navigate(directions)
     }
 
 }

@@ -23,10 +23,7 @@ object ApiModule {
     @Provides
     fun providerUserAPI(context: Context): UserAPI = UserAPIImpl(
         context,
-        ConfigurationServiceImpl(
-            context,
-            DeviceNetworkImpl(context)
-        ),
+        ConfigurationServiceImpl(DeviceNetworkImpl(context)),
         DeviceSPImpl(context)
     )
 

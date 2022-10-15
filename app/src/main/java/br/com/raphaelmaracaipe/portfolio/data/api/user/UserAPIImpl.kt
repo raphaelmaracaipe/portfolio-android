@@ -43,10 +43,11 @@ class UserAPIImpl(
         throw Exception(context.getString(resID))
     }
 
-    override suspend fun requestCode(): Boolean {
+    override suspend fun requestCode(email: String): Boolean {
         try {
             val requestCodeModel = RequestCodeModel(
-                uuid = deviceSP.getUUID()
+                deviceSP.getUUID(),
+                email
             )
 
             val returnAfterOfExecution = configurationServer.create(

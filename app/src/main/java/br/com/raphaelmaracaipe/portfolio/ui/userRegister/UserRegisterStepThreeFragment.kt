@@ -14,6 +14,7 @@ import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepThreeBinding
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import com.google.android.material.snackbar.Snackbar
@@ -31,6 +32,7 @@ class UserRegisterStepThreeFragment : Fragment() {
 
     private lateinit var bind: FragmentUserRegisterStepThreeBinding
 
+    private var userRegisterModel = UserRegisterModel()
     private val codeField by lazy {
         var views = arrayOf<EditText>()
         bind.apply {
@@ -62,10 +64,20 @@ class UserRegisterStepThreeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getValueOfArgs()
         applyActionEditText()
         applyActionInButton()
         prepareLiveData()
         callServerToSendCode()
+    }
+
+    private fun getValueOfArgs() {
+        arguments?.let {
+            val ars: UserRegisterStepTwoFragmentArgs = UserRegisterStepTwoFragmentArgs.fromBundle(
+                it
+            )
+            userRegisterModel = ars.userRegisterModel ?: UserRegisterModel()
+        }
     }
 
     private fun prepareLiveData() {
@@ -89,7 +101,7 @@ class UserRegisterStepThreeFragment : Fragment() {
 
     private fun callServerToSendCode() {
         event.send(EVENT_KEY_LOADING, true)
-        viewModel.requestCode()
+        viewModel.requestCode(userRegisterModel.email)
     }
 
     private fun applyActionInButton() {

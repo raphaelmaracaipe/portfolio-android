@@ -11,7 +11,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ConfigurationServiceImpl(
-    private val context: Context,
     private val deviceNetwork: DeviceNetwork,
 ) : ConfigurationServer {
 
