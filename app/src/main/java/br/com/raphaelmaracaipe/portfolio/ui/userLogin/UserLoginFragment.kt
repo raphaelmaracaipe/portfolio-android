@@ -2,7 +2,6 @@ package br.com.raphaelmaracaipe.portfolio.ui.userLogin
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserLoginBinding
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepTwoFragmentDirections
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import javax.inject.Inject
 
 class UserLoginFragment : Fragment(), View.OnClickListener {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by viewModels<UserLoginViewModel> { viewModelFactory }
 
     private lateinit var bind: FragmentUserLoginBinding
 
@@ -28,13 +28,12 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     private fun prepareInject() {
-        (requireActivity().application as App).appComponent.userLoginSubcomponent().create().inject(this)
+        (requireActivity().application as App).appComponent.userLoginSubcomponent().create()
+            .inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_user_login, container, false)
         bind = FragmentUserLoginBinding.bind(view)
@@ -44,7 +43,13 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         applyActionsInButtons()
-        goToRegister()
+        gotToInternal()
+    }
+
+    private fun gotToInternal() {
+        if (viewModel.existTokenSaved()) {
+            findNavController().navigate(R.id.action_loginFragment_to_nav_graph_internal)
+        }
     }
 
     private fun applyActionsInButtons() {
@@ -52,17 +57,13 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        when(view?.id) {
+        when (view?.id) {
             R.id.btnGoToRegister -> goToRegister()
         }
     }
 
     private fun goToRegister() {
-        val userModel = UserRegisterModel(email = "a@a.com")
-        val directions = UserLoginFragmentDirections.actionLoginFragmentToUserRegisterStepThreeFragment(
-            userModel
-        )
-        findNavController().navigate(directions)
+        findNavController().navigate(R.id.action_loginFragment_to_userRegisterStepOneFragment)
     }
 
 }

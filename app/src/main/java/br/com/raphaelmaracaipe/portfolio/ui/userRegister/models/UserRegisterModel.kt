@@ -8,6 +8,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserRegisterModel(
     val email: String = "",
-    val password: String = "",
-    val code: String = ""
+    var password: String = "",
+    var code: String = ""
 ): Parcelable

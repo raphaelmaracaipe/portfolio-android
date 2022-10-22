@@ -2,7 +2,6 @@ package br.com.raphaelmaracaipe.portfolio.ui.userRegister
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +16,15 @@ import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterCompa
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_NOT_CONTAIN
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidateModel
+import br.com.raphaelmaracaipe.portfolio.utils.security.Bcrypt
+import br.com.raphaelmaracaipe.portfolio.utils.security.SecurityModule
+import javax.inject.Inject
 
 class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
+
+    @Inject
+    @SecurityModule.BCrypt
+    lateinit var bcrypt: Bcrypt
 
     private lateinit var bind: FragmentUserRegisterStepTwoBinding
     private lateinit var userRegisterAdapterStepPassword: UserRegisterAdapterStepPassword
@@ -75,7 +81,7 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         getValueOfArgs()
         applyActionInButton()
-        applyTextPasswordChanged()
+        applyRulesToPassword()
         prepareRecyclerViewWithOptionsValidations()
     }
 
@@ -88,11 +94,10 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun applyTextPasswordChanged() {
+    private fun applyRulesToPassword() {
         bind.tietPassword.apply {
             addTextChangedListener {
-                val text = text.toString()
-                comparePasswordWithRules(text)
+                comparePasswordWithRules(text.toString())
                 checkIfCanEnableButton()
             }
         }
@@ -138,7 +143,11 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
     }
 
     private fun goToCode() {
-        findNavController().navigate(R.id.action_userRegisterStepTwoFragment_to_userRegisterStepThreeFragment)
+        userRegisterModel.password = bcrypt.crypt(bind.tietPassword.text.toString())
+        val direction = UserRegisterStepTwoFragmentDirections.actionUserRegisterStepTwoFragmentToUserRegisterStepThreeFragment(
+            userRegisterModel
+        )
+        findNavController().navigate(direction)
     }
 
 }

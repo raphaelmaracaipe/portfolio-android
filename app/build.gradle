@@ -75,6 +75,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_ktx"
     implementation "com.google.dagger:dagger:$dagger"
     implementation "com.google.android.material:material:$material"
+    implementation "org.mindrot:jbcrypt:$jbcrypt"
 
     kapt "com.google.dagger:dagger-compiler:$dagger"
     kapt "androidx.room:room-compiler:$room_ktx"

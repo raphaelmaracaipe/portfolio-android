@@ -27,6 +27,7 @@ ext {
     room_ktx = '2.4.3'
     dagger = '2.38.1'
     material = '1.6.1'
+    jbcrypt = '0.4'
 
     test_core = '1.4.0'
     test_rebolectric = '4.8.2'

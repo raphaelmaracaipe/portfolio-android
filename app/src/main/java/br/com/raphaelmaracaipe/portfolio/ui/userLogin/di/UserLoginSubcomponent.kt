@@ -1,9 +1,10 @@
 package br.com.raphaelmaracaipe.portfolio.ui.userLogin.di
 
 import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginFragment
+import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginViewModel
 import dagger.Subcomponent
 
-@Subcomponent(modules = [])
+@Subcomponent(modules = [UserLoginModule::class])
 interface UserLoginSubcomponent {
 
     @Subcomponent.Factory

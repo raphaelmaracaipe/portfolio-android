@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.data.sp
+package br.com.raphaelmaracaipe.portfolio.data.sp.device
 
 import android.content.Context
 import androidx.core.content.edit

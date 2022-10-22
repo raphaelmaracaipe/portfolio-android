@@ -1,7 +1,9 @@
 package br.com.raphaelmaracaipe.portfolio.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import br.com.raphaelmaracaipe.portfolio.App
@@ -51,6 +53,13 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         event.unregisterEvent()
+    }
+
+    fun closeKeyboard() {
+        this.currentFocus?.let { view ->
+            val inputMethod = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            inputMethod?.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
 }

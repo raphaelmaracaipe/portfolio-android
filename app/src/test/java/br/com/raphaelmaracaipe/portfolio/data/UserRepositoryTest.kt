@@ -10,6 +10,10 @@ import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
 import br.com.raphaelmaracaipe.portfolio.data.db.AppDataBase
 import br.com.raphaelmaracaipe.portfolio.data.db.entities.UserEntity
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
+import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -29,18 +33,19 @@ class UserRepositoryTest {
     private lateinit var userRepository: UserRepository
     private lateinit var db: AppDataBase
     private lateinit var userAPI: UserAPI
+    private lateinit var tokenSP: TokenSP
 
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-
         db = Room.inMemoryDatabaseBuilder(
             context,
             AppDataBase::class.java
         ).allowMainThreadQueries().build()
 
         userAPI = mockk()
-        userRepository = UserRepository(db, userAPI)
+        tokenSP = TokenSPImpl(context)
+        userRepository = UserRepository(db, userAPI, tokenSP)
     }
 
     @Test
@@ -59,6 +64,36 @@ class UserRepositoryTest {
         val email = "test@test.com"
         val returnInformationAfterCalled = userRepository.checkIfEmailExist(email)
         Assert.assertTrue(returnInformationAfterCalled)
+    }
+
+    @Test
+    fun `when request code should send to email`() = runBlocking {
+        coEvery { userAPI.requestCode(any()) } returns true
+        Assert.assertTrue(userRepository.requestCode("test@test.com"))
+    }
+
+    @Test
+    fun `when request code but api return with error`() = runBlocking {
+        coEvery { userAPI.requestCode(any()) } returns false
+        Assert.assertFalse(userRepository.requestCode("test@test.com"))
+    }
+
+    @Test
+    fun `when register user in api with success`() = runBlocking {
+        coEvery { userAPI.registerUserInServer(any()) } returns TokenModel("AAA", "BBB")
+        Assert.assertTrue(userRepository.registerUserInServer(UserRegisterModel()))
+    }
+
+    @Test
+    fun `when register user in api with false`() = runBlocking {
+        coEvery { userAPI.registerUserInServer(any()) } returns TokenModel()
+        Assert.assertFalse(userRepository.registerUserInServer(UserRegisterModel()))
+    }
+
+    @Test
+    fun `when check if exist token saved`() {
+        tokenSP.save(TokenModel("AAA", "BBB"))
+        Assert.assertTrue(userRepository.existTokenSaved())
     }
 
 }

@@ -29,6 +29,10 @@
     <string name="reg_password_ruler_5">Não deve conter acentuação.</string>
     <string name="reg_code_success">O código foi enviado para o seu e-mail.</string>
     <string name="reg_code_error">Ocorrer um erro ao solicitar o código de validação. Por favor, tente novamente mais tarde.</string>
+    <string name="reg_erro_code_expired_title">O código expirou. Por favor, solicite novamente o código.</string>
+    <string name="reg_erro_code_expired_text">Você que eu envie novamente?</string>
+    <string name="reg_code_invalid">O código informado não é valido! Por favor, solicite novamente o código.</string>
+    <string name="reg_send"><u>Reenviar o código</u></string>
 
     <!-- GERAL -->
     <string name="ger_loading">Carregando…</string>
@@ -37,5 +41,7 @@
     <string name="err_not_connection_internet">Você está sem conexão com a internet. Para continuar, é necessário conectar na internet.</string>
     <string name="err_email_invalid">Por favor, informe um e-mail valido.</string>
     <string name="err_general_server">Ocorreu um error! Por favor, tente novamente mais tarde.</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 
 </resources>

@@ -1,19 +1,17 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.user
 
 import android.content.Context
-import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServer
-import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.GENERAL_ERROR
-import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.USER_EMAIL_INVALID
+import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.translateIntegerToEnum
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
+import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServer
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
-import br.com.raphaelmaracaipe.portfolio.data.sp.DeviceSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.models.RequestCodeModel
-import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
+import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import com.google.gson.Gson
-import org.json.JSONObject
 
 class UserAPIImpl(
     private val context: Context,
@@ -59,10 +57,35 @@ class UserAPIImpl(
             }
 
             throw Exception(context.getString(R.string.err_general_server))
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         throw Exception(context.getString(R.string.err_not_connection_internet))
+    }
+
+    override suspend fun registerUserInServer(data: UserRegisterModel): TokenModel {
+        var resID = R.string.err_not_connection_internet
+        try {
+            val returnAfterOfExecution = configurationServer.create(
+                UserService::class.java
+            ).registerUserInServer(data)
+
+            if (returnAfterOfExecution.isSuccessful) {
+                return returnAfterOfExecution.body() ?: TokenModel()
+            }
+
+            val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
+            resID = when (codeError(bodyError)) {
+                USER_EMAIL_INVALID -> R.string.err_email_invalid
+                USER_CODE_NOT_VALID -> R.string.reg_code_invalid
+                USER_EXIST_IN_DB -> R.string.reg_error_email_exist
+                USER_CODE_EXPIRED -> R.string.reg_erro_code_expired_title
+                else -> R.string.err_general_server
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        throw Exception(context.getString(resID))
     }
 
     private fun codeError(bodyError: String) = try {

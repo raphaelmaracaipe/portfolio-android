@@ -3,6 +3,8 @@ package br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
 import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
 import br.com.raphaelmaracaipe.portfolio.models.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,5 +27,12 @@ interface UserService {
     )
     @POST("/api/v1/users/code")
     suspend fun requestCode(@Body dataToBody: RequestCodeModel): Response<Void>
+
+    @Headers(
+        "Accept: application/json; charset=utf-8",
+        "x-api-key: ${BuildConfig.API_KEY}",
+    )
+    @POST("/api/v1/users")
+    suspend fun registerUserInServer(@Body dataToBody: UserRegisterModel): Response<TokenModel>
 
 }

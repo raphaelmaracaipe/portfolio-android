@@ -4,6 +4,9 @@ import android.os.Build
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
+import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
+import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
@@ -30,11 +33,13 @@ class ConfigurationServiceTest {
         ConfigsToTest.urlToMock = mockWebServer.url("").toString()
 
         val context = RuntimeEnvironment.getApplication().applicationContext
+        val deviceNetwork: DeviceNetwork = DeviceNetworkImpl(context)
+        val deviceSP: DeviceSP = DeviceSPImpl(context)
 
         userAPI = UserAPIImpl(
             context,
-            ConfigurationServiceImpl(),
-            DeviceNetworkImpl(context)
+            ConfigurationServiceImpl(deviceNetwork),
+            deviceSP
         )
     }
 
