@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.portfolio.data.UserRepository
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

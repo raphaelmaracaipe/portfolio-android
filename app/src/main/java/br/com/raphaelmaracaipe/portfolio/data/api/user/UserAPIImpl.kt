@@ -10,7 +10,7 @@ import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.models.RequestCodeModel
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import com.google.gson.Gson
 
 class UserAPIImpl(

@@ -6,7 +6,7 @@ import br.com.raphaelmaracaipe.portfolio.data.db.AppDataBase
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
 import br.com.raphaelmaracaipe.portfolio.data.sp.di.SharedPreferenceModule
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -1,8 +1,7 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.user
 
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
-import retrofit2.Response
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 
 interface UserAPI {
 

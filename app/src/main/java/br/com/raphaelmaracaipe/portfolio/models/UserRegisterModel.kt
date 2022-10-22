@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userRegister.models
+package br.com.raphaelmaracaipe.portfolio.models
 
 import android.os.Parcelable
 import androidx.annotation.Keep

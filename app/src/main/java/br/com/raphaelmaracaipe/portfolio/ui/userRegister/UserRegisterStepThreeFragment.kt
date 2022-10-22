@@ -21,11 +21,9 @@ import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepThreeBinding
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
-import br.com.raphaelmaracaipe.portfolio.utils.security.Bcrypt
-import br.com.raphaelmaracaipe.portfolio.utils.security.SecurityModule
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*

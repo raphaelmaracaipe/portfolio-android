@@ -14,7 +14,7 @@ import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepTwo
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.adapters.UserRegisterAdapterStepPassword
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_CONTAIN
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_NOT_CONTAIN
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidateModel
 import br.com.raphaelmaracaipe.portfolio.utils.security.Bcrypt
 import br.com.raphaelmaracaipe.portfolio.utils.security.SecurityModule

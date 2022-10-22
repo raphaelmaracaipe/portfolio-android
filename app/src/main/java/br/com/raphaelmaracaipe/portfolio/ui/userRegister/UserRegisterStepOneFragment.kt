@@ -15,7 +15,7 @@ import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
 import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule

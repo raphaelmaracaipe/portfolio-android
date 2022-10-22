@@ -4,7 +4,7 @@ import br.com.raphaelmaracaipe.portfolio.BuildConfig
 import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
 import br.com.raphaelmaracaipe.portfolio.models.RequestCodeModel
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

@@ -4,14 +4,13 @@ import android.content.Context
 import android.os.Build
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
-import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServiceImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import io.mockk.every
