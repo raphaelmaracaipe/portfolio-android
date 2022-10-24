@@ -33,7 +33,7 @@
             <argument
                 android:name="userRegisterModel"
                 android:defaultValue="@null"
-                app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+                app:argType="br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel"
                 app:nullable="true" />
         </action>
     </fragment>
@@ -45,7 +45,7 @@
         <argument
             android:name="userRegisterModel"
             android:defaultValue="@null"
-            app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+            app:argType="br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel"
             app:nullable="true" />
         <action
             android:id="@+id/action_userRegisterStepTwoFragment_to_userRegisterStepThreeFragment"
@@ -55,7 +55,7 @@
             <argument
                 android:name="userRegisterModel"
                 android:defaultValue="@null"
-                app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+                app:argType="br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel"
                 app:nullable="true" />
         </action>
     </fragment>
@@ -67,7 +67,7 @@
         <argument
             android:name="userRegisterModel"
             android:defaultValue="@null"
-            app:argType="br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterModel"
+            app:argType="br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel"
             app:nullable="true" />
         <action
             android:id="@+id/action_userRegisterStepThreeFragment_to_nav_graph_internal"
