@@ -26,12 +26,41 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
     @SecurityModule.BCrypt
     lateinit var bcrypt: Bcrypt
 
-    private lateinit var bind: FragmentUserRegisterStepTwoBinding
-    private lateinit var userRegisterAdapterStepPassword: UserRegisterAdapterStepPassword
     private var userRegisterModel = UserRegisterModel()
 
-    private val itemsWithRulesToValidateOfPassword by lazy {
-        arrayOf(
+    private lateinit var bind: FragmentUserRegisterStepTwoBinding
+    private lateinit var itemsWithRulesToValidateOfPassword: Array<UserRegisterPasswordValidateModel>
+    private lateinit var userRegisterAdapterStepPassword: UserRegisterAdapterStepPassword
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        prepareInject()
+    }
+
+    private fun prepareInject() {
+        (requireActivity().application as App).appComponent.userRegisterSubcomponent().create()
+            .inject(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_user_register_step_two, container, false)
+        bind = FragmentUserRegisterStepTwoBinding.bind(view)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadValuesToValidations()
+        getValueOfArgs()
+        applyActionInButton()
+        applyRulesToPassword()
+        prepareRecyclerViewWithOptionsValidations()
+    }
+
+    private fun loadValuesToValidations() {
+        itemsWithRulesToValidateOfPassword = arrayOf(
             UserRegisterPasswordValidateModel(
                 resources.getString(R.string.reg_password_ruler_size), sizeToValidation = 8
             ),
@@ -57,32 +86,6 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
                 isValid = true
             ),
         )
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        prepareInject()
-    }
-
-    private fun prepareInject() {
-        (requireActivity().application as App).appComponent.userRegisterSubcomponent().create()
-            .inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        val view = inflater.inflate(R.layout.fragment_user_register_step_two, container, false)
-        bind = FragmentUserRegisterStepTwoBinding.bind(view)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getValueOfArgs()
-        applyActionInButton()
-        applyRulesToPassword()
-        prepareRecyclerViewWithOptionsValidations()
     }
 
     private fun getValueOfArgs() {

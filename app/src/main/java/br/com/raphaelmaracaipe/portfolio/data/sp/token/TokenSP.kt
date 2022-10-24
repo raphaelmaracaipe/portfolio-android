@@ -8,4 +8,6 @@ interface TokenSP {
 
     fun exist(): Boolean
 
+    fun clearAll()
+
 }

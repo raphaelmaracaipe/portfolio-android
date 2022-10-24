@@ -24,4 +24,10 @@ class TokenSPImpl(
         return token.isNotEmpty()
     }
 
+    override fun clearAll() {
+        context.getSharedPreferences(KEY, Context.MODE_PRIVATE).edit {
+            remove(KEY)
+        }
+    }
+
 }
