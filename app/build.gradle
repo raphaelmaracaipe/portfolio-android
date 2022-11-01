@@ -76,6 +76,9 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger"
     implementation "com.google.android.material:material:$material"
     implementation "org.mindrot:jbcrypt:$jbcrypt"
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+    implementation 'com.google.android.gms:play-services-base:18.1.0'
+    implementation 'com.github.mifmif:generex:1.0.2'
 
     kapt "com.google.dagger:dagger-compiler:$dagger"
     kapt "androidx.room:room-compiler:$room_ktx"

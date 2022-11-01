@@ -2,7 +2,8 @@ package br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service
 
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
 import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
-import br.com.raphaelmaracaipe.portfolio.models.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestSignWithGoogle
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import retrofit2.Response
@@ -34,5 +35,12 @@ interface UserService {
     )
     @POST("/api/v1/users")
     suspend fun registerUserInServer(@Body dataToBody: UserRegisterModel): Response<TokenModel>
+
+    @Headers(
+        "Accept: application/json; charset=utf-8",
+        "x-api-key: ${BuildConfig.API_KEY}",
+    )
+    @POST("/api/v1/users/google")
+    suspend fun signWithGoogle(@Body dataToBody: RequestSignWithGoogle): Response<TokenModel>
 
 }

@@ -8,6 +8,8 @@ import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
+import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
+import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerateImpl
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -35,11 +37,13 @@ class ConfigurationServiceTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val deviceNetwork: DeviceNetwork = DeviceNetworkImpl(context)
         val deviceSP: DeviceSP = DeviceSPImpl(context)
+        val regexGenerate: RegexGenerate = RegexGenerateImpl()
 
         userAPI = UserAPIImpl(
             context,
             ConfigurationServiceImpl(deviceNetwork),
-            deviceSP
+            deviceSP,
+            regexGenerate
         )
     }
 

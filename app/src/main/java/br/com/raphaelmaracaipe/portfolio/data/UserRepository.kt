@@ -1,5 +1,6 @@
 package br.com.raphaelmaracaipe.portfolio.data
 
+import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.db.AppDataBase
@@ -27,6 +28,16 @@ class UserRepository @Inject constructor(
 
     suspend fun registerUserInServer(data: UserRegisterModel) = withContext(Dispatchers.IO) {
         val token = userAPI.registerUserInServer(data)
+        if(token.accessToken.isNotEmpty()) {
+            tokenSP.save(token)
+            true
+        } else {
+            false
+        }
+    }
+
+    suspend fun signWithGoogle(email: String) = withContext(Dispatchers.IO) {
+        val token = userAPI.signWithGoogle(email)
         if(token.accessToken.isNotEmpty()) {
             tokenSP.save(token)
             true

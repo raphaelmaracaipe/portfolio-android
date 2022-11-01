@@ -13,6 +13,8 @@ import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
+import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
+import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerateImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -44,11 +46,13 @@ class UserAPITest {
         context = RuntimeEnvironment.getApplication().applicationContext
         val deviceNetwork: DeviceNetwork = DeviceNetworkImpl(context)
         val deviceSP: DeviceSP = DeviceSPImpl(context)
+        val regexGenerate: RegexGenerate = RegexGenerateImpl()
 
         userAPI = UserAPIImpl(
             context,
             ConfigurationServiceImpl(deviceNetwork),
-            deviceSP
+            deviceSP,
+            regexGenerate
         )
 
         every { deviceNetworkImpl.isNetworkConnected() } answers { true }
@@ -298,6 +302,117 @@ class UserAPITest {
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_general_server), e.message)
         }
+    }
+
+    @Test
+    fun `when you want register with google but not have connection with internet`() = runBlocking {
+        every { deviceNetworkImpl.isNetworkConnected() } answers { false }
+        try {
+            userAPI.signWithGoogle("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want register but email is invalid`() = runBlocking {
+        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = USER_EMAIL_INVALID.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.signWithGoogle("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_email_invalid), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want register but code is invalid`() = runBlocking {
+        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = USER_CODE_NOT_VALID.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.signWithGoogle("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.reg_code_invalid), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want register but email already in db`() = runBlocking {
+        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = USER_EXIST_IN_DB.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.signWithGoogle("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.reg_error_email_exist), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want register but happen on error generic`() = runBlocking {
+        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = 0)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.signWithGoogle("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_general_server), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want register with success`() = runBlocking {
+        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(201)
+                    .setBody(TokenModel("AAA", "BBB").toJSON())
+            )
+        }
+
+        val returnApi = userAPI.signWithGoogle("test@test.com")
+        Assert.assertNotEquals("", returnApi.accessToken)
     }
 
     private fun getRes(res: Int): String = context.resources.getString(res)

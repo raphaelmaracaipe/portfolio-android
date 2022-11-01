@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.models
+package br.com.raphaelmaracaipe.portfolio.data.api.models
 
 data class RequestCodeModel(
     private val uuid: String,

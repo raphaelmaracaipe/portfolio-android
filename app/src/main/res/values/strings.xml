@@ -34,6 +34,9 @@
     <string name="reg_code_invalid">O código informado não é valido! Por favor, solicite novamente o código.</string>
     <string name="reg_send"><u>Reenviar o código</u></string>
 
+    <!-- LOGIN -->
+    <string name="log_error_google">Ocorreu um erro ao realizar o login com o google.</string>
+
     <!-- GERAL -->
     <string name="ger_loading">Carregando…</string>
 

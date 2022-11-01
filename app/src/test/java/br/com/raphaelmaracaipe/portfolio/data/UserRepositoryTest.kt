@@ -85,6 +85,24 @@ class UserRepositoryTest {
     }
 
     @Test
+    fun `when register with google and api return success with token`() = runBlocking {
+        coEvery { userAPI.signWithGoogle(any()) } returns TokenModel("AAA", "BBB")
+        Assert.assertTrue(userRepository.signWithGoogle("test@test.com"))
+    }
+
+    @Test
+    fun `when register with google and api return error`() = runBlocking {
+        val msgError = "test"
+        coEvery { userAPI.signWithGoogle(any()) } throws Exception(msgError)
+        try {
+            userRepository.signWithGoogle("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(msgError, e.message)
+        }
+    }
+
+    @Test
     fun `when check if exist token saved`() {
         tokenSP.save(TokenModel("AAA", "BBB"))
         Assert.assertTrue(userRepository.existTokenSaved())
