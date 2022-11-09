@@ -36,7 +36,7 @@ class UserLoginFragmentTest {
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
 
-            val btnNext = fragment.view?.findViewById<Button>(R.id.btnGoToRegister)
+            val btnNext = fragment.view?.findViewById<Button>(R.id.btnGoToEmailPassword)
             btnNext?.performClick()
 
             verify(mockNavController).navigate(R.id.action_loginFragment_to_userRegisterStepOneFragment)

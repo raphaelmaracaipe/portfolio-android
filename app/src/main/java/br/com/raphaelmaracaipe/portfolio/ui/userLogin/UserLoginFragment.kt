@@ -135,13 +135,13 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     private fun applyActionsInButtons() {
         with(bind) {
             btnAccessWithGoogle.setOnClickListener(this@UserLoginFragment)
-            btnGoToRegister.setOnClickListener(this@UserLoginFragment)
+            btnGoToEmailPassword.setOnClickListener(this@UserLoginFragment)
         }
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
-            R.id.btnGoToRegister -> goToRegister()
+            R.id.btnGoToEmailPassword -> goToRegister()
             R.id.btnAccessWithGoogle -> callGoogleToAuth()
         }
     }

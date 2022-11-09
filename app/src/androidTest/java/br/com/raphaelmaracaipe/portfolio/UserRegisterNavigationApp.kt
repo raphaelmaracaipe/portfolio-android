@@ -69,7 +69,7 @@ class UserRegisterNavigationApp {
 
         onView(
             allOf(
-                withId(R.id.btnGoToRegister)
+                withId(R.id.btnGoToEmailPassword)
             )
         ).perform(click())
 
@@ -115,7 +115,7 @@ class UserRegisterNavigationApp {
 
         onView(
             allOf(
-                withId(R.id.btnGoToRegister)
+                withId(R.id.btnGoToEmailPassword)
             )
         ).perform(click())
 
@@ -307,7 +307,7 @@ class UserRegisterNavigationApp {
 
         onView(
             allOf(
-                withId(R.id.btnGoToRegister)
+                withId(R.id.btnGoToEmailPassword)
             )
         ).perform(click())
 

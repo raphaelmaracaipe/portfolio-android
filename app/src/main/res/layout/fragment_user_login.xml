@@ -88,12 +88,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnGoToRegister"
+            android:id="@+id/btnGoToEmailPassword"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/acc_login_register"
+            android:text="@string/acc_login_email_password"
             app:layout_constraintEnd_toEndOf="@+id/vieBackgroundButton"
             app:layout_constraintStart_toStartOf="@+id/vieBackgroundButton"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />

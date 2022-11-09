@@ -73,16 +73,15 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
         viewModel.emailExist.observe(viewLifecycleOwner) { exist ->
             event.send(EVENT_KEY_LOADING, false)
             if (exist) {
-                Snackbar.make(
-                    bind.root,
-                    resources.getString(R.string.reg_error_email_exist),
-                    Snackbar.LENGTH_LONG
-                ).show()
-                return@observe
+                redirectToPassword()
+            } else {
+                redirectNextScreen()
             }
-
-            redirectNextScreen()
         }
+    }
+
+    private fun redirectToPassword() {
+        findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userLoginWithPasswordFragment)
     }
 
     private fun redirectNextScreen() {
