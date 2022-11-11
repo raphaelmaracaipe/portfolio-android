@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.portfolio.data.UserRepository
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
-import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Assert

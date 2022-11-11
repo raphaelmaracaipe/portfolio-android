@@ -8,7 +8,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginFragment
 import com.google.android.material.textfield.TextInputEditText
 import org.junit.Before
 import org.junit.Test

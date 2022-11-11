@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userLogin
+package br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import br.com.raphaelmaracaipe.portfolio.data.UserRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class UserLoginViewModel @Inject constructor(
+class UserOptionsLoginViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
 

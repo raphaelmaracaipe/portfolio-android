@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userLogin
+package br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin
 
 import android.os.Build
 import android.widget.Button
@@ -18,9 +18,9 @@ import org.robolectric.annotation.Config
 
 @Config(sdk = [Build.VERSION_CODES.M])
 @RunWith(RobolectricTestRunner::class)
-class UserLoginFragmentTest {
+class UserOptionsLoginFragmentTest {
 
-    private lateinit var scenario: FragmentScenario<UserLoginFragment>
+    private lateinit var scenario: FragmentScenario<UserOptionsLoginFragment>
     private val mockNavController = mock(NavController::class.java)
 
     @Before

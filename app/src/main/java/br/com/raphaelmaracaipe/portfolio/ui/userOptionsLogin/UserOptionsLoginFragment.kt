@@ -1,13 +1,12 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userLogin
+package br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin
 
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
-import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserLoginBinding
+import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserOptionsLoginBinding
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -25,10 +24,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import com.mifmif.common.regex.Generex
 import javax.inject.Inject
 
-class UserLoginFragment : Fragment(), View.OnClickListener {
+class UserOptionsLoginFragment() : Fragment(), View.OnClickListener {
 
     @Inject
     @EventModule.Events
@@ -36,16 +34,16 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<UserLoginViewModel> { viewModelFactory }
+    private val viewModel by viewModels<UserOptionsLoginViewModel> { viewModelFactory }
 
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var bind: FragmentUserLoginBinding
+    private lateinit var bind: FragmentUserOptionsLoginBinding
 
     private val activityResult = registerForActivityResult(StartActivityForResult()) { result ->
-        if(result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             handleSignInResult(task)
-        }else {
+        } else {
             showMessageErrorToUser()
         }
     }
@@ -54,7 +52,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val email = account.email ?: ""
-            if(email.isNotEmpty()) {
+            if (email.isNotEmpty()) {
                 sendEmailToServer(email)
                 return
             }
@@ -79,13 +77,13 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     private fun prepareInject() {
-        (requireActivity().application as App).appComponent.userLoginSubcomponent().create()
+        (requireActivity().application as App).appComponent.userOptionsLoginSubcomponent().create()
             .inject(this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = FragmentUserLoginBinding.inflate(inflater).apply {
+    ): View = FragmentUserOptionsLoginBinding.inflate(inflater).apply {
         bind = this
     }.root
 
@@ -102,9 +100,9 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
             event.send(EVENT_KEY_LOADING, false)
             Snackbar.make(bind.root, msgError, Snackbar.LENGTH_LONG).show()
         }
-        viewModel.afterCallToRegister.observe(viewLifecycleOwner) {isSuccess ->
+        viewModel.afterCallToRegister.observe(viewLifecycleOwner) { isSuccess ->
             event.send(EVENT_KEY_LOADING, false)
-            if(isSuccess) {
+            if (isSuccess) {
                 gotToProfile()
             } else {
                 showMessageErrorToUser()
@@ -134,8 +132,8 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
 
     private fun applyActionsInButtons() {
         with(bind) {
-            btnAccessWithGoogle.setOnClickListener(this@UserLoginFragment)
-            btnGoToEmailPassword.setOnClickListener(this@UserLoginFragment)
+            btnAccessWithGoogle.setOnClickListener(this@UserOptionsLoginFragment)
+            btnGoToEmailPassword.setOnClickListener(this@UserOptionsLoginFragment)
         }
     }
 

@@ -5,8 +5,8 @@ import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
 import br.com.raphaelmaracaipe.portfolio.data.sp.di.SharedPreferenceModule
 import br.com.raphaelmaracaipe.portfolio.ui.main.di.MainSubcomponent
-import br.com.raphaelmaracaipe.portfolio.ui.userLogin.di.UserLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userLoginWithPassword.di.UserLoginWithPasswordSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin.di.UserOptionsLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceModule
 import dagger.BindsInstance
@@ -32,7 +32,7 @@ interface ApplicationComponent {
         fun create(@BindsInstance applicationContext: Context): ApplicationComponent
     }
 
-    fun userLoginSubcomponent(): UserLoginSubcomponent.Factory
+    fun userOptionsLoginSubcomponent(): UserOptionsLoginSubcomponent.Factory
     fun userLoginWithPasswordSubcomponent(): UserLoginWithPasswordSubcomponent.Factory
     fun userRegisterSubcomponent(): UserRegisterSubcomponent.Factory
     fun mainSubcomponent(): MainSubcomponent.Factory
@@ -41,7 +41,7 @@ interface ApplicationComponent {
 @Module(
     subcomponents = [
         UserLoginWithPasswordSubcomponent::class,
-        UserLoginSubcomponent::class,
+        UserOptionsLoginSubcomponent::class,
         UserRegisterSubcomponent::class,
         MainSubcomponent::class
     ]

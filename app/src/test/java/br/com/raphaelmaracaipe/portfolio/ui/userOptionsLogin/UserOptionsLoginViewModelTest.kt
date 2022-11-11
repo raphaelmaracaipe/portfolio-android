@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userLogin
+package br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -15,17 +15,17 @@ import org.robolectric.annotation.Config
 
 @Config(sdk = [Build.VERSION_CODES.M])
 @RunWith(RobolectricTestRunner::class)
-class UserLoginViewModelTest {
+class UserOptionsLoginViewModelTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
     private val userRepository: UserRepository = mockk()
-    private lateinit var userLoginViewModel: UserLoginViewModel
+    private lateinit var userLoginViewModel: UserOptionsLoginViewModel
 
     @Before
     fun setUp() {
-        userLoginViewModel = UserLoginViewModel(userRepository)
+        userLoginViewModel = UserOptionsLoginViewModel(userRepository)
     }
 
     @Test

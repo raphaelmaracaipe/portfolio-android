@@ -6,9 +6,9 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="br.com.raphaelmaracaipe.portfolio.ui.userLogin.UserLoginFragment"
+        android:name="br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin.UserOptionsLoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_user_login">
+        tools:layout="@layout/fragment_user_options_login">
         <action
             android:id="@+id/action_loginFragment_to_userRegisterStepOneFragment"
             app:destination="@id/userRegisterStepOneFragment"
