@@ -119,6 +119,29 @@ class UserAPIImpl(
         throw Exception(context.getString(resID))
     }
 
+    override suspend fun login(userRegisterModel: UserRegisterModel): TokenModel {
+        var resID = R.string.err_not_connection_internet
+        try {
+            val returnAfterOfException = configurationServer.create(
+                UserService::class.java
+            ).login(userRegisterModel)
+
+            if (returnAfterOfException.isSuccessful) {
+                return returnAfterOfException.body() ?: TokenModel()
+            }
+
+            val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
+            resID = when (codeError(bodyError)) {
+                USER_EMAIL_INVALID -> R.string.err_email_invalid
+                USER_PASSWORD_INCORRECT -> R.string.log_error_password_incorrect
+                else -> R.string.err_general_server
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        throw Exception(context.getString(resID))
+    }
+
     private fun codeError(bodyError: String) = try {
         val codeError = Gson().fromJson(bodyError, HttpError::class.java)
         translateIntegerToEnum(codeError.code)

@@ -36,6 +36,7 @@
 
     <!-- LOGIN -->
     <string name="log_error_google">Ocorreu um erro ao realizar o login com o google.</string>
+    <string name="log_error_password_incorrect">A senha informado ou está incorreta.</string>
     <string name="log_access">Acessar</string>
 
     <!-- GERAL -->

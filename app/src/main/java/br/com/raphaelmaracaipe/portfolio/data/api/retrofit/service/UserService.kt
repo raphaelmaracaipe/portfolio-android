@@ -43,4 +43,11 @@ interface UserService {
     @POST("/api/v1/users/google")
     suspend fun signWithGoogle(@Body dataToBody: RequestSignWithGoogle): Response<TokenModel>
 
+    @Headers(
+        "Accept: application/json; charset=utf-8",
+        "x-api-key: ${BuildConfig.API_KEY}",
+    )
+    @POST("/api/v1/users/login")
+    suspend fun login(@Body body: UserRegisterModel): Response<TokenModel>
+
 }

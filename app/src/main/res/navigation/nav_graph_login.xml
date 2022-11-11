@@ -38,7 +38,15 @@
         </action>
         <action
             android:id="@+id/action_userRegisterStepOneFragment_to_userLoginWithPasswordFragment"
-            app:destination="@id/userLoginWithPasswordFragment" />
+            app:destination="@id/userLoginWithPasswordFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="userRegisterModel"
+                android:defaultValue="@null"
+                app:argType="br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel"
+                app:nullable="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/userRegisterStepTwoFragment"
@@ -84,9 +92,14 @@
         android:id="@+id/userLoginWithPasswordFragment"
         android:name="br.com.raphaelmaracaipe.portfolio.ui.userLoginWithPassword.UserLoginWithPasswordFragment"
         android:label="UserLoginWithPasswordFragment"
-        tools:layout="@layout/fragment_user_login_with_password" >
+        tools:layout="@layout/fragment_user_login_with_password">
         <action
             android:id="@+id/action_userLoginWithPasswordFragment_to_nav_graph_internal"
             app:destination="@id/nav_graph_internal" />
+        <argument
+            android:name="userRegisterModel"
+            android:defaultValue="@null"
+            app:argType="br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel"
+            app:nullable="true" />
     </fragment>
 </navigation>

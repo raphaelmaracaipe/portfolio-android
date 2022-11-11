@@ -103,6 +103,23 @@ class UserRepositoryTest {
     }
 
     @Test
+    fun `when you want login and api return tokens should message to client`() = runBlocking {
+        coEvery { userAPI.login(any()) } returns TokenModel("AAA", "BBB")
+        Assert.assertTrue(userRepository.login(UserRegisterModel("test@test.com")))
+    }
+
+    @Test
+    fun `when you want login but api return error`() = runBlocking {
+        coEvery { userAPI.login(any()) } throws Exception("test")
+        try {
+            userRepository.login(UserRegisterModel("test@test.com"))
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals("test", e.message)
+        }
+    }
+
+    @Test
     fun `when check if exist token saved`() {
         tokenSP.save(TokenModel("AAA", "BBB"))
         Assert.assertTrue(userRepository.existTokenSaved())

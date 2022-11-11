@@ -129,7 +129,7 @@ class UserRegisterNavigationApp {
         onView(
             allOf(
                 withId(R.id.tvwTextTitle),
-                withText(context.resources.getString(R.string.reg_title_step_one))
+                withText(context.resources.getString(R.string.reg_title_step_two))
             )
         ).check(matches(isDisplayed()))
     }

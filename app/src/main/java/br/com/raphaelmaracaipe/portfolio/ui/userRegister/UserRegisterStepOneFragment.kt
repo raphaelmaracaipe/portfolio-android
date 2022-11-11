@@ -14,8 +14,8 @@ import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepOneBinding
-import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import br.com.raphaelmaracaipe.portfolio.utils.validations.ValidationModule
@@ -72,20 +72,22 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
 
         viewModel.emailExist.observe(viewLifecycleOwner) { exist ->
             event.send(EVENT_KEY_LOADING, false)
+
+            val userModel = UserRegisterModel(bind.tietEmail.text.toString())
             if (exist) {
-                redirectToPassword()
+                redirectToPassword(userModel)
             } else {
-                redirectNextScreen()
+                redirectNextScreen(userModel)
             }
         }
     }
 
-    private fun redirectToPassword() {
-        findNavController().navigate(R.id.action_userRegisterStepOneFragment_to_userLoginWithPasswordFragment)
+    private fun redirectToPassword(userModel: UserRegisterModel) {
+        val directions = UserRegisterStepOneFragmentDirections.actionUserRegisterStepOneFragmentToUserLoginWithPasswordFragment(userModel)
+        findNavController().navigate(directions)
     }
 
-    private fun redirectNextScreen() {
-        val userModel = UserRegisterModel(bind.tietEmail.text.toString())
+    private fun redirectNextScreen(userModel: UserRegisterModel) {
         val directions = UserRegisterStepOneFragmentDirections.actionUserRegisterStepOneFragmentToUserRegisterStepTwoFragment(userModel)
         findNavController().navigate(directions)
     }

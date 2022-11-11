@@ -11,7 +11,6 @@ import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
-import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerateImpl
@@ -36,7 +35,7 @@ class UserAPITest {
     private val mockWebServer = MockWebServer()
     private lateinit var userAPI: UserAPI
     private lateinit var context: Context
-    private var deviceNetworkImpl: DeviceNetworkImpl = mockk()
+    private var deviceNetwork: DeviceNetworkImpl = mockk()
 
     @Before
     fun setUp() {
@@ -44,7 +43,6 @@ class UserAPITest {
         ConfigsToTest.urlToMock = mockWebServer.url("").toString()
 
         context = RuntimeEnvironment.getApplication().applicationContext
-        val deviceNetwork: DeviceNetwork = DeviceNetworkImpl(context)
         val deviceSP: DeviceSP = DeviceSPImpl(context)
         val regexGenerate: RegexGenerate = RegexGenerateImpl()
 
@@ -54,12 +52,12 @@ class UserAPITest {
             deviceSP,
             regexGenerate
         )
-
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
     }
 
     @Test
     fun `when api response success should return information to user`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
         val json = JSONObject()
         json.put("isExist", true)
 
@@ -77,6 +75,8 @@ class UserAPITest {
 
     @Test
     fun `when consult email valid but email return error of email invalid`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
         val httpError = HttpError(message = "test", code = USER_EMAIL_INVALID.code)
         with(mockWebServer) {
             enqueue(
@@ -96,6 +96,8 @@ class UserAPITest {
 
     @Test
     fun `when consult email valid but email return error general`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
         val httpError = HttpError(message = "test", code = 0)
         with(mockWebServer) {
             enqueue(
@@ -115,7 +117,7 @@ class UserAPITest {
 
     @Test
     fun `when consult email valid but device not have connection with internet`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { false }
+        every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
             userAPI.checkIfEmailExist("teste@test.com")
             Assert.assertTrue(false)
@@ -126,7 +128,7 @@ class UserAPITest {
 
     @Test
     fun `when register user but device not have connection with internet`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { false }
+        every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
             userAPI.registerUserInServer(UserRegisterModel())
             Assert.assertTrue(false)
@@ -137,7 +139,7 @@ class UserAPITest {
 
     @Test
     fun `when register user in api and return with success`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val token = TokenModel(accessToken = "AAA", refreshToken = "BBB")
         with(mockWebServer) {
@@ -154,7 +156,7 @@ class UserAPITest {
 
     @Test
     fun `when register user in api but email is invalid`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_EMAIL_INVALID.code)
         with(mockWebServer) {
@@ -175,7 +177,7 @@ class UserAPITest {
 
     @Test
     fun `when user register in api but code is invalid`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_CODE_NOT_VALID.code)
         with(mockWebServer) {
@@ -196,7 +198,7 @@ class UserAPITest {
 
     @Test
     fun `when user register in api but email already in db`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_EXIST_IN_DB.code)
         with(mockWebServer) {
@@ -217,7 +219,7 @@ class UserAPITest {
 
     @Test
     fun `when user register in api but code is expired`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_CODE_EXPIRED.code)
         with(mockWebServer) {
@@ -238,7 +240,7 @@ class UserAPITest {
 
     @Test
     fun `when user register in api but happen error general`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = 0)
         with(mockWebServer) {
@@ -259,7 +261,7 @@ class UserAPITest {
 
     @Test
     fun `when request code and api return with success`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         with(mockWebServer) {
             enqueue(
@@ -274,7 +276,7 @@ class UserAPITest {
 
     @Test
     fun `when request code but device is not have connection with internet`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { false }
+        every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
             userAPI.requestCode("teste@teste.com")
             Assert.assertTrue(false)
@@ -285,7 +287,7 @@ class UserAPITest {
 
     @Test
     fun `when request code and happen error general`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = 0)
         with(mockWebServer) {
@@ -306,7 +308,7 @@ class UserAPITest {
 
     @Test
     fun `when you want register with google but not have connection with internet`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { false }
+        every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
             userAPI.signWithGoogle("test@test.com")
             Assert.assertTrue(false)
@@ -317,7 +319,7 @@ class UserAPITest {
 
     @Test
     fun `when you want register but email is invalid`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_EMAIL_INVALID.code)
         with(mockWebServer) {
@@ -338,7 +340,7 @@ class UserAPITest {
 
     @Test
     fun `when you want register but code is invalid`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_CODE_NOT_VALID.code)
         with(mockWebServer) {
@@ -359,7 +361,7 @@ class UserAPITest {
 
     @Test
     fun `when you want register but email already in db`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = USER_EXIST_IN_DB.code)
         with(mockWebServer) {
@@ -380,7 +382,7 @@ class UserAPITest {
 
     @Test
     fun `when you want register but happen on error generic`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         val httpError = HttpError(message = "", code = 0)
         with(mockWebServer) {
@@ -401,7 +403,7 @@ class UserAPITest {
 
     @Test
     fun `when you want register with success`() = runBlocking {
-        every { deviceNetworkImpl.isNetworkConnected() } answers { true }
+        every { deviceNetwork.isNetworkConnected() } answers { true }
 
         with(mockWebServer) {
             enqueue(
@@ -413,6 +415,96 @@ class UserAPITest {
 
         val returnApi = userAPI.signWithGoogle("test@test.com")
         Assert.assertNotEquals("", returnApi.accessToken)
+    }
+
+    @Test
+    fun `when you want login in api but you do have connection with internet`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { false }
+        try {
+            userAPI.login(UserRegisterModel("test@test.com"))
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want login with success should return token`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(201)
+                    .setBody(TokenModel("AAA", "BBB").toJSON())
+            )
+        }
+
+        val returnApi = userAPI.login(UserRegisterModel("test@test.com"))
+        Assert.assertNotEquals("", returnApi.accessToken)
+    }
+
+    @Test
+    fun `when you login but you send email invalid should message to client`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = USER_EMAIL_INVALID.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.login(UserRegisterModel("test@test.com"))
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_email_invalid), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want login but tap password incorrect should message to user`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = USER_PASSWORD_INCORRECT.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.login(UserRegisterModel("test@test.com"))
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.log_error_password_incorrect), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want login but api return error general`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = GENERAL_ERROR.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+
+        try {
+            userAPI.login(UserRegisterModel("test@test.com"))
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_general_server), e.message)
+        }
     }
 
     private fun getRes(res: Int): String = context.resources.getString(res)

@@ -46,6 +46,16 @@ class UserRepository @Inject constructor(
         }
     }
 
+    suspend fun login(userRegisterModel: UserRegisterModel) = withContext(Dispatchers.IO) {
+        val token = userAPI.login(userRegisterModel)
+        if(token.accessToken.isNotEmpty()) {
+            tokenSP.save(token)
+            true
+        } else {
+            false
+        }
+    }
+
     fun existTokenSaved() = tokenSP.exist()
 
 }

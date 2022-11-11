@@ -13,4 +13,6 @@ interface UserAPI {
 
     suspend fun signWithGoogle(email: String): TokenModel
 
+    suspend fun login(userRegisterModel: UserRegisterModel): TokenModel
+
 }
