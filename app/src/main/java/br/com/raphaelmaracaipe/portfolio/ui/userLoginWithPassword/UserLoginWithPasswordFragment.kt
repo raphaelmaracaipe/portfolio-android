@@ -21,7 +21,7 @@ import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class UserLoginWithPasswordFragment : Fragment() {
+class UserLoginWithPasswordFragment : Fragment(), View.OnClickListener {
 
     @Inject
     @EventModule.Events
@@ -88,9 +88,15 @@ class UserLoginWithPasswordFragment : Fragment() {
                 bind.isEnableButtonAccess = text.isNotEmpty()
             }
 
-            btnAccess.setOnClickListener {
-                requestServer()
-            }
+            btnAccess.setOnClickListener(this@UserLoginWithPasswordFragment)
+            tvwForgotPassword.setOnClickListener(this@UserLoginWithPasswordFragment)
+        }
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id) {
+            R.id.btnAccess -> requestServer()
+            R.id.tvwForgotPassword -> initProcessingToForgotPassword()
         }
     }
 
@@ -98,6 +104,9 @@ class UserLoginWithPasswordFragment : Fragment() {
         event.send(EVENT_KEY_LOADING, true)
         userRegisterModel.password = bind.tietPassword.text.toString()
         viewModel.login(userRegisterModel)
+    }
+
+    private fun initProcessingToForgotPassword() {
     }
 
 }
