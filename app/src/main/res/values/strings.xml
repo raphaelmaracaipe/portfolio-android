@@ -39,15 +39,18 @@
     <string name="log_error_password_incorrect">A senha informado ou está incorreta.</string>
     <string name="log_access">Acessar</string>
     <string name="log_password_forgot"><u>Esqueceu a senha?</u></string>
+    <string name="log_forgot">Você realmente esqueceu a sua senha?</string>
+    <string name="log_not_exist">E-mail informado não existe. Por favor, realize o cadastro</string>
+    <string name="log_forgot_success">Enviamos um e-mail com o passo a passo de como recuperar a senha.</string>
 
     <!-- GERAL -->
     <string name="ger_loading">Carregando…</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 
     <!-- ERROR -->
     <string name="err_not_connection_internet">Você está sem conexão com a internet. Para continuar, é necessário conectar na internet.</string>
     <string name="err_email_invalid">Por favor, informe um e-mail valido.</string>
     <string name="err_general_server">Ocorreu um error! Por favor, tente novamente mais tarde.</string>
-    <string name="yes">Sim</string>
-    <string name="no">Não</string>
 
 </resources>

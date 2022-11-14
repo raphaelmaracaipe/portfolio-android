@@ -3,6 +3,7 @@ package br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
 import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
 import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestForgotPassword
 import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestSignWithGoogle
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
@@ -11,6 +12,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserService {
@@ -49,5 +51,12 @@ interface UserService {
     )
     @POST("/api/v1/users/login")
     suspend fun login(@Body body: UserRegisterModel): Response<TokenModel>
+
+    @Headers(
+        "Accept: application/json; charset=utf-8",
+        "x-api-key: ${BuildConfig.API_KEY}",
+    )
+    @PUT("/api/v1/users/forgot")
+    suspend fun forgotPassword(@Body body: RequestForgotPassword): Response<Void>
 
 }

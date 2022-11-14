@@ -15,4 +15,6 @@ interface UserAPI {
 
     suspend fun login(userRegisterModel: UserRegisterModel): TokenModel
 
+    suspend fun forgotPassword(email: String): Boolean
+
 }

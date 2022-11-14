@@ -56,6 +56,10 @@ class UserRepository @Inject constructor(
         }
     }
 
+    suspend fun forgotPassword(email: String) = withContext(Dispatchers.IO) {
+        userAPI.forgotPassword(email)
+    }
+
     fun existTokenSaved() = tokenSP.exist()
 
 }

@@ -125,4 +125,22 @@ class UserRepositoryTest {
         Assert.assertTrue(userRepository.existTokenSaved())
     }
 
+    @Test
+    fun `when you forgot password but api return error should message for you`() = runBlocking {
+        coEvery { userAPI.forgotPassword(any()) } throws Exception("test")
+        try {
+            userRepository.forgotPassword("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals("test", e.message)
+        }
+    }
+
+    @Test
+    fun `when user want forgot password and api return success`() = runBlocking {
+        coEvery { userAPI.forgotPassword(any()) } returns true
+        val returns = userRepository.forgotPassword("test@test.com")
+        Assert.assertTrue(returns)
+    }
+
 }

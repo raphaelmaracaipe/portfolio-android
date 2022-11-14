@@ -15,6 +15,7 @@ import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserLoginWithPasswordBinding
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.ui.messageAlert.MessageAlertBottomSheet.Companion.showAlertMessage
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.UserRegisterStepTwoFragmentArgs
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
@@ -63,17 +64,22 @@ class UserLoginWithPasswordFragment : Fragment(), View.OnClickListener {
 
     private fun prepareViewModels() {
         viewModel.errors.observe(viewLifecycleOwner) { msgErrors ->
-            event.send(EVENT_KEY_LOADING, false)
+            hiddenLoading()
             Snackbar.make(bind.root, msgErrors, Snackbar.LENGTH_LONG).show()
         }
 
         viewModel.success.observe(viewLifecycleOwner) { isSuccess ->
-            event.send(EVENT_KEY_LOADING, false)
-            if(isSuccess) {
+            hiddenLoading()
+            if (isSuccess) {
                 redirectToProfile()
             } else {
                 Snackbar.make(bind.root, R.string.err_general_server, Snackbar.LENGTH_LONG).show()
             }
+        }
+
+        viewModel.successForgot.observe(viewLifecycleOwner) {
+            hiddenLoading()
+            Snackbar.make(bind.root, R.string.log_forgot_success, Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -94,19 +100,42 @@ class UserLoginWithPasswordFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
-        when(view?.id) {
+        when (view?.id) {
             R.id.btnAccess -> requestServer()
             R.id.tvwForgotPassword -> initProcessingToForgotPassword()
         }
     }
 
     private fun requestServer() {
-        event.send(EVENT_KEY_LOADING, true)
+        showLoading()
         userRegisterModel.password = bind.tietPassword.text.toString()
         viewModel.login(userRegisterModel)
     }
 
+    private fun showLoading() {
+        event.send(EVENT_KEY_LOADING, true)
+    }
+
+    private fun hiddenLoading() {
+        event.send(EVENT_KEY_LOADING, false)
+    }
+
     private fun initProcessingToForgotPassword() {
+        showAlertMessage(
+            childFragmentManager,
+            title = resources.getString(R.string.alt_msg_warning),
+            text = resources.getString(R.string.log_forgot),
+            textButtonSuccess = resources.getString(R.string.yes),
+            textButtonCancel = resources.getString(R.string.no),
+            callbackSuccess = {
+                requestServerForgot()
+            }
+        )
+    }
+
+    private fun requestServerForgot() {
+        showLoading()
+        viewModel.forgotPassword(userRegisterModel.email)
     }
 
 }

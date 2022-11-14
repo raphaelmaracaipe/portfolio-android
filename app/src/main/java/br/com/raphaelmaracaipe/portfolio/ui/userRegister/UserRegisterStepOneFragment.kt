@@ -121,7 +121,9 @@ class UserRegisterStepOneFragment : Fragment(), View.OnClickListener {
             initProcessToServer()
         } else {
             showAlertMessage(
-                childFragmentManager, resources.getString(R.string.reg_error_field_email)
+                childFragmentManager,
+                title = resources.getString(R.string.alt_msg_warning),
+                text = resources.getString(R.string.reg_error_field_email)
             )
         }
     }

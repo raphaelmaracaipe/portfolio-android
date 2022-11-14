@@ -19,10 +19,23 @@ class UserLoginWithPasswordViewModel @Inject constructor(
     private val _success = MutableLiveData<Boolean>()
     val success: LiveData<Boolean> = _success
 
+    private val _successForgot = MutableLiveData<Boolean>()
+    val successForgot: LiveData<Boolean> = _successForgot
+
     fun login(userRegisterModel: UserRegisterModel) {
         viewModelScope.launch {
             try {
                 _success.postValue(userRepository.login(userRegisterModel))
+            } catch (e: Exception) {
+                _errors.postValue(e.message)
+            }
+        }
+    }
+
+    fun forgotPassword(email: String) {
+        viewModelScope.launch {
+            try {
+                _successForgot.postValue(userRepository.forgotPassword(email))
             } catch (e: Exception) {
                 _errors.postValue(e.message)
             }

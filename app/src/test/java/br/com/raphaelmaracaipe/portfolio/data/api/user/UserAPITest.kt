@@ -507,6 +507,57 @@ class UserAPITest {
         }
     }
 
+    @Test
+    fun `went you want forgot password but you dont have connection with internet`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { false }
+        try {
+            userAPI.forgotPassword("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want forgot password but email dont exist should show message to user`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = USER_EMAIL_NOT_EXIST.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+        try {
+            userAPI.forgotPassword("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.log_not_exist), e.message)
+        }
+    }
+
+    @Test
+    fun `when you want forgot password but api return error general should message to user`() = runBlocking {
+        every { deviceNetwork.isNetworkConnected() } answers { true }
+
+        val httpError = HttpError(message = "", code = GENERAL_ERROR.code)
+        with(mockWebServer) {
+            enqueue(
+                MockResponse()
+                    .setResponseCode(401)
+                    .setBody(httpError.toJSON())
+            )
+        }
+        try {
+            userAPI.forgotPassword("test@test.com")
+            Assert.assertTrue(false)
+        } catch (e: Exception) {
+            Assert.assertEquals(getRes(R.string.err_general_server), e.message)
+        }
+    }
+
     private fun getRes(res: Int): String = context.resources.getString(res)
 
 }

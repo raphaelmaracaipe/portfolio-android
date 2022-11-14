@@ -1,11 +1,13 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.user
 
 import android.content.Context
+import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.translateIntegerToEnum
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestForgotPassword
 import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestSignWithGoogle
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServer
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
@@ -134,6 +136,34 @@ class UserAPIImpl(
             resID = when (codeError(bodyError)) {
                 USER_EMAIL_INVALID -> R.string.err_email_invalid
                 USER_PASSWORD_INCORRECT -> R.string.log_error_password_incorrect
+                else -> R.string.err_general_server
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        throw Exception(context.getString(resID))
+    }
+
+    override suspend fun forgotPassword(email: String): Boolean {
+        var resID = R.string.err_not_connection_internet
+        try {
+            val requestForgotPassword = RequestForgotPassword(
+                email = email,
+                code = this.regexGenerate.generateRandom("[0-9]{5}[a-cD-G1-9]{5}[a-cD-G1-9]{1}"),
+                deviceId = deviceSP.getUUID()
+            )
+
+            val returnAfterOfException = configurationServer.create(
+                UserService::class.java
+            ).forgotPassword(requestForgotPassword)
+
+            if (returnAfterOfException.isSuccessful) {
+                return true
+            }
+
+            val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
+            resID = when (codeError(bodyError)) {
+                USER_EMAIL_NOT_EXIST -> R.string.log_not_exist
                 else -> R.string.err_general_server
             }
         } catch (e: Exception) {

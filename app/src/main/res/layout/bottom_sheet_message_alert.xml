@@ -5,8 +5,22 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="title"
+            type="String" />
+
         <variable
             name="text"
+            type="String" />
+
+        <variable
+            name="textButtonSuccess"
+            type="String" />
+
+        <variable
+            name="textButtonCancel"
             type="String" />
     </data>
 
@@ -40,13 +54,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/alt_msg_warning"
+            android:text="@{title}"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="@{title.empty ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="@+id/imvIcon"
             app:layout_constraintStart_toStartOf="@+id/imvIcon"
-            app:layout_constraintTop_toBottomOf="@+id/imvIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/imvIcon"
+            tools:text="The title will be show is here" />
 
         <TextView
             android:id="@+id/tvwTextText"
@@ -55,14 +71,55 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@{text}"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="@{text.empty ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvwTextTitle"
             tools:text="Is here we can see message" />
+
+        <Button
+            android:id="@+id/btnSuccess"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@{textButtonSuccess}"
+            android:visibility="@{textButtonSuccess.empty ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/vieSeparator"
+            app:layout_constraintStart_toStartOf="@+id/tvwTextText"
+            app:layout_constraintTop_toBottomOf="@+id/tvwTextText"
+            tools:text="Yes" />
+
+        <View
+            android:id="@+id/vieSeparator"
+            android:layout_width="0.5dp"
+            android:layout_height="0.5dp"
+            android:visibility="@{textButtonCancel.empty ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvwTextText" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@{textButtonCancel}"
+            android:visibility="@{textButtonCancel.empty ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvwTextText"
+            app:layout_constraintStart_toEndOf="@+id/vieSeparator"
+            app:layout_constraintTop_toBottomOf="@+id/tvwTextText"
+            tools:text="No" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
