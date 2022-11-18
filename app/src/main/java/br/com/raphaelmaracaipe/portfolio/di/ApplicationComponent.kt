@@ -5,6 +5,7 @@ import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
 import br.com.raphaelmaracaipe.portfolio.data.db.di.DataBaseModule
 import br.com.raphaelmaracaipe.portfolio.data.sp.di.SharedPreferenceModule
 import br.com.raphaelmaracaipe.portfolio.ui.main.di.MainSubcomponent
+import br.com.raphaelmaracaipe.portfolio.ui.userUpdatePassword.di.UpdatePasswordSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userLoginWithPassword.di.UserLoginWithPasswordSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin.di.UserOptionsLoginSubcomponent
 import br.com.raphaelmaracaipe.portfolio.ui.userRegister.di.UserRegisterSubcomponent
@@ -36,6 +37,7 @@ interface ApplicationComponent {
     fun userLoginWithPasswordSubcomponent(): UserLoginWithPasswordSubcomponent.Factory
     fun userRegisterSubcomponent(): UserRegisterSubcomponent.Factory
     fun mainSubcomponent(): MainSubcomponent.Factory
+    fun updateSubcomponent(): UpdatePasswordSubcomponent.Factory
 }
 
 @Module(
@@ -43,7 +45,8 @@ interface ApplicationComponent {
         UserLoginWithPasswordSubcomponent::class,
         UserOptionsLoginSubcomponent::class,
         UserRegisterSubcomponent::class,
-        MainSubcomponent::class
+        MainSubcomponent::class,
+        UpdatePasswordSubcomponent::class
     ]
 )
 object ApplicationSubcomponent

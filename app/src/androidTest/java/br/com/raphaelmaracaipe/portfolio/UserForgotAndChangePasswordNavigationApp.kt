@@ -37,6 +37,7 @@ import org.junit.runner.RunWith
 class UserForgotAndChangePasswordNavigationApp {
 
     private val mockWebServer = MockWebServer()
+    private lateinit var tokenSP: TokenSP
     private lateinit var scenario: ActivityScenario<MainActivity>
     private lateinit var context: Context
 
@@ -44,7 +45,9 @@ class UserForgotAndChangePasswordNavigationApp {
     fun setUp() {
         ConfigsToTest.urlToMock = mockWebServer.url("").toString()
         mockWebServer.start()
+
         context = InstrumentationRegistry.getInstrumentation().targetContext
+        tokenSP = TokenSPImpl(context)
     }
 
     @Test
@@ -180,6 +183,7 @@ class UserForgotAndChangePasswordNavigationApp {
     @After
     fun after() {
         mockWebServer.shutdown()
+        tokenSP.clearAll()
     }
 
 }

@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.ui.userRegister.adapters
+package br.com.raphaelmaracaipe.portfolio.ui.rulesOfPassword
 
 import android.graphics.PorterDuff
 import android.widget.ImageView

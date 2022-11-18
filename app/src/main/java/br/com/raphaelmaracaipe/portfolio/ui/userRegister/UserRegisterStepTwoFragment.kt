@@ -11,11 +11,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepTwoBinding
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.adapters.UserRegisterAdapterStepPassword
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_CONTAIN
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.enums.UserRegisterComparationToValidation.MUST_NOT_CONTAIN
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
-import br.com.raphaelmaracaipe.portfolio.ui.userRegister.models.UserRegisterPasswordValidateModel
 import br.com.raphaelmaracaipe.portfolio.utils.security.Bcrypt
 import br.com.raphaelmaracaipe.portfolio.utils.security.SecurityModule
 import javax.inject.Inject
@@ -27,10 +23,7 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
     lateinit var bcrypt: Bcrypt
 
     private var userRegisterModel = UserRegisterModel()
-
     private lateinit var bind: FragmentUserRegisterStepTwoBinding
-    private lateinit var itemsWithRulesToValidateOfPassword: Array<UserRegisterPasswordValidateModel>
-    private lateinit var userRegisterAdapterStepPassword: UserRegisterAdapterStepPassword
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,48 +37,25 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        val view = inflater.inflate(R.layout.fragment_user_register_step_two, container, false)
-        bind = FragmentUserRegisterStepTwoBinding.bind(view)
-        return view
-    }
+    ) = FragmentUserRegisterStepTwoBinding.inflate(inflater).apply {
+        bind = this
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadValuesToValidations()
         getValueOfArgs()
         applyActionInButton()
         applyRulesToPassword()
-        prepareRecyclerViewWithOptionsValidations()
+        prepareViewOfRulesPassword()
     }
 
-    private fun loadValuesToValidations() {
-        itemsWithRulesToValidateOfPassword = arrayOf(
-            UserRegisterPasswordValidateModel(
-                resources.getString(R.string.reg_password_ruler_size), sizeToValidation = 8
-            ),
-            UserRegisterPasswordValidateModel(
-                resources.getString(R.string.reg_password_ruler_1), regex = "[a-z]".toRegex()
-            ),
-            UserRegisterPasswordValidateModel(
-                resources.getString(R.string.reg_password_ruler_2), regex = "[A-Z]".toRegex()
-            ),
-            UserRegisterPasswordValidateModel(
-                resources.getString(R.string.reg_password_ruler_3), regex = "[0-9]".toRegex()
-            ),
-            UserRegisterPasswordValidateModel(
-                resources.getString(R.string.reg_password_ruler_4),
-                regex = "[!\\\"#\$%&'()*+,-./:;\\\\\\\\<=>?@\\\\[\\\\]^_`{|}~]".toRegex(),
-                whatsFormToComparation = MUST_NOT_CONTAIN,
-                isValid = true
-            ),
-            UserRegisterPasswordValidateModel(
-                resources.getString(R.string.reg_password_ruler_5),
-                regex = "[áéíóúêâîôûãõÁÉÍÓÚÊÂÎÔÛÃÕ]".toRegex(),
-                whatsFormToComparation = MUST_NOT_CONTAIN,
-                isValid = true
-            ),
-        )
+    private fun prepareViewOfRulesPassword() {
+        with(bind){
+            rules.addTextInputEditText(bind.tietPassword)
+            rules.setOnIsAllowed { isAllowed ->
+                bind.isEnabled = isAllowed
+            }
+        }
     }
 
     private fun getValueOfArgs() {
@@ -99,39 +69,7 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
 
     private fun applyRulesToPassword() {
         bind.tietPassword.apply {
-            addTextChangedListener {
-                comparePasswordWithRules(text.toString())
-                checkIfCanEnableButton()
-            }
-        }
-    }
-
-    private fun comparePasswordWithRules(text: String) {
-        itemsWithRulesToValidateOfPassword.mapIndexed { index, item ->
-            item.isValid = if (text.length < item.sizeToValidation) {
-                false
-            } else if (text.contains(item.regex) && item.whatsFormToComparation == MUST_CONTAIN) {
-                true
-            } else !text.contains(item.regex) && item.whatsFormToComparation == MUST_NOT_CONTAIN
-
-            itemsWithRulesToValidateOfPassword[index] = item
-        }
-        userRegisterAdapterStepPassword.setItems(itemsWithRulesToValidateOfPassword)
-    }
-
-    private fun checkIfCanEnableButton() {
-        val checkIsExistRulerNotValid = itemsWithRulesToValidateOfPassword.filter {
-            !it.isValid
-        }.size
-        bind.btnNext.isEnabled = (checkIsExistRulerNotValid == 0)
-    }
-
-    private fun prepareRecyclerViewWithOptionsValidations() {
-        context?.let { ctx ->
-            userRegisterAdapterStepPassword = UserRegisterAdapterStepPassword(ctx)
-            userRegisterAdapterStepPassword.setItems(itemsWithRulesToValidateOfPassword)
-
-            bind.rvwItems.adapter = userRegisterAdapterStepPassword
+            addTextChangedListener {}
         }
     }
 
@@ -147,9 +85,10 @@ class UserRegisterStepTwoFragment : Fragment(), View.OnClickListener {
 
     private fun goToCode() {
         userRegisterModel.password = bcrypt.crypt(bind.tietPassword.text.toString())
-        val direction = UserRegisterStepTwoFragmentDirections.actionUserRegisterStepTwoFragmentToUserRegisterStepThreeFragment(
-            userRegisterModel
-        )
+        val direction =
+            UserRegisterStepTwoFragmentDirections.actionUserRegisterStepTwoFragmentToUserRegisterStepThreeFragment(
+                userRegisterModel
+            )
         findNavController().navigate(direction)
     }
 

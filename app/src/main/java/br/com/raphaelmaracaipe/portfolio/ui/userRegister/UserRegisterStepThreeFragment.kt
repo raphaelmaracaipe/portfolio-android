@@ -20,8 +20,8 @@ import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.EVENT_KEY_LOADING
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepThreeBinding
-import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.utils.events.Event
 import br.com.raphaelmaracaipe.portfolio.utils.events.EventModule
 import com.google.android.material.snackbar.Snackbar
@@ -68,11 +68,9 @@ class UserRegisterStepThreeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        val view = inflater.inflate(R.layout.fragment_user_register_step_three, container, false)
-        bind = FragmentUserRegisterStepThreeBinding.bind(view)
-        return view
-    }
+    ) = FragmentUserRegisterStepThreeBinding.inflate(inflater).apply {
+        bind = this
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -150,10 +148,8 @@ class UserRegisterStepThreeFragment : Fragment() {
 
     private fun showMessageOfCodeExpired() {
         context?.let { ctx ->
-            AlertDialog.Builder(ctx)
-                .setMessage(R.string.reg_erro_code_expired_text)
-                .setTitle(R.string.reg_erro_code_expired_title)
-                .setNegativeButton(R.string.no, null)
+            AlertDialog.Builder(ctx).setMessage(R.string.reg_erro_code_expired_text)
+                .setTitle(R.string.reg_erro_code_expired_title).setNegativeButton(R.string.no, null)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     callServerToSendCode()
                 }.show()
@@ -189,7 +185,7 @@ class UserRegisterStepThreeFragment : Fragment() {
 
     private fun setFocusInFieldPrevious(index: Int) {
         val newIndex = index - 1
-        if(newIndex >= 0) {
+        if (newIndex >= 0) {
             codeField[newIndex].requestFocus()
         }
     }
@@ -214,6 +210,7 @@ class UserRegisterStepThreeFragment : Fragment() {
     }
 
     private fun sendDataToServer() {
+        userRegisterModel.code = ""
         codeText.forEach { code ->
             userRegisterModel.code += code
         }

@@ -53,4 +53,15 @@
     <string name="err_email_invalid">Por favor, informe um e-mail valido.</string>
     <string name="err_general_server">Ocorreu um error! Por favor, tente novamente mais tarde.</string>
 
+    <!-- DEEPLINK -->
+    <string name="dee_label_title">Recuperar senha</string>
+
+    <!-- CHANGE PASSWORD -->
+    <string name="cha_password">Senha</string>
+    <string name="cha_title">Alteração da senha</string>
+    <string name="cha_update_button">Atualizar</string>
+    <string name="cha_field_password">Digite sua nova senha</string>
+    <string name="cha_field_password_confirmation">Digite a confirmação da senha</string>
+    <string name="cha_error_code_invalid">O código de verificação está incorreto. Por favor, refaça a operação</string>
+    <string name="cha_error_not_equals">As senhas não coincidem</string>
 </resources>

@@ -25,149 +25,121 @@ class UserAPIImpl(
 ) : UserAPI {
 
     override suspend fun checkIfEmailExist(email: String): Boolean {
-        var resID = R.string.err_not_connection_internet
-        try {
-            val returnAfterOfExecution = configurationServer.create(
-                UserService::class.java
-            ).userConsultEmail(email)
+        val returnAfterOfExecution = configurationServer.create(
+            UserService::class.java
+        ).userConsultEmail(email)
 
-            if (returnAfterOfExecution.isSuccessful) {
-                return returnAfterOfExecution.body()?.isExist ?: false
-            }
+        if (returnAfterOfExecution.isSuccessful) {
+            return returnAfterOfExecution.body()?.isExist ?: false
+        }
 
-            val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
-            resID = when (codeError(bodyError)) {
-                USER_EMAIL_INVALID -> R.string.err_email_invalid
-                else -> R.string.err_general_server
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
+        val resID = when (codeError(bodyError)) {
+            USER_EMAIL_INVALID -> R.string.err_email_invalid
+            else -> R.string.err_general_server
         }
         throw Exception(context.getString(resID))
     }
 
     override suspend fun requestCode(email: String): Boolean {
-        try {
-            val requestCodeModel = RequestCodeModel(
-                deviceSP.getUUID(), email
-            )
+        val requestCodeModel = RequestCodeModel(
+            deviceSP.getUUID(),
+            email
+        )
 
-            val returnAfterOfExecution = configurationServer.create(
-                UserService::class.java
-            ).requestCode(requestCodeModel)
+        val returnAfterOfExecution = configurationServer.create(
+            UserService::class.java
+        ).requestCode(requestCodeModel)
 
-            if (returnAfterOfExecution.isSuccessful) {
-                return true
-            }
-
-            throw Exception(context.getString(R.string.err_general_server))
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (returnAfterOfExecution.isSuccessful) {
+            return true
         }
-        throw Exception(context.getString(R.string.err_not_connection_internet))
+
+        throw Exception(context.getString(R.string.err_general_server))
     }
 
     override suspend fun registerUserInServer(data: UserRegisterModel): TokenModel {
-        var resID = R.string.err_not_connection_internet
-        try {
-            val returnAfterOfExecution = configurationServer.create(
-                UserService::class.java
-            ).registerUserInServer(data)
+        data.deviceId = deviceSP.getUUID()
+        val returnAfterOfExecution = configurationServer.create(
+            UserService::class.java
+        ).registerUserInServer(data)
 
-            if (returnAfterOfExecution.isSuccessful) {
-                return returnAfterOfExecution.body() ?: TokenModel()
-            }
+        if (returnAfterOfExecution.isSuccessful) {
+            return returnAfterOfExecution.body() ?: TokenModel()
+        }
 
-            val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
-            resID = when (codeError(bodyError)) {
-                USER_EMAIL_INVALID -> R.string.err_email_invalid
-                USER_CODE_NOT_VALID -> R.string.reg_code_invalid
-                USER_EXIST_IN_DB -> R.string.reg_error_email_exist
-                USER_CODE_EXPIRED -> R.string.reg_erro_code_expired_title
-                else -> R.string.err_general_server
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
+        val resID = when (codeError(bodyError)) {
+            USER_EMAIL_INVALID -> R.string.err_email_invalid
+            USER_CODE_NOT_VALID -> R.string.reg_code_invalid
+            USER_EXIST_IN_DB -> R.string.reg_error_email_exist
+            USER_CODE_EXPIRED -> R.string.reg_erro_code_expired_title
+            else -> R.string.err_general_server
         }
         throw Exception(context.getString(resID))
     }
 
     override suspend fun signWithGoogle(email: String): TokenModel {
-        var resID = R.string.err_not_connection_internet
-        try {
-            val requestSignWithGoogle = RequestSignWithGoogle(
-                email,
-                code = this.regexGenerate.generateRandom("[0-4]{2}[5-9][6-8]{2}[6-8]{6}")
-            )
+        val requestSignWithGoogle = RequestSignWithGoogle(
+            email,
+            code = this.regexGenerate.generateRandom("[0-4]{2}[5-9][6-8]{2}[6-8]{6}")
+        )
 
-            val returnAfterOfExecution = configurationServer.create(
-                UserService::class.java
-            ).signWithGoogle(requestSignWithGoogle)
+        val returnAfterOfExecution = configurationServer.create(
+            UserService::class.java
+        ).signWithGoogle(requestSignWithGoogle)
 
-            if (returnAfterOfExecution.isSuccessful) {
-                return returnAfterOfExecution.body() ?: TokenModel()
-            }
+        if (returnAfterOfExecution.isSuccessful) {
+            return returnAfterOfExecution.body() ?: TokenModel()
+        }
 
-            val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
-            resID = when (codeError(bodyError)) {
-                USER_EMAIL_INVALID -> R.string.err_email_invalid
-                USER_CODE_NOT_VALID -> R.string.reg_code_invalid
-                USER_EXIST_IN_DB -> R.string.reg_error_email_exist
-                else -> R.string.err_general_server
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
+        val resID = when (codeError(bodyError)) {
+            USER_EMAIL_INVALID -> R.string.err_email_invalid
+            USER_CODE_NOT_VALID -> R.string.reg_code_invalid
+            USER_EXIST_IN_DB -> R.string.reg_error_email_exist
+            else -> R.string.err_general_server
         }
         throw Exception(context.getString(resID))
     }
 
     override suspend fun login(userRegisterModel: UserRegisterModel): TokenModel {
-        var resID = R.string.err_not_connection_internet
-        try {
-            val returnAfterOfException = configurationServer.create(
-                UserService::class.java
-            ).login(userRegisterModel)
+        val returnAfterOfException = configurationServer.create(
+            UserService::class.java
+        ).login(userRegisterModel)
 
-            if (returnAfterOfException.isSuccessful) {
-                return returnAfterOfException.body() ?: TokenModel()
-            }
+        if (returnAfterOfException.isSuccessful) {
+            return returnAfterOfException.body() ?: TokenModel()
+        }
 
-            val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
-            resID = when (codeError(bodyError)) {
-                USER_EMAIL_INVALID -> R.string.err_email_invalid
-                USER_PASSWORD_INCORRECT -> R.string.log_error_password_incorrect
-                else -> R.string.err_general_server
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
+        val resID = when (codeError(bodyError)) {
+            USER_EMAIL_INVALID -> R.string.err_email_invalid
+            USER_PASSWORD_INCORRECT -> R.string.log_error_password_incorrect
+            else -> R.string.err_general_server
         }
         throw Exception(context.getString(resID))
     }
 
     override suspend fun forgotPassword(email: String): Boolean {
-        var resID = R.string.err_not_connection_internet
-        try {
-            val requestForgotPassword = RequestForgotPassword(
-                email = email,
-                code = this.regexGenerate.generateRandom("[0-9]{5}[a-cD-G1-9]{5}[a-cD-G1-9]{1}"),
-                deviceId = deviceSP.getUUID()
-            )
+        val requestForgotPassword = RequestForgotPassword(
+            email = email,
+            code = this.regexGenerate.generateRandom("[0-9]{5}[a-cD-G1-9]{5}[a-cD-G1-9]{1}"),
+            deviceId = deviceSP.getUUID()
+        )
 
-            val returnAfterOfException = configurationServer.create(
-                UserService::class.java
-            ).forgotPassword(requestForgotPassword)
+        val returnAfterOfException = configurationServer.create(
+            UserService::class.java
+        ).forgotPassword(requestForgotPassword)
 
-            if (returnAfterOfException.isSuccessful) {
-                return true
-            }
+        if (returnAfterOfException.isSuccessful) {
+            return true
+        }
 
-            val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
-            resID = when (codeError(bodyError)) {
-                USER_EMAIL_NOT_EXIST -> R.string.log_not_exist
-                else -> R.string.err_general_server
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
+        val resID = when (codeError(bodyError)) {
+            USER_EMAIL_NOT_EXIST -> R.string.log_not_exist
+            else -> R.string.err_general_server
         }
         throw Exception(context.getString(resID))
     }

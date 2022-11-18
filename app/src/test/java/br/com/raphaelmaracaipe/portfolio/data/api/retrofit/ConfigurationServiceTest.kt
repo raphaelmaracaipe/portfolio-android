@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.retrofit
 
 import android.os.Build
+import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
@@ -41,7 +42,11 @@ class ConfigurationServiceTest {
 
         userAPI = UserAPIImpl(
             context,
-            ConfigurationServiceImpl(deviceNetwork),
+            ConfigurationServiceImpl(
+                context,
+                deviceNetwork,
+                R.string.err_not_connection_internet
+            ),
             deviceSP,
             regexGenerate
         )

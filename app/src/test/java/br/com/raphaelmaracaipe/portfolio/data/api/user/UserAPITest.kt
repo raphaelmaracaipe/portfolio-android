@@ -48,7 +48,11 @@ class UserAPITest {
 
         userAPI = UserAPIImpl(
             context,
-            ConfigurationServiceImpl(deviceNetwork),
+            ConfigurationServiceImpl(
+                context,
+                deviceNetwork,
+                R.string.err_not_connection_internet
+            ),
             deviceSP,
             regexGenerate
         )
