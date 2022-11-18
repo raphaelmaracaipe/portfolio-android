@@ -28,6 +28,8 @@ android {
             buildConfigField('int', 'VERSION_DB', '1')
             manifestPlaceholders = [
                     networkSecurityConfig: "@xml/release_network_security_config",
+                    host: '10.0.2.2',
+                    pathPrefix: '/forgot'
             ]
         }
         debug {
@@ -36,6 +38,8 @@ android {
             buildConfigField('int', 'VERSION_DB', '1')
             manifestPlaceholders = [
                     networkSecurityConfig: "@xml/debug_network_security_config",
+                    host: '10.0.2.2',
+                    pathPrefix: '/forgot'
             ]
         }
     }

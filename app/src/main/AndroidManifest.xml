@@ -27,11 +27,29 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            <intent-filter android:label="@string/dee_label_title">
+                <action android:name="android.intent.action.VIEW" />
 
-        <activity
-            android:name=".ui.internal.InternalActivity"
-            android:screenOrientation="portrait" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${host}"
+                    android:pathPrefix="${pathPrefix}"
+                    android:scheme="http" />
+            </intent-filter>
+            <intent-filter android:label="@string/dee_label_title">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="${host}"
+                    android:pathPrefix="${pathPrefix}"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
 
     </application>
 
