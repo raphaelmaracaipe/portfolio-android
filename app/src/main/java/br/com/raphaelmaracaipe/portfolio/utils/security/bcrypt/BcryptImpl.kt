@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.utils.security
+package br.com.raphaelmaracaipe.portfolio.utils.security.bcrypt
 
 import org.mindrot.jbcrypt.BCrypt
 

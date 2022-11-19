@@ -12,7 +12,7 @@ import br.com.raphaelmaracaipe.portfolio.App
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentUserRegisterStepTwoBinding
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
-import br.com.raphaelmaracaipe.portfolio.utils.security.Bcrypt
+import br.com.raphaelmaracaipe.portfolio.utils.security.bcrypt.Bcrypt
 import br.com.raphaelmaracaipe.portfolio.utils.security.SecurityModule
 import javax.inject.Inject
 

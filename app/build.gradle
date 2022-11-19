@@ -25,6 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
             buildConfigField('String', 'API_KEY', '"a4cd3c84-106c-410a-94f9-b19115c9a509"')
+            buildConfigField('String', 'KEY', '"uf3n2UtVyHlD95Bh"')
             buildConfigField('int', 'VERSION_DB', '1')
             manifestPlaceholders = [
                     networkSecurityConfig: "@xml/release_network_security_config",
@@ -35,6 +36,7 @@ android {
         debug {
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
             buildConfigField('String', 'API_KEY', '"a4cd3c84-106c-410a-94f9-b19115c9a509"')
+            buildConfigField('String', 'KEY', '"FAzZKbCpG2GoSTUR"')
             buildConfigField('int', 'VERSION_DB', '1')
             manifestPlaceholders = [
                     networkSecurityConfig: "@xml/debug_network_security_config",
