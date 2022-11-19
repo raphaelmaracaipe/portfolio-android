@@ -10,6 +10,7 @@ import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -38,7 +39,7 @@ class UserRepositoryTest {
         ).allowMainThreadQueries().build()
 
         userAPI = mockk()
-        tokenSP = TokenSPImpl(context)
+        tokenSP = TokenSPImpl(context, EncryptDecryptImpl())
         userRepository = UserRepository(db, userAPI, tokenSP)
     }
 

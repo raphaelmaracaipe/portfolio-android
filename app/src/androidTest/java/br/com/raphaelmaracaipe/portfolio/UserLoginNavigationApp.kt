@@ -19,6 +19,7 @@ import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
 import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
+import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.*
@@ -42,7 +43,7 @@ class UserLoginNavigationApp {
         mockWebServer.start()
 
         context = InstrumentationRegistry.getInstrumentation().targetContext
-        tokenSP = TokenSPImpl(context)
+        tokenSP = TokenSPImpl(context, EncryptDecryptImpl())
 
         tokenSP.clearAll()
     }

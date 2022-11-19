@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.data.sp.token
 
 import android.os.Build
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +20,7 @@ class TokenSPTest {
     @Before
     fun setUp() {
         val context = RuntimeEnvironment.getApplication().applicationContext
-        tokenSP = TokenSPImpl(context)
+        tokenSP = TokenSPImpl(context, EncryptDecryptImpl())
     }
 
     @Test
