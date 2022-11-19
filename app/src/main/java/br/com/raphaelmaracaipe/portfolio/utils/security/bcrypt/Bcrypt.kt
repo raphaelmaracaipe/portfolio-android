@@ -4,4 +4,5 @@ interface Bcrypt {
 
     fun crypt(text: String): String
 
+    fun check(text: String, hash: String): Boolean
 }
