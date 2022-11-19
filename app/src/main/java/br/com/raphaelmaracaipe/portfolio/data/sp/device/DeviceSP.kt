@@ -4,4 +4,6 @@ interface DeviceSP {
 
     fun getUUID(): String
 
+    fun clearAll()
+
 }

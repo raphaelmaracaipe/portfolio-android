@@ -8,6 +8,7 @@ import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerateImpl
+import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
@@ -31,7 +32,7 @@ object ApiModule {
         return UserAPIImpl(
             context,
             configuration,
-            DeviceSPImpl(context),
+            DeviceSPImpl(context, EncryptDecryptImpl()),
             RegexGenerateImpl()
         )
     }

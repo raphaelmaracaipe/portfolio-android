@@ -14,6 +14,7 @@ import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerateImpl
+import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -43,7 +44,7 @@ class UserAPITest {
         ConfigsToTest.urlToMock = mockWebServer.url("").toString()
 
         context = RuntimeEnvironment.getApplication().applicationContext
-        val deviceSP: DeviceSP = DeviceSPImpl(context)
+        val deviceSP: DeviceSP = DeviceSPImpl(context, EncryptDecryptImpl())
         val regexGenerate: RegexGenerate = RegexGenerateImpl()
 
         userAPI = UserAPIImpl(
