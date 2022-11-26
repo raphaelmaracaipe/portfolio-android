@@ -82,7 +82,8 @@ class UserAPIImpl(
     override suspend fun signWithGoogle(email: String): TokenModel {
         val requestSignWithGoogle = RequestSignWithGoogle(
             email,
-            code = this.regexGenerate.generateRandom("[0-4]{2}[5-9][6-8]{2}[6-8]{6}")
+            code = this.regexGenerate.generateRandom("[0-4]{2}[5-9][6-8]{2}[6-8]{6}"),
+            deviceId = deviceSP.getUUID()
         )
 
         val returnAfterOfExecution = configurationServer.create(
