@@ -31,12 +31,14 @@ class ConfigurationServiceImpl(
             throw Exception(getMsgError())
         }
 
+        val okHttpClient = createInstanceOkHttp()
         return Retrofit.Builder().baseUrl(getUrlToConnection())
             .addConverterFactory(GsonConverterFactory.create(createInstanceGSON()))
-            .client(createInstanceOkHttp()).build()
+            .client(okHttpClient)
+            .build()
     }
 
-    private fun getMsgError() = if(msgError == 0) {
+    private fun getMsgError() = if (msgError == 0) {
         "You are do not have connection with internet!"
     } else {
         context.getString(msgError)
@@ -54,5 +56,14 @@ class ConfigurationServiceImpl(
         val okHttpClientBuilder = OkHttpClient.Builder()
             .addInterceptor(EncryptInterceptor(encryptDecrypt))
             .addInterceptor(DecryptInterceptor(encryptDecrypt))
+
+            okHttpClientBuilder.addInterceptor(RetrofitCurlPrinterInterceptor(object : Logger {
+                override fun log(message: String) {
+                    Log.i("RAPHAEL CURL", message)
+                }
+            }))
+
+        return okHttpClientBuilder.build()
+    }
 
 }
