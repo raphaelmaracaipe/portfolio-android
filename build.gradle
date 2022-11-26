@@ -28,7 +28,11 @@ ext {
     dagger = '2.38.1'
     material = '1.6.1'
     jbcrypt = '0.4'
+    playServiceAuth = '20.3.0'
+    playServiceBase = '18.1.0'
+    generex = '1.0.2'
 
+    test_core_androix = '2.1.0'
     test_core = '1.4.0'
     test_rebolectric = '4.8.2'
     test_junit = '4.13.2'
