@@ -26,6 +26,7 @@ object ApiModule {
         val configuration = ConfigurationServiceImpl(
             context,
             DeviceNetworkImpl(context),
+            EncryptDecryptImpl(),
             R.string.err_not_connection_internet
         )
 
