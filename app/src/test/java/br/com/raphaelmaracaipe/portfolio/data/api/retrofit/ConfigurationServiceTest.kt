@@ -46,6 +46,7 @@ class ConfigurationServiceTest {
             ConfigurationServiceImpl(
                 context,
                 deviceNetwork,
+                EncryptDecryptImpl(),
                 R.string.err_not_connection_internet
             ),
             deviceSP,

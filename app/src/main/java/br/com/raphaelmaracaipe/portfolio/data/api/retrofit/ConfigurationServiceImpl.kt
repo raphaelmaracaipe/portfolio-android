@@ -1,11 +1,16 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.retrofit
 
 import android.content.Context
+import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
-import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest.urlToMock
+import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.interceptors.DecryptInterceptor
+import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.interceptors.EncryptInterceptor
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
+import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecrypt
 import com.google.gson.GsonBuilder
+import io.harkema.retrofitcurlprinter.Logger
+import io.harkema.retrofitcurlprinter.RetrofitCurlPrinterInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ConfigurationServiceImpl(
     private val context: Context,
     private val deviceNetwork: DeviceNetwork,
+    private val encryptDecrypt: EncryptDecrypt,
     private val msgError: Int = 0
 ) : ConfigurationServer {
 
@@ -44,6 +50,9 @@ class ConfigurationServiceImpl(
 
     private fun createInstanceGSON() = GsonBuilder().create()
 
-    private fun createInstanceOkHttp() = OkHttpClient.Builder().build()
+    private fun createInstanceOkHttp(): OkHttpClient {
+        val okHttpClientBuilder = OkHttpClient.Builder()
+            .addInterceptor(EncryptInterceptor(encryptDecrypt))
+            .addInterceptor(DecryptInterceptor(encryptDecrypt))
 
 }
