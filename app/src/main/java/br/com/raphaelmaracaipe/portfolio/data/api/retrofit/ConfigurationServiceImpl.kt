@@ -57,11 +57,13 @@ class ConfigurationServiceImpl(
             .addInterceptor(EncryptInterceptor(encryptDecrypt))
             .addInterceptor(DecryptInterceptor(encryptDecrypt))
 
+        if(BuildConfig.DEBUG) {
             okHttpClientBuilder.addInterceptor(RetrofitCurlPrinterInterceptor(object : Logger {
                 override fun log(message: String) {
                     Log.i("RAPHAEL CURL", message)
                 }
             }))
+        }
 
         return okHttpClientBuilder.build()
     }
