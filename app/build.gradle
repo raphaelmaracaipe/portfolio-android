@@ -19,10 +19,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('..\\docs\\key_to_test.jks')
+            storePassword 'K4FRVmwnm4'
+            keyAlias 'Raphael Maracaipe'
+            keyPassword 'K4FRVmwnm4'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
             buildConfigField('String', 'API_KEY', '"a4cd3c84-106c-410a-94f9-b19115c9a509"')
