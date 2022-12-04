@@ -6,6 +6,9 @@ import br.com.raphaelmaracaipe.portfolio.BuildConfig
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest.urlToMock
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.interceptors.DecryptInterceptor
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.interceptors.EncryptInterceptor
+import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.interceptors.HeaderAndTokensInterceptor
+import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecrypt
 import com.google.gson.GsonBuilder
@@ -19,6 +22,8 @@ class ConfigurationServiceImpl(
     private val context: Context,
     private val deviceNetwork: DeviceNetwork,
     private val encryptDecrypt: EncryptDecrypt,
+    private val deviceSP: DeviceSP,
+    private val tokenSP: TokenSP,
     private val msgError: Int = 0
 ) : ConfigurationServer {
 
@@ -54,8 +59,13 @@ class ConfigurationServiceImpl(
 
     private fun createInstanceOkHttp(): OkHttpClient {
         val okHttpClientBuilder = OkHttpClient.Builder()
-            .addInterceptor(EncryptInterceptor(encryptDecrypt))
-            .addInterceptor(DecryptInterceptor(encryptDecrypt))
+            .addInterceptor(HeaderAndTokensInterceptor(deviceSP))
+
+        if(urlToMock.isEmpty()) {
+            okHttpClientBuilder
+                .addInterceptor(EncryptInterceptor(encryptDecrypt, tokenSP))
+                .addInterceptor(DecryptInterceptor(encryptDecrypt))
+        }
 
         if(BuildConfig.DEBUG) {
             okHttpClientBuilder.addInterceptor(RetrofitCurlPrinterInterceptor(object : Logger {

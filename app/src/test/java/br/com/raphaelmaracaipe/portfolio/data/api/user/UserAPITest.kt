@@ -9,6 +9,8 @@ import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServiceImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
 import br.com.raphaelmaracaipe.portfolio.models.TokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
@@ -45,6 +47,7 @@ class UserAPITest {
 
         context = RuntimeEnvironment.getApplication().applicationContext
         val deviceSP: DeviceSP = DeviceSPImpl(context, EncryptDecryptImpl())
+        val tokenSP: TokenSP = TokenSPImpl(context, EncryptDecryptImpl())
         val regexGenerate: RegexGenerate = RegexGenerateImpl()
 
         userAPI = UserAPIImpl(
@@ -53,6 +56,8 @@ class UserAPITest {
                 context,
                 deviceNetwork,
                 EncryptDecryptImpl(),
+                deviceSP,
+                tokenSP,
                 R.string.err_not_connection_internet
             ),
             deviceSP,

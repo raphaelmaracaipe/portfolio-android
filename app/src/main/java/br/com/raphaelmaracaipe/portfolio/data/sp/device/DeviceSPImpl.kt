@@ -7,7 +7,8 @@ import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDe
 import java.util.*
 
 class DeviceSPImpl(
-    private val context: Context, private val encryptDecrypt: EncryptDecrypt
+    private val context: Context,
+    private val encryptDecrypt: EncryptDecrypt
 ) : DeviceSP {
 
     private val KEY = "DEVICE_KEY"

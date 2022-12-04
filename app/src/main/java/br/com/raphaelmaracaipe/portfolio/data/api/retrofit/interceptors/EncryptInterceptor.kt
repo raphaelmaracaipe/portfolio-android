@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.data.api.retrofit.interceptors
 
 import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecrypt
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -13,7 +14,8 @@ import okio.Buffer
 import org.json.JSONObject
 
 class EncryptInterceptor(
-    private val encryptDecrypt: EncryptDecrypt
+    private val encryptDecrypt: EncryptDecrypt,
+    private val tokenSP: TokenSP
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -35,11 +37,12 @@ class EncryptInterceptor(
     }
 
     private fun prepareEncrypted(
-        rawBodyString: String, request: Request
+        rawBodyString: String,
+        request: Request
     ): Request {
         val body = JSONObject()
         body.put(
-            "data", encryptDecrypt.encryptMessage(rawBodyString, BuildConfig.KEY)
+            "data", encryptDecrypt.encryptMessage(rawBodyString, tokenSP.getKeyOfCommunication())
         )
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
@@ -54,7 +57,7 @@ class EncryptInterceptor(
         var bodyOnString = ""
         rawBody?.let { requestBody ->
             val buffer = Buffer()
-            rawBody.writeTo(buffer)
+            requestBody.writeTo(buffer)
             bodyOnString = buffer.readUtf8()
         }
         return bodyOnString

@@ -10,4 +10,7 @@ interface TokenSP {
 
     fun clearAll()
 
+    fun savedKeyOfCommunications(key: String)
+
+    fun getKeyOfCommunication(): String
 }

@@ -1,5 +1,6 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.retrofit
 
+import android.media.session.MediaSession.Token
 import android.os.Build
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
@@ -7,6 +8,8 @@ import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetwork
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
@@ -39,6 +42,7 @@ class ConfigurationServiceTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val deviceNetwork: DeviceNetwork = DeviceNetworkImpl(context)
         val deviceSP: DeviceSP = DeviceSPImpl(context, EncryptDecryptImpl())
+        val tokenSP: TokenSP = TokenSPImpl(context, EncryptDecryptImpl())
         val regexGenerate: RegexGenerate = RegexGenerateImpl()
 
         userAPI = UserAPIImpl(
@@ -47,6 +51,8 @@ class ConfigurationServiceTest {
                 context,
                 deviceNetwork,
                 EncryptDecryptImpl(),
+                deviceSP,
+                tokenSP,
                 R.string.err_not_connection_internet
             ),
             deviceSP,

@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.ui.userOptionsLogin
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import br.com.raphaelmaracaipe.portfolio.data.DeviceRepository
 import br.com.raphaelmaracaipe.portfolio.data.UserRepository
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -21,11 +22,13 @@ class UserOptionsLoginViewModelTest {
     val instantTaskRule = InstantTaskExecutorRule()
 
     private val userRepository: UserRepository = mockk()
+    private val deviceRepository: DeviceRepository = mockk()
+
     private lateinit var userLoginViewModel: UserOptionsLoginViewModel
 
     @Before
     fun setUp() {
-        userLoginViewModel = UserOptionsLoginViewModel(userRepository)
+        userLoginViewModel = UserOptionsLoginViewModel(userRepository, deviceRepository)
     }
 
     @Test

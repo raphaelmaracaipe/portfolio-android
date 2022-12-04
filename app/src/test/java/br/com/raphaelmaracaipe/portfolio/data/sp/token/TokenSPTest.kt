@@ -30,6 +30,13 @@ class TokenSPTest {
         Assert.assertTrue(tokenSP.exist())
     }
 
+    @Test
+    fun `save value of key and encrypted e decrypted information`() {
+        tokenSP.savedKeyOfCommunications("a")
+        val keySaved = tokenSP.getKeyOfCommunication()
+        Assert.assertEquals("a", keySaved)
+    }
+
     @After
     fun after() {
         tokenSP.clearAll()

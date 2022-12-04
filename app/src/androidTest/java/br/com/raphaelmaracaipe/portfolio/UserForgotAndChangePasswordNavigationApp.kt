@@ -4,21 +4,18 @@ import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
-import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
+import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
+import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
 import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
@@ -26,7 +23,6 @@ import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
@@ -49,6 +45,7 @@ class UserForgotAndChangePasswordNavigationApp {
 
         context = InstrumentationRegistry.getInstrumentation().targetContext
         tokenSP = TokenSPImpl(context, EncryptDecryptImpl())
+        tokenSP.savedKeyOfCommunications("test")
     }
 
     @Test
@@ -63,8 +60,7 @@ class UserForgotAndChangePasswordNavigationApp {
 
         onView(
             allOf(
-                withId(R.id.tvwTextText),
-                withText(context.resources.getString(R.string.log_forgot))
+                withId(R.id.tvwTextText), withText(context.resources.getString(R.string.log_forgot))
             )
         ).check(matches(isDisplayed()))
 
@@ -118,8 +114,7 @@ class UserForgotAndChangePasswordNavigationApp {
 
         onView(
             allOf(
-                withId(R.id.tvwTextText),
-                withText(context.resources.getString(R.string.log_forgot))
+                withId(R.id.tvwTextText), withText(context.resources.getString(R.string.log_forgot))
             )
         ).check(matches(isDisplayed()))
 
@@ -148,8 +143,7 @@ class UserForgotAndChangePasswordNavigationApp {
 
         onView(
             allOf(
-                withId(R.id.tvwTitle),
-                withText(context.resources.getString(R.string.acc_title_top))
+                withId(R.id.tvwTitle), withText(context.resources.getString(R.string.acc_title_top))
             )
         ).check(matches(isDisplayed()))
 

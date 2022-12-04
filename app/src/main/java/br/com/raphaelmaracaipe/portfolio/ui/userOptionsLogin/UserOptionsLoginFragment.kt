@@ -93,6 +93,12 @@ class UserOptionsLoginFragment() : Fragment(), View.OnClickListener {
         gotToInternal()
         prepareToSignWithGoogle()
         prepareViewModel()
+//        sendInformationAboutDevice()
+    }
+
+    private fun sendInformationAboutDevice() {
+        event.send(EVENT_KEY_LOADING, true)
+        viewModel.sendInformationAboutDevice()
     }
 
     private fun prepareViewModel() {
@@ -100,6 +106,7 @@ class UserOptionsLoginFragment() : Fragment(), View.OnClickListener {
             event.send(EVENT_KEY_LOADING, false)
             Snackbar.make(bind.root, msgError, Snackbar.LENGTH_LONG).show()
         }
+
         viewModel.afterCallToRegister.observe(viewLifecycleOwner) { isSuccess ->
             event.send(EVENT_KEY_LOADING, false)
             if (isSuccess) {
@@ -107,6 +114,10 @@ class UserOptionsLoginFragment() : Fragment(), View.OnClickListener {
             } else {
                 showMessageErrorToUser()
             }
+        }
+
+        viewModel.afterCallToInformationAboutDevice.observe(viewLifecycleOwner) { isSuccess ->
+            event.send(EVENT_KEY_LOADING, false)
         }
     }
 
