@@ -3,6 +3,8 @@ package br.com.raphaelmaracaipe.portfolio.data.api.user
 import android.content.Context
 import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.R
+import br.com.raphaelmaracaipe.portfolio.const.REGEX_CODE_REQUEST_FORGOT_PASSWORD
+import br.com.raphaelmaracaipe.portfolio.const.REGEX_CODE_REQUEST_GOOGLE
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.translateIntegerToEnum
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
@@ -82,7 +84,7 @@ class UserAPIImpl(
     override suspend fun signWithGoogle(email: String): TokenModel {
         val requestSignWithGoogle = RequestSignWithGoogle(
             email,
-            code = this.regexGenerate.generateRandom("[0-4]{2}[5-9][6-8]{2}[6-8]{6}"),
+            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_GOOGLE),
             deviceId = deviceSP.getUUID()
         )
 
@@ -125,7 +127,7 @@ class UserAPIImpl(
     override suspend fun forgotPassword(email: String): Boolean {
         val requestForgotPassword = RequestForgotPassword(
             email = email,
-            code = this.regexGenerate.generateRandom("[0-9]{5}[a-cD-G1-9]{5}[a-cD-G1-9]{1}"),
+            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_FORGOT_PASSWORD),
             deviceId = deviceSP.getUUID()
         )
 
