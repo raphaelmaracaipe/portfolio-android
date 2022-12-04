@@ -61,7 +61,6 @@ class UserAPIImpl(
     }
 
     override suspend fun registerUserInServer(data: UserRegisterModel): TokenModel {
-        data.deviceId = deviceSP.getUUID()
         val returnAfterOfExecution = configurationServer.create(
             UserService::class.java
         ).registerUserInServer(data)
@@ -84,8 +83,7 @@ class UserAPIImpl(
     override suspend fun signWithGoogle(email: String): TokenModel {
         val requestSignWithGoogle = RequestSignWithGoogle(
             email,
-            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_GOOGLE),
-            deviceId = deviceSP.getUUID()
+            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_GOOGLE)
         )
 
         val returnAfterOfExecution = configurationServer.create(
@@ -127,8 +125,7 @@ class UserAPIImpl(
     override suspend fun forgotPassword(email: String): Boolean {
         val requestForgotPassword = RequestForgotPassword(
             email = email,
-            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_FORGOT_PASSWORD),
-            deviceId = deviceSP.getUUID()
+            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_FORGOT_PASSWORD)
         )
 
         val returnAfterOfException = configurationServer.create(
