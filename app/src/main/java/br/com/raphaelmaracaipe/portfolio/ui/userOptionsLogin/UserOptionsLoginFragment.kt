@@ -93,7 +93,7 @@ class UserOptionsLoginFragment() : Fragment(), View.OnClickListener {
         gotToInternal()
         prepareToSignWithGoogle()
         prepareViewModel()
-//        sendInformationAboutDevice()
+        sendInformationAboutDevice()
     }
 
     private fun sendInformationAboutDevice() {
