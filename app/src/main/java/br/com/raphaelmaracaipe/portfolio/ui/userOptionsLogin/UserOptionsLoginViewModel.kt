@@ -37,13 +37,12 @@ class UserOptionsLoginViewModel @Inject constructor(
 
     fun sendInformationAboutDevice() {
         viewModelScope.launch {
-//            try{
-//                val returnAfterCallToServer = deviceRepository.sendInformationAboutDevice()
-//                _afterCallToInformationAboutDevice.postValue(returnAfterCallToServer)
-//            } catch (e: Exception) {
-//                _afterCallToInformationAboutDevice.postValue(false)
-//            }
-            _afterCallToInformationAboutDevice.postValue(false)
+            try{
+                val returnAfterCallToServer = deviceRepository.sendInformationAboutDevice()
+                _afterCallToInformationAboutDevice.postValue(returnAfterCallToServer)
+            } catch (e: Exception) {
+                _afterCallToInformationAboutDevice.postValue(false)
+            }
         }
     }
 

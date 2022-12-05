@@ -7,6 +7,7 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -44,8 +45,7 @@ class UserLoginNavigationApp {
 
         context = InstrumentationRegistry.getInstrumentation().targetContext
         tokenSP = TokenSPImpl(context, EncryptDecryptImpl())
-
-        tokenSP.clearAll()
+        tokenSP.savedKeyOfCommunications("a")
     }
 
     @Test
@@ -133,14 +133,22 @@ class UserLoginNavigationApp {
     }
 
     private fun goToPassword() {
+        with(mockWebServer) {
+            enqueue(
+                MockResponse().setResponseCode(200).setBody("{}")
+            )
+        }
+
+        scenario = launchActivity(Intent(context, MainActivity::class.java))
+
+        Thread.sleep(1000)
+
         val json = ConsultEmailModel(true).toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(json)
             )
         }
-
-        scenario = launchActivity(Intent(context, MainActivity::class.java))
 
         onView(
             allOf(
@@ -177,4 +185,8 @@ class UserLoginNavigationApp {
         ).check(matches(isDisplayed()))
     }
 
+    @Before
+    fun before() {
+        tokenSP.clearAll()
+    }
 }

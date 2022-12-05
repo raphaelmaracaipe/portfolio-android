@@ -6,6 +6,7 @@
     <string name="acc_login_google">Acessar google</string>
     <string name="acc_login_or">OU</string>
     <string name="acc_login_email_password">Email e senha</string>
+    <string name="acc_error_send_information_device">Ocorreu um erro no servidor. Por favor, tente novamente mais tarde.</string>
 
     <!-- ALERT -->
     <string name="alt_msg_warning">Atenção</string>
@@ -47,6 +48,8 @@
     <string name="ger_loading">Carregando…</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="ok">Ok</string>
+    <string name="attention">Atenção</string>
 
     <!-- ERROR -->
     <string name="err_not_connection_internet">Você está sem conexão com a internet. Para continuar, é necessário conectar na internet.</string>

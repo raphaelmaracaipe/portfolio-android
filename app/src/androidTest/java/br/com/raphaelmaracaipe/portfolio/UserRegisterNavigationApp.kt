@@ -60,6 +60,12 @@ class UserRegisterNavigationApp {
 
     @Test
     fun whenUserWantTapEmailInvalid_shouldMessageEmailInvalid() {
+        with(mockWebServer) {
+            enqueue(
+                MockResponse().setResponseCode(200).setBody("")
+            )
+        }
+
         scenario = launchActivity(Intent(context, MainActivity::class.java))
 
         onView(
@@ -98,15 +104,21 @@ class UserRegisterNavigationApp {
 
     @Test
     fun whenUserWantRegisterOnAppAndEmailAlReadyExistInDB_shouldClickButtonToRegisterAndShowMessage() {
-        val json = ConsultEmailModel(true).toJSON()
+        with(mockWebServer) {
+            enqueue(
+                MockResponse().setResponseCode(200).setBody("")
+            )
+        }
 
+        scenario = launchActivity(Intent(context, MainActivity::class.java))
+
+        Thread.sleep(1000)
+        val json = ConsultEmailModel(true).toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(json)
             )
         }
-
-        scenario = launchActivity(Intent(context, MainActivity::class.java))
 
         onView(
             allOf(
@@ -290,15 +302,22 @@ class UserRegisterNavigationApp {
     }
 
     private fun checkAndGoToPassword() {
-        val json = ConsultEmailModel(false).toJSON()
+        with(mockWebServer) {
+            enqueue(
+                MockResponse().setResponseCode(200).setBody("")
+            )
+        }
 
+        scenario = launchActivity(Intent(context, MainActivity::class.java))
+
+        Thread.sleep(1000)
+
+        val json = ConsultEmailModel(false).toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(json)
             )
         }
-
-        scenario = launchActivity(Intent(context, MainActivity::class.java))
 
         onView(
             allOf(

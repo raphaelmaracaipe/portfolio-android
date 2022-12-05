@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -118,6 +119,22 @@ class UserOptionsLoginFragment() : Fragment(), View.OnClickListener {
 
         viewModel.afterCallToInformationAboutDevice.observe(viewLifecycleOwner) { isSuccess ->
             event.send(EVENT_KEY_LOADING, false)
+            if(!isSuccess) {
+                showAlertErrorInSendInformationDevice()
+            }
+        }
+    }
+
+    private fun showAlertErrorInSendInformationDevice() {
+        context?.let { ctx ->
+            AlertDialog.Builder(ctx)
+                .setMessage(R.string.acc_error_send_information_device)
+                .setTitle(R.string.attention)
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    activity?.finish()
+                }
+                .show()
         }
     }
 
