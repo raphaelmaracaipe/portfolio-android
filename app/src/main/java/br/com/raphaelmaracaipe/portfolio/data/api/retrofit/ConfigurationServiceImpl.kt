@@ -64,7 +64,7 @@ class ConfigurationServiceImpl(
         if(urlToMock.isEmpty()) {
             okHttpClientBuilder
                 .addInterceptor(EncryptInterceptor(encryptDecrypt, tokenSP))
-                .addInterceptor(DecryptInterceptor(encryptDecrypt))
+                .addInterceptor(DecryptInterceptor(encryptDecrypt, tokenSP))
         }
 
         if(BuildConfig.DEBUG) {
