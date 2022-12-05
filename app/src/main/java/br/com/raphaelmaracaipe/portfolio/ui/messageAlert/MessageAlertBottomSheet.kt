@@ -1,6 +1,8 @@
 package br.com.raphaelmaracaipe.portfolio.ui.messageAlert
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +15,10 @@ class MessageAlertBottomSheet(
     private val text: String,
     private val textButtonSuccess: String = "",
     private val textButtonCancel: String = "",
-    private val autoClose: Boolean = false,
+    private val closeWhenClickButtonCancel: Boolean = false,
     private val callbackSuccess: (() -> Unit)? = null,
-    private val callbackCancel: (() -> Unit)? = null
+    private val callbackCancel: (() -> Unit)? = null,
+    private val callbackCancelAlert: (() -> Unit)? = null
 ) : BottomSheetDialogFragment() {
 
     private lateinit var bind: BottomSheetMessageAlertBinding
@@ -56,8 +59,13 @@ class MessageAlertBottomSheet(
         }
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        callbackCancelAlert?.invoke()
+    }
+
     private fun checkIfAutoClose() {
-        if(autoClose) {
+        if(closeWhenClickButtonCancel) {
             dismiss()
         }
     }
@@ -67,20 +75,22 @@ class MessageAlertBottomSheet(
             fragmentManager: FragmentManager,
             title: String = "",
             text: String = "",
-            autoClose: Boolean = true,
+            closeWhenClickButtonCancel: Boolean = true,
             textButtonSuccess: String = "",
             textButtonCancel: String = "",
             callbackSuccess: (() -> Unit)? = null,
-            callbackCancel: (() -> Unit)? = null
+            callbackCancel: (() -> Unit)? = null,
+            callbackCancelAlert: (() -> Unit)? = null
         ) {
             MessageAlertBottomSheet(
                 title,
                 text,
                 textButtonSuccess,
                 textButtonCancel,
-                autoClose,
+                closeWhenClickButtonCancel,
                 callbackSuccess,
-                callbackCancel
+                callbackCancel,
+                callbackCancelAlert
             ).show(fragmentManager, "MessageAlertBottomSheet")
         }
     }
