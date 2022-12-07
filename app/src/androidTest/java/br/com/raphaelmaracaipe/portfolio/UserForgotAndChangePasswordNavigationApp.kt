@@ -132,13 +132,6 @@ class UserForgotAndChangePasswordNavigationApp {
     }
 
     private fun gotToPassword() {
-        val json = ConsultEmailModel(true).toJSON()
-        with(mockWebServer) {
-            enqueue(
-                MockResponse().setResponseCode(200).setBody(json)
-            )
-        }
-
         scenario = launchActivity(Intent(context, MainActivity::class.java))
 
         onView(
@@ -146,6 +139,13 @@ class UserForgotAndChangePasswordNavigationApp {
                 withId(R.id.tvwTitle), withText(context.resources.getString(R.string.acc_title_top))
             )
         ).check(matches(isDisplayed()))
+
+        val json = ConsultEmailModel(true).toJSON()
+        with(mockWebServer) {
+            enqueue(
+                MockResponse().setResponseCode(200).setBody(json)
+            )
+        }
 
         onView(
             allOf(
