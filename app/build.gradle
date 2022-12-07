@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -80,6 +82,8 @@ android {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$appcompact"
     implementation "com.google.android.material:material:$material"
@@ -97,6 +101,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:$playServiceBase"
     implementation "com.github.mifmif:generex:$generex"
     implementation "com.github.tomasharkema:RetrofitCurlPrinter:$retrofitCurlPrint"
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics:21.2.0'
 
     kapt "com.google.dagger:dagger-compiler:$dagger"
     kapt "androidx.room:room-compiler:$room_ktx"
