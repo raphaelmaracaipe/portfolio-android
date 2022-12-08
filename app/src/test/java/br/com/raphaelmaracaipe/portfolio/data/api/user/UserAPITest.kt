@@ -5,13 +5,17 @@ import android.os.Build
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
-import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
+import br.com.raphaelmaracaipe.portfolio.data.api.models.*
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServiceImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCheckEmail
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestForgotPassword
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestSignWithGoogle
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.device.DeviceNetworkImpl
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
@@ -60,7 +64,6 @@ class UserAPITest {
                 tokenSP,
                 R.string.err_not_connection_internet
             ),
-            deviceSP,
             regexGenerate
         )
     }
@@ -80,7 +83,7 @@ class UserAPITest {
             )
         }
 
-        val returnAPI = userAPI.checkIfEmailExist("test@test.com")
+        val returnAPI = userAPI.checkIfEmailExist(RequestCheckEmail("test@test.com"))
         Assert.assertTrue(returnAPI)
     }
 
@@ -98,7 +101,7 @@ class UserAPITest {
         }
 
         try {
-            userAPI.checkIfEmailExist("teste@test.com")
+            userAPI.checkIfEmailExist(RequestCheckEmail("teste@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_email_invalid), e.message)
@@ -119,7 +122,7 @@ class UserAPITest {
         }
 
         try {
-            userAPI.checkIfEmailExist("teste@test.com")
+            userAPI.checkIfEmailExist(RequestCheckEmail("teste@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_general_server), e.message)
@@ -130,7 +133,7 @@ class UserAPITest {
     fun `when consult email valid but device not have connection with internet`() = runBlocking {
         every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
-            userAPI.checkIfEmailExist("teste@test.com")
+            userAPI.checkIfEmailExist(RequestCheckEmail("teste@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
@@ -152,7 +155,7 @@ class UserAPITest {
     fun `when register user in api and return with success`() = runBlocking {
         every { deviceNetwork.isNetworkConnected() } answers { true }
 
-        val token = TokenModel(accessToken = "AAA", refreshToken = "BBB")
+        val token = ResponseTokenModel(accessToken = "AAA", refreshToken = "BBB")
         with(mockWebServer) {
             enqueue(
                 MockResponse()
@@ -282,14 +285,14 @@ class UserAPITest {
             )
         }
 
-        Assert.assertTrue(userAPI.requestCode("teste@teste.com"))
+        Assert.assertTrue(userAPI.requestCode(RequestCodeModel("teste@teste.com")))
     }
 
     @Test
     fun `when request code but device is not have connection with internet`() = runBlocking {
         every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
-            userAPI.requestCode("teste@teste.com")
+            userAPI.requestCode(RequestCodeModel("teste@teste.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
@@ -321,7 +324,7 @@ class UserAPITest {
     fun `when you want register with google but not have connection with internet`() = runBlocking {
         every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
-            userAPI.signWithGoogle("test@test.com")
+            userAPI.signWithGoogle(RequestSignWithGoogle("test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
@@ -342,7 +345,7 @@ class UserAPITest {
         }
 
         try {
-            userAPI.signWithGoogle("test@test.com")
+            userAPI.signWithGoogle(RequestSignWithGoogle("test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_email_invalid), e.message)
@@ -363,7 +366,7 @@ class UserAPITest {
         }
 
         try {
-            userAPI.signWithGoogle("test@test.com")
+            userAPI.signWithGoogle(RequestSignWithGoogle("test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.reg_code_invalid), e.message)
@@ -384,7 +387,7 @@ class UserAPITest {
         }
 
         try {
-            userAPI.signWithGoogle("test@test.com")
+            userAPI.signWithGoogle(RequestSignWithGoogle("test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.reg_error_email_exist), e.message)
@@ -405,7 +408,7 @@ class UserAPITest {
         }
 
         try {
-            userAPI.signWithGoogle("test@test.com")
+            userAPI.signWithGoogle(RequestSignWithGoogle("test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_general_server), e.message)
@@ -420,11 +423,11 @@ class UserAPITest {
             enqueue(
                 MockResponse()
                     .setResponseCode(201)
-                    .setBody(TokenModel("AAA", "BBB").toJSON())
+                    .setBody(ResponseTokenModel("AAA", "BBB").toJSON())
             )
         }
 
-        val returnApi = userAPI.signWithGoogle("test@test.com")
+        val returnApi = userAPI.signWithGoogle(RequestSignWithGoogle("test@test.com"))
         Assert.assertNotEquals("", returnApi.accessToken)
     }
 
@@ -447,7 +450,7 @@ class UserAPITest {
             enqueue(
                 MockResponse()
                     .setResponseCode(201)
-                    .setBody(TokenModel("AAA", "BBB").toJSON())
+                    .setBody(ResponseTokenModel("AAA", "BBB").toJSON())
             )
         }
 
@@ -522,7 +525,7 @@ class UserAPITest {
     fun `went you want forgot password but you dont have connection with internet`() = runBlocking {
         every { deviceNetwork.isNetworkConnected() } answers { false }
         try {
-            userAPI.forgotPassword("test@test.com")
+            userAPI.forgotPassword(RequestForgotPassword(email = "test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_not_connection_internet), e.message)
@@ -542,7 +545,7 @@ class UserAPITest {
             )
         }
         try {
-            userAPI.forgotPassword("test@test.com")
+            userAPI.forgotPassword(RequestForgotPassword(email = "test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.log_not_exist), e.message)
@@ -562,7 +565,7 @@ class UserAPITest {
             )
         }
         try {
-            userAPI.forgotPassword("test@test.com")
+            userAPI.forgotPassword(RequestForgotPassword(email = "test@test.com"))
             Assert.assertTrue(false)
         } catch (e: Exception) {
             Assert.assertEquals(getRes(R.string.err_general_server), e.message)

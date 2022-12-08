@@ -6,7 +6,7 @@ import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestDeviceInfo
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestDeviceInfo
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServiceImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSPImpl

@@ -8,8 +8,10 @@ import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.db.AppDataBase
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
+import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
+import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerateImpl
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -40,7 +42,9 @@ class UserRepositoryTest {
 
         userAPI = mockk()
         tokenSP = TokenSPImpl(context, EncryptDecryptImpl())
-        userRepository = UserRepository(db, userAPI, tokenSP)
+        val regexGenerate: RegexGenerate = RegexGenerateImpl()
+
+        userRepository = UserRepository(db, userAPI, tokenSP, regexGenerate)
     }
 
     @Test
@@ -75,19 +79,19 @@ class UserRepositoryTest {
 
     @Test
     fun `when register user in api with success`() = runBlocking {
-        coEvery { userAPI.registerUserInServer(any()) } returns TokenModel("AAA", "BBB")
+        coEvery { userAPI.registerUserInServer(any()) } returns ResponseTokenModel("AAA", "BBB")
         Assert.assertTrue(userRepository.registerUserInServer(UserRegisterModel()))
     }
 
     @Test
     fun `when register user in api with false`() = runBlocking {
-        coEvery { userAPI.registerUserInServer(any()) } returns TokenModel()
+        coEvery { userAPI.registerUserInServer(any()) } returns ResponseTokenModel()
         Assert.assertFalse(userRepository.registerUserInServer(UserRegisterModel()))
     }
 
     @Test
     fun `when register with google and api return success with token`() = runBlocking {
-        coEvery { userAPI.signWithGoogle(any()) } returns TokenModel("AAA", "BBB")
+        coEvery { userAPI.signWithGoogle(any()) } returns ResponseTokenModel("AAA", "BBB")
         Assert.assertTrue(userRepository.signWithGoogle("test@test.com"))
     }
 
@@ -105,7 +109,7 @@ class UserRepositoryTest {
 
     @Test
     fun `when you want login and api return tokens should message to client`() = runBlocking {
-        coEvery { userAPI.login(any()) } returns TokenModel("AAA", "BBB")
+        coEvery { userAPI.login(any()) } returns ResponseTokenModel("AAA", "BBB")
         Assert.assertTrue(userRepository.login(UserRegisterModel("test@test.com")))
     }
 
@@ -122,7 +126,7 @@ class UserRepositoryTest {
 
     @Test
     fun `when check if exist token saved`() {
-        tokenSP.save(TokenModel("AAA", "BBB"))
+        tokenSP.save(ResponseTokenModel("AAA", "BBB"))
         Assert.assertTrue(userRepository.existTokenSaved())
     }
 

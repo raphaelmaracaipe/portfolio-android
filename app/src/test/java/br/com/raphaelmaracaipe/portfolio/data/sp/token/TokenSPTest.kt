@@ -1,7 +1,7 @@
 package br.com.raphaelmaracaipe.portfolio.data.sp.token
 
 import android.os.Build
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import org.junit.After
 import org.junit.Assert
@@ -26,7 +26,7 @@ class TokenSPTest {
 
     @Test
     fun `when register new token in sharedpreference`() {
-        tokenSP.save(TokenModel("AAA", "BBB"))
+        tokenSP.save(ResponseTokenModel("AAA", "BBB"))
         Assert.assertTrue(tokenSP.exist())
     }
 

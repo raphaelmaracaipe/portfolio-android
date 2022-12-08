@@ -7,7 +7,6 @@ import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -17,8 +16,8 @@ import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
-import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseConsultEmailModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import okhttp3.mockwebserver.MockResponse
@@ -104,7 +103,7 @@ class UserLoginNavigationApp {
     fun wentUserTapPasswordApiReturnSuccess_shouldShowMessageToUser() {
         goToPassword()
 
-        val tokens = TokenModel(accessToken = "access", refreshToken = "refresh").toJSON()
+        val tokens = ResponseTokenModel(accessToken = "access", refreshToken = "refresh").toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(tokens)
@@ -143,7 +142,7 @@ class UserLoginNavigationApp {
 
         Thread.sleep(1000)
 
-        val json = ConsultEmailModel(true).toJSON()
+        val json = ResponseConsultEmailModel(true).toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(json)

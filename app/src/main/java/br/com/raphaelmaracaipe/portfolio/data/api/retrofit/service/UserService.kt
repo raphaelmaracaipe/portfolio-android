@@ -1,11 +1,11 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service
 
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
-import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestCodeModel
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestForgotPassword
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestSignWithGoogle
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestForgotPassword
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestSignWithGoogle
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseConsultEmailModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import retrofit2.Response
 import retrofit2.http.Body
@@ -22,7 +22,7 @@ interface UserService {
         "x-api-key: ${BuildConfig.API_KEY}",
     )
     @GET("/api/v1/users/email/{email}")
-    suspend fun userConsultEmail(@Path("email") email: String): Response<ConsultEmailModel>
+    suspend fun userConsultEmail(@Path("email") email: String): Response<ResponseConsultEmailModel>
 
     @Headers(
         "Accept: application/json; charset=utf-8",
@@ -36,21 +36,21 @@ interface UserService {
         "x-api-key: ${BuildConfig.API_KEY}",
     )
     @POST("/api/v1/users")
-    suspend fun registerUserInServer(@Body dataToBody: UserRegisterModel): Response<TokenModel>
+    suspend fun registerUserInServer(@Body dataToBody: UserRegisterModel): Response<ResponseTokenModel>
 
     @Headers(
         "Accept: application/json; charset=utf-8",
         "x-api-key: ${BuildConfig.API_KEY}",
     )
     @POST("/api/v1/users/google")
-    suspend fun signWithGoogle(@Body dataToBody: RequestSignWithGoogle): Response<TokenModel>
+    suspend fun signWithGoogle(@Body dataToBody: RequestSignWithGoogle): Response<ResponseTokenModel>
 
     @Headers(
         "Accept: application/json; charset=utf-8",
         "x-api-key: ${BuildConfig.API_KEY}",
     )
     @POST("/api/v1/users/login")
-    suspend fun login(@Body body: UserRegisterModel): Response<TokenModel>
+    suspend fun login(@Body body: UserRegisterModel): Response<ResponseTokenModel>
 
     @Headers(
         "Accept: application/json; charset=utf-8",

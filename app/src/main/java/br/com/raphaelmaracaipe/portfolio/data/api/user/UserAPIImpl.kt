@@ -1,20 +1,18 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.user
 
 import android.content.Context
-import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.const.REGEX_CODE_REQUEST_FORGOT_PASSWORD
 import br.com.raphaelmaracaipe.portfolio.const.REGEX_CODE_REQUEST_GOOGLE
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.CodeError.*
 import br.com.raphaelmaracaipe.portfolio.data.api.enums.translateIntegerToEnum
-import br.com.raphaelmaracaipe.portfolio.data.api.models.HttpError
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestCodeModel
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestForgotPassword
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestSignWithGoogle
+import br.com.raphaelmaracaipe.portfolio.data.api.models.*
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.ConfigurationServer
 import br.com.raphaelmaracaipe.portfolio.data.api.retrofit.service.UserService
-import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCheckEmail
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestForgotPassword
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestSignWithGoogle
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
 import com.google.gson.Gson
@@ -22,14 +20,13 @@ import com.google.gson.Gson
 class UserAPIImpl(
     private val context: Context,
     private val configurationServer: ConfigurationServer,
-    private val deviceSP: DeviceSP,
     private val regexGenerate: RegexGenerate
 ) : UserAPI {
 
-    override suspend fun checkIfEmailExist(email: String): Boolean {
+    override suspend fun checkIfEmailExist(requestCheckEmail: RequestCheckEmail): Boolean {
         val returnAfterOfExecution = configurationServer.create(
             UserService::class.java
-        ).userConsultEmail(email)
+        ).userConsultEmail(requestCheckEmail.email)
 
         if (returnAfterOfExecution.isSuccessful) {
             return returnAfterOfExecution.body()?.isExist ?: false
@@ -43,12 +40,7 @@ class UserAPIImpl(
         throw Exception(context.getString(resID))
     }
 
-    override suspend fun requestCode(email: String): Boolean {
-        val requestCodeModel = RequestCodeModel(
-            deviceSP.getUUID(),
-            email
-        )
-
+    override suspend fun requestCode(requestCodeModel: RequestCodeModel): Boolean {
         val returnAfterOfExecution = configurationServer.create(
             UserService::class.java
         ).requestCode(requestCodeModel)
@@ -60,13 +52,13 @@ class UserAPIImpl(
         throw Exception(context.getString(R.string.err_general_server))
     }
 
-    override suspend fun registerUserInServer(data: UserRegisterModel): TokenModel {
+    override suspend fun registerUserInServer(userRegisterModel: UserRegisterModel): ResponseTokenModel {
         val returnAfterOfExecution = configurationServer.create(
             UserService::class.java
-        ).registerUserInServer(data)
+        ).registerUserInServer(userRegisterModel)
 
         if (returnAfterOfExecution.isSuccessful) {
-            return returnAfterOfExecution.body() ?: TokenModel()
+            return returnAfterOfExecution.body() ?: ResponseTokenModel()
         }
 
         val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
@@ -80,18 +72,15 @@ class UserAPIImpl(
         throw Exception(context.getString(resID))
     }
 
-    override suspend fun signWithGoogle(email: String): TokenModel {
-        val requestSignWithGoogle = RequestSignWithGoogle(
-            email,
-            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_GOOGLE)
-        )
+    override suspend fun signWithGoogle(requestSignWithGoogle: RequestSignWithGoogle): ResponseTokenModel {
+        requestSignWithGoogle.code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_GOOGLE)
 
         val returnAfterOfExecution = configurationServer.create(
             UserService::class.java
         ).signWithGoogle(requestSignWithGoogle)
 
         if (returnAfterOfExecution.isSuccessful) {
-            return returnAfterOfExecution.body() ?: TokenModel()
+            return returnAfterOfExecution.body() ?: ResponseTokenModel()
         }
 
         val bodyError = returnAfterOfExecution.errorBody()?.string() ?: ""
@@ -104,13 +93,13 @@ class UserAPIImpl(
         throw Exception(context.getString(resID))
     }
 
-    override suspend fun login(userRegisterModel: UserRegisterModel): TokenModel {
+    override suspend fun login(userRegisterModel: UserRegisterModel): ResponseTokenModel {
         val returnAfterOfException = configurationServer.create(
             UserService::class.java
         ).login(userRegisterModel)
 
         if (returnAfterOfException.isSuccessful) {
-            return returnAfterOfException.body() ?: TokenModel()
+            return returnAfterOfException.body() ?: ResponseTokenModel()
         }
 
         val bodyError = returnAfterOfException.errorBody()?.string() ?: ""
@@ -122,12 +111,7 @@ class UserAPIImpl(
         throw Exception(context.getString(resID))
     }
 
-    override suspend fun forgotPassword(email: String): Boolean {
-        val requestForgotPassword = RequestForgotPassword(
-            email = email,
-            code = this.regexGenerate.generateRandom(REGEX_CODE_REQUEST_FORGOT_PASSWORD)
-        )
-
+    override suspend fun forgotPassword(requestForgotPassword: RequestForgotPassword): Boolean {
         val returnAfterOfException = configurationServer.create(
             UserService::class.java
         ).forgotPassword(requestForgotPassword)

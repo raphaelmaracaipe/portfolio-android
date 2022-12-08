@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portfolio.data.api.models
+package br.com.raphaelmaracaipe.portfolio.data.api.models.request
 
 import com.google.gson.Gson
 

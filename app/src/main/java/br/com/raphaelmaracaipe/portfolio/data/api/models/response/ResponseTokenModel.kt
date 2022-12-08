@@ -1,8 +1,8 @@
-package br.com.raphaelmaracaipe.portfolio.models
+package br.com.raphaelmaracaipe.portfolio.data.api.models.response
 
 import com.google.gson.Gson
 
-data class TokenModel(
+data class ResponseTokenModel(
     val accessToken: String = "",
     val refreshToken: String = ""
 ) {

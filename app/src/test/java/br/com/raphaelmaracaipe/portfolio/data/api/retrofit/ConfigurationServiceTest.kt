@@ -1,9 +1,9 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.retrofit
 
-import android.media.session.MediaSession.Token
 import android.os.Build
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCheckEmail
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.user.UserAPIImpl
 import br.com.raphaelmaracaipe.portfolio.data.sp.device.DeviceSP
@@ -55,7 +55,6 @@ class ConfigurationServiceTest {
                 tokenSP,
                 R.string.err_not_connection_internet
             ),
-            deviceSP,
             regexGenerate
         )
     }
@@ -73,7 +72,7 @@ class ConfigurationServiceTest {
             )
         }
 
-        val returnAPI = userAPI.checkIfEmailExist("test@test.com")
+        val returnAPI = userAPI.checkIfEmailExist(RequestCheckEmail("test@test.com"))
         Assert.assertTrue(returnAPI)
     }
 

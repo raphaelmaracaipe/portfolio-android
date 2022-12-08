@@ -34,7 +34,6 @@ object ApiModule {
         return UserAPIImpl(
             context,
             getConfiguration(context),
-            DeviceSPImpl(context, EncryptDecryptImpl()),
             RegexGenerateImpl()
         )
     }

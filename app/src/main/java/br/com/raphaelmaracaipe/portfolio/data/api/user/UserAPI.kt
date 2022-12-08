@@ -1,20 +1,17 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.user
 
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCheckEmail
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestCodeModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestForgotPassword
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestSignWithGoogle
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.models.UserRegisterModel
 
 interface UserAPI {
-
-    suspend fun checkIfEmailExist(email: String): Boolean
-
-    suspend fun requestCode(email: String): Boolean
-
-    suspend fun registerUserInServer(data: UserRegisterModel): TokenModel
-
-    suspend fun signWithGoogle(email: String): TokenModel
-
-    suspend fun login(userRegisterModel: UserRegisterModel): TokenModel
-
-    suspend fun forgotPassword(email: String): Boolean
-
+    suspend fun forgotPassword(requestForgotPassword: RequestForgotPassword): Boolean
+    suspend fun login(userRegisterModel: UserRegisterModel): ResponseTokenModel
+    suspend fun signWithGoogle(requestSignWithGoogle: RequestSignWithGoogle): ResponseTokenModel
+    suspend fun registerUserInServer(userRegisterModel: UserRegisterModel): ResponseTokenModel
+    suspend fun requestCode(requestCodeModel: RequestCodeModel): Boolean
+    suspend fun checkIfEmailExist(requestCheckEmail: RequestCheckEmail): Boolean
 }

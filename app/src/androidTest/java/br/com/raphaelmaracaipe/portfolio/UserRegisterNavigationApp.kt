@@ -15,8 +15,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import br.com.raphaelmaracaipe.portfolio.const.ConfigsToTest
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSPImpl
-import br.com.raphaelmaracaipe.portfolio.models.ConsultEmailModel
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseConsultEmailModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.ui.main.MainActivity
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecryptImpl
 import okhttp3.mockwebserver.MockResponse
@@ -113,7 +113,7 @@ class UserRegisterNavigationApp {
         scenario = launchActivity(Intent(context, MainActivity::class.java))
 
         Thread.sleep(1000)
-        val json = ConsultEmailModel(true).toJSON()
+        val json = ResponseConsultEmailModel(true).toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(json)
@@ -262,7 +262,7 @@ class UserRegisterNavigationApp {
         ).check(matches(isDisplayed()))
 
         with(mockWebServer) {
-            val token = TokenModel("AAA", "BBB")
+            val token = ResponseTokenModel("AAA", "BBB")
             enqueue(
                 MockResponse().setResponseCode(200).setBody(token.toJSON())
             )
@@ -312,7 +312,7 @@ class UserRegisterNavigationApp {
 
         Thread.sleep(1000)
 
-        val json = ConsultEmailModel(false).toJSON()
+        val json = ResponseConsultEmailModel(false).toJSON()
         with(mockWebServer) {
             enqueue(
                 MockResponse().setResponseCode(200).setBody(json)

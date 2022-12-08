@@ -3,7 +3,7 @@ package br.com.raphaelmaracaipe.portfolio.data.sp.token
 import android.content.Context
 import androidx.core.content.edit
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
-import br.com.raphaelmaracaipe.portfolio.models.TokenModel
+import br.com.raphaelmaracaipe.portfolio.data.api.models.response.ResponseTokenModel
 import br.com.raphaelmaracaipe.portfolio.utils.security.encryptDecrypt.EncryptDecrypt
 
 class TokenSPImpl(
@@ -15,7 +15,7 @@ class TokenSPImpl(
     private val KEY_TOKENS =  "KEY_TOKENS"
     private val KEY_COMMUNICATION = "KEY_COMMUNICATION"
 
-    override fun save(data: TokenModel) {
+    override fun save(data: ResponseTokenModel) {
         val textEncryptDecrypt = this.encryptDecrypt.encryptMessage(data.toJSON(), BuildConfig.KEY)
         val sharedPreference = context.getSharedPreferences(KEY, Context.MODE_PRIVATE)
         with(sharedPreference.edit()) {

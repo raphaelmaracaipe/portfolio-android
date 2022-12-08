@@ -1,6 +1,6 @@
 package br.com.raphaelmaracaipe.portfolio.data.api.device
 
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestDeviceInfo
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestDeviceInfo
 
 interface DeviceAPI {
 

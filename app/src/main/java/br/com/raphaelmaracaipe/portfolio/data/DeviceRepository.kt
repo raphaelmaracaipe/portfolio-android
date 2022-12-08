@@ -1,11 +1,10 @@
 package br.com.raphaelmaracaipe.portfolio.data
 
-import android.util.Log
 import br.com.raphaelmaracaipe.portfolio.BuildConfig
 import br.com.raphaelmaracaipe.portfolio.const.REGEX_COMMUNICATION
 import br.com.raphaelmaracaipe.portfolio.data.api.device.DeviceAPI
 import br.com.raphaelmaracaipe.portfolio.data.api.di.ApiModule
-import br.com.raphaelmaracaipe.portfolio.data.api.models.RequestDeviceInfo
+import br.com.raphaelmaracaipe.portfolio.data.api.models.request.RequestDeviceInfo
 import br.com.raphaelmaracaipe.portfolio.data.sp.di.SharedPreferenceModule
 import br.com.raphaelmaracaipe.portfolio.data.sp.token.TokenSP
 import br.com.raphaelmaracaipe.portfolio.utils.regex.RegexGenerate
