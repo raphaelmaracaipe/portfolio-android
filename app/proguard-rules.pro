@@ -22,3 +22,4 @@
 #-printconfiguration "~/tmp/full-r8-config.txt"
 -keepattributes LineNumberTable,SourceFile
 -renamesourcefileattribute SourceFile
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
