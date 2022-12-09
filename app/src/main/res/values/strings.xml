@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Portfólio</string>
+
+    <!-- ACCESS -->
+    <string name="acc_title_top">Seja bem-vindo(a) ao Portfólio.</string>
+    <string name="acc_login_google">Acessar google</string>
+    <string name="acc_login_or">OU</string>
+    <string name="acc_login_email_password">Email e senha</string>
+    <string name="acc_error_send_information_device">Ocorreu um erro no servidor. Por favor, tente novamente mais tarde.</string>
+
+    <!-- ALERT -->
+    <string name="alt_msg_warning">Atenção</string>
+
+    <!-- REGISTER -->
+    <string name="reg_title_step_one">Por favor, informe o seu e-mail.</string>
+    <string name="reg_title_step_two">Por favor, informe a sua senha.</string>
+    <string name="reg_title_step_three">Por favor, informe o código enviado pelo o e-mail.</string>
+    <string name="reg_field_set_hit">email@email.com</string>
+    <string name="reg_field_password_hit">Sua senha.</string>
+    <string name="reg_button_next">Próximo</string>
+    <string name="reg_confim_register">Confirmar registro</string>
+    <string name="reg_error_field_email">Por favor, informe um e-mail válido.</string>
+    <string name="reg_error_email_exist">O e-mail que você informou já existe na base.</string>
+    <string name="reg_password_ruler_title">Sua senha precisa conter:</string>
+    <string name="reg_password_ruler_size">Sua senha tem de ter 8 letras no mínimo.</string>
+    <string name="reg_password_ruler_1">Conter caracter maiusculo. Ex: a-b</string>
+    <string name="reg_password_ruler_2">Conter caracter minusculo. Ex: A-B</string>
+    <string name="reg_password_ruler_3">Conter caracter número. Ex: 0-9</string>
+    <string name="reg_password_ruler_4">Não deve conter caracteres especiais. Ex: @,?,!...</string>
+    <string name="reg_password_ruler_5">Não deve conter acentuação.</string>
+    <string name="reg_code_success">O código foi enviado para o seu e-mail.</string>
+    <string name="reg_code_error">Ocorrer um erro ao solicitar o código de validação. Por favor, tente novamente mais tarde.</string>
+    <string name="reg_erro_code_expired_title">O código expirou. Por favor, solicite novamente o código.</string>
+    <string name="reg_erro_code_expired_text">Você que eu envie novamente?</string>
+    <string name="reg_code_invalid">O código informado não é valido! Por favor, solicite novamente o código.</string>
+    <string name="reg_send"><u>Reenviar o código</u></string>
+
+    <!-- LOGIN -->
+    <string name="log_error_google">Ocorreu um erro ao realizar o login com o google.</string>
+    <string name="log_error_password_incorrect">A senha informado ou está incorreta.</string>
+    <string name="log_access">Acessar</string>
+    <string name="log_password_forgot"><u>Esqueceu a senha?</u></string>
+    <string name="log_forgot">Você realmente esqueceu a sua senha?</string>
+    <string name="log_not_exist">E-mail informado não existe. Por favor, realize o cadastro</string>
+    <string name="log_forgot_success">Enviamos um e-mail com o passo a passo de como recuperar a senha.</string>
+
+    <!-- GERAL -->
+    <string name="ger_loading">Carregando…</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="ok">Ok</string>
+    <string name="attention">Atenção</string>
+
+    <!-- ERROR -->
+    <string name="err_not_connection_internet">Você está sem conexão com a internet. Para continuar, é necessário conectar na internet.</string>
+    <string name="err_email_invalid">Por favor, informe um e-mail valido.</string>
+    <string name="err_general_server">Ocorreu um error! Por favor, tente novamente mais tarde.</string>
+
+    <!-- DEEPLINK -->
+    <string name="dee_label_title">Recuperar senha</string>
+
+    <!-- CHANGE PASSWORD -->
+    <string name="cha_password">Senha</string>
+    <string name="cha_title">Alteração da senha</string>
+    <string name="cha_update_button">Atualizar</string>
+    <string name="cha_field_password">Digite sua nova senha</string>
+    <string name="cha_field_password_confirmation">Digite a confirmação da senha</string>
+    <string name="cha_error_code_invalid">O código de verificação está incorreto. Por favor, refaça a operação</string>
+    <string name="cha_error_not_equals">As senhas não coincidem</string>
+</resources>

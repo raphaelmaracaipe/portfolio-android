@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isShowExpired"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvwTextTitle"
+            style="@style/Title1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/reg_title_step_three"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtNumber1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumber2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/tvwTextTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvwTextTitle" />
+
+        <EditText
+            android:id="@+id/edtNumber2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edtNumber1"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumber3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edtNumber1"
+            app:layout_constraintTop_toTopOf="@+id/edtNumber1" />
+
+        <EditText
+            android:id="@+id/edtNumber3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edtNumber4"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumber4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edtNumber2"
+            app:layout_constraintTop_toTopOf="@+id/edtNumber2" />
+
+        <EditText
+            android:id="@+id/edtNumber4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/edtNumber1"
+            app:layout_constraintEnd_toEndOf="@+id/tvwTextTitle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/edtNumber3"
+            app:layout_constraintTop_toTopOf="@+id/edtNumber1" />
+
+        <Button
+            android:id="@+id/btnConfirmedRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/reg_confim_register"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edtNumber4"
+            app:layout_constraintStart_toStartOf="@+id/edtNumber1" />
+
+        <TextView
+            android:id="@+id/tvwTimeExpire"
+            style="@style/importantText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{isShowExpired ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="01:30 (00)" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/pbrTimeExpire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            android:visibility="@{isShowExpired ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/tvwTimeExpire"
+            app:layout_constraintEnd_toEndOf="@+id/tvwTimeExpire"
+            app:layout_constraintStart_toStartOf="@+id/tvwTimeExpire" />
+
+        <TextView
+            android:id="@+id/tvwResentCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reg_send"
+            app:layout_constraintEnd_toEndOf="@+id/edtNumber4"
+            app:layout_constraintStart_toStartOf="@+id/edtNumber1"
+            app:layout_constraintTop_toBottomOf="@+id/edtNumber2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

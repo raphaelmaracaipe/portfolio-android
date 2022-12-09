@@ -1,0 +1,125 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "br.com.raphaelmaracaipe.portfolio"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('..\\docs\\key_to_test.jks')
+            storePassword 'K4FRVmwnm4'
+            keyAlias 'Raphael Maracaipe'
+            keyPassword 'K4FRVmwnm4'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('String', 'API_KEY', '"a4cd3c84-106c-410a-94f9-b19115c9a509"')
+            buildConfigField('String', 'KEY', '"uf3n2UtVyHlD95Bh"')
+            buildConfigField('int', 'VERSION_DB', '1')
+            manifestPlaceholders = [
+                    networkSecurityConfig: "@xml/release_network_security_config",
+                    host: '10.0.2.2',
+                    pathPrefix: '/forgot'
+            ]
+        }
+        debug {
+            buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('String', 'API_KEY', '"a4cd3c84-106c-410a-94f9-b19115c9a509"')
+            buildConfigField('String', 'KEY', '"FAzZKbCpG2GoSTUR"')
+            buildConfigField('int', 'VERSION_DB', '1')
+            manifestPlaceholders = [
+                    networkSecurityConfig: "@xml/debug_network_security_config",
+                    host: '10.0.2.2',
+                    pathPrefix: '/forgot'
+            ]
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$appcompact"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "com.squareup.retrofit2:retrofit:$retroft"
+    implementation "com.squareup.retrofit2:converter-gson:$retroft"
+    implementation "com.squareup.okhttp3:okhttp:$okHttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
+    implementation "androidx.room:room-ktx:$room_ktx"
+    implementation "com.google.dagger:dagger:$dagger"
+    implementation "com.google.android.material:material:$material"
+    implementation "org.mindrot:jbcrypt:$jbcrypt"
+    implementation "com.google.android.gms:play-services-auth:$playServiceAuth"
+    implementation "com.google.android.gms:play-services-base:$playServiceBase"
+    implementation "com.github.mifmif:generex:$generex"
+    implementation "com.github.tomasharkema:RetrofitCurlPrinter:$retrofitCurlPrint"
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics:21.2.0'
+
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kapt "androidx.room:room-compiler:$room_ktx"
+
+    testImplementation "androidx.arch.core:core-testing:$test_core_androix"
+    testImplementation "org.mockito:mockito-core:$test_mockito_core"
+    testImplementation "androidx.test.ext:junit-ktx:$test_junit"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "junit:junit:$test_junit"
+    testImplementation "org.robolectric:robolectric:$test_rebolectric"
+
+    debugImplementation "com.squareup.okhttp3:mockwebserver:$okHttp"
+    debugImplementation "androidx.fragment:fragment-testing:$test_fragment_test"
+
+    androidTestImplementation "androidx.test:core-ktx:1.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+}

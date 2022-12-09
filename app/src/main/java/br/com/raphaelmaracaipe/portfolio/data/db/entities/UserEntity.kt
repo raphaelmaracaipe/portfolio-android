@@ -1,0 +1,14 @@
+package br.com.raphaelmaracaipe.portfolio.data.db.entities
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.*
+
+@Entity(tableName = "users")
+data class UserEntity(
+    @PrimaryKey
+    val id: String = UUID.randomUUID().toString(),
+    @ColumnInfo(name = "name")
+    val name: String = "",
+)
