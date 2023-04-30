@@ -1,5 +1,6 @@
 package br.com.raphaelmaracaipe.portflio
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -36,8 +37,13 @@ class SplashActivity : AppCompatActivity() {
 
     private fun redirect() {
         binding.root.postDelayed({
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-            finish()
+            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                this@SplashActivity,
+                binding.imvIcon,
+                "icon_app_transition"
+            )
+            startActivity(intent, options.toBundle())
         }, 3800)
     }
 
