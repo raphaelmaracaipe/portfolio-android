@@ -1,0 +1,7 @@
+<resources>
+    <string name="input_code_phone">Cód. país</string>
+    <string name="input_num_phone">Número de telefone</string>
+    <string name="copy">Raphael Maracaipe</string>
+    <string name="btn_login">Entrar</string>
+    <string name="welcome">Seja bem-vindo</string>
+</resources>
