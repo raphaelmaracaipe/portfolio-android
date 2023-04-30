@@ -44,6 +44,7 @@ class SplashActivity : AppCompatActivity() {
                 "icon_app_transition"
             )
             startActivity(intent, options.toBundle())
+            finish()
         }, 3800)
     }
 
