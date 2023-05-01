@@ -10,11 +10,12 @@ import br.com.raphaelmaracaipe.core.utils.phones.PhoneUtil
 import br.com.raphaelmaracaipe.core.utils.phones.PhoneUtilImpl
 import br.com.raphaelmaracaipe.extensions.addMask
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthFragment : Fragment() {
 
     private lateinit var binding: FragmentAuthBinding
-
+    private val mViewModel: AuthViewModel by viewModel()
     private val phoneUtil: PhoneUtil = PhoneUtilImpl()
 
     override fun onCreateView(
