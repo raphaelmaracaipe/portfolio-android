@@ -43,8 +43,8 @@ class SplashActivity : AppCompatActivity() {
                 binding.imvIcon,
                 "icon_app_transition"
             )
+
             startActivity(intent, options.toBundle())
-            finish()
         }, 3800)
     }
 
