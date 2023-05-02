@@ -147,7 +147,8 @@
             layout="@layout/include_loading_default"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:isShow="@{viewModel.showLoading}" />
+            app:isShow="@{viewModel.showLoading}"
+            tools:visibility="gone" />
 
     </RelativeLayout>
 </layout>
