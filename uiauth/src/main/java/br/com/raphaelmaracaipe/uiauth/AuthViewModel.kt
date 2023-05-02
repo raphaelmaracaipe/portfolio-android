@@ -20,13 +20,18 @@ class AuthViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
+    private val _showLoading = MutableLiveData<Boolean>()
+    val showLoading = _showLoading
+
     fun getCodeOfCountry() = viewModelScope.launch {
         withContext(Dispatchers.IO) {
+            _showLoading.postValue(true)
             try {
                 _success.postValue(phoneRepository.getCodeOfCountry());
             } catch (e: Exception) {
                 _error.postValue(e.message)
             }
+            _showLoading.postValue(false)
         }
     }
 

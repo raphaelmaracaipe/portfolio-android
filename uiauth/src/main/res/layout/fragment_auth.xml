@@ -3,129 +3,151 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="br.com.raphaelmaracaipe.uiauth.AuthViewModel" />
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryVariant">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_icon"
-            android:transitionName="icon_app_transition"
-            app:layout_constraintBottom_toTopOf="@+id/lltAuth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryVariant">
 
-        <TextView
-            android:id="@+id/tvwTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/open_sans"
-            android:text="@string/app_name"
-            android:textColor="@color/white"
-            android:textSize="34sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:visibility="visible" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_icon"
+                android:transitionName="icon_app_transition"
+                app:layout_constraintBottom_toTopOf="@+id/lltAuth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/tvwWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans"
-            android:text="@string/welcome"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/tvwTitle"
-            app:layout_constraintStart_toStartOf="@+id/tvwTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvwTitle"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/tvwTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="34sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:visibility="visible" />
 
-        <LinearLayout
-            android:id="@+id/lltAuth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_arround_box_auth"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:id="@+id/tvwWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/welcome"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/tvwTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvwTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvwTitle"
+                tools:visibility="visible" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/lltAuth"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_arround_box_auth"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilCodePhone"
-                    android:layout_width="100dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input_code_phone"
-                    tools:layout_editor_absoluteX="32dp"
-                    tools:layout_editor_absoluteY="343dp">
+                    android:orientation="horizontal"
+                    android:padding="20dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilCodePhone"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_code_phone"
+                        tools:layout_editor_absoluteX="32dp"
+                        tools:layout_editor_absoluteY="343dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="6" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilNumPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:maxLength="6" />
+                        android:layout_marginLeft="20dp"
+                        android:hint="@string/input_num_phone"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="343dp">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietNumPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="phone"
+                            android:maxLength="20" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilNumPhone"
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:hint="@string/input_num_phone"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/btn_login" />
+
+                <TextView
+                    android:id="@+id/tvwCopy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:gravity="center"
+                    android:text="@string/copy"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
                     tools:layout_editor_absoluteX="148dp"
-                    tools:layout_editor_absoluteY="343dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tietNumPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
-                        android:inputType="phone"
-                        android:maxLength="20" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    tools:layout_editor_absoluteY="682dp" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/btn_login" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvwCopy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/open_sans_bold"
-                android:gravity="center"
-                android:text="@string/copy"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                tools:layout_editor_absoluteX="148dp"
-                tools:layout_editor_absoluteY="682dp" />
-        </LinearLayout>
+        <include
+            layout="@layout/include_loading_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:isShow="@{viewModel.showLoading}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>

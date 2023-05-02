@@ -11,6 +11,7 @@ import br.com.raphaelmaracaipe.core.utils.phones.PhoneUtilImpl
 import br.com.raphaelmaracaipe.extensions.addMask
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Locale
 
 class AuthFragment : Fragment() {
 
@@ -24,6 +25,8 @@ class AuthFragment : Fragment() {
         inflater, container, false
     ).apply {
         binding = this
+        lifecycleOwner = viewLifecycleOwner
+        viewModel = mViewModel
     }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,9 +34,17 @@ class AuthFragment : Fragment() {
         applyAnimationInContainerOfAuth()
         applyAnimationInText()
         applyMaskInInput()
+        iniCallToServer()
+    }
+
+    private fun iniCallToServer() {
+        binding.root.postDelayed({
+            mViewModel.getCodeOfCountry()
+        }, 2200)
     }
 
     private fun applyMaskInInput() {
+        val country = Locale.getDefault().country
         with(binding) {
             tietNumPhone.addMask(
                 phoneUtil,
@@ -61,11 +72,7 @@ class AuthFragment : Fragment() {
 
     private fun applyAnimationInContainerOfAuth() {
         context?.let { ctx ->
-            binding.lltAuth.startAnimation(
-                AnimationUtils.loadAnimation(
-                    ctx, R.anim.auth_container
-                )
-            )
+            binding.lltAuth.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.auth_container))
         }
     }
 
