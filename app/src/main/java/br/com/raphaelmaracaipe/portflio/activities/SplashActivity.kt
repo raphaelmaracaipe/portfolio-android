@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portflio
+package br.com.raphaelmaracaipe.portflio.activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import br.com.raphaelmaracaipe.portflio.R
 import br.com.raphaelmaracaipe.portflio.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
