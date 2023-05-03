@@ -5,19 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import br.com.raphaelmaracaipe.core.utils.phones.PhoneUtil
-import br.com.raphaelmaracaipe.core.utils.phones.PhoneUtilImpl
+import br.com.raphaelmaracaipe.data.api.models.ResponseCodeCountry
 import br.com.raphaelmaracaipe.extensions.addMask
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Locale
 
 class AuthFragment : Fragment() {
 
     private lateinit var binding: FragmentAuthBinding
+    private var codesCountries: Array<ResponseCodeCountry> = arrayOf()
     private val mViewModel: AuthViewModel by viewModel()
-    private val phoneUtil: PhoneUtil = PhoneUtilImpl()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,10 +30,17 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initObservable()
         applyAnimationInContainerOfAuth()
         applyAnimationInText()
-        applyMaskInInput()
+        applyCodePhone()
         iniCallToServer()
+    }
+
+    private fun initObservable() {
+        mViewModel.success.observe(viewLifecycleOwner) {
+            codesCountries = it
+        }
     }
 
     private fun iniCallToServer() {
@@ -43,14 +49,25 @@ class AuthFragment : Fragment() {
         }, 2200)
     }
 
-    private fun applyMaskInInput() {
-        val country = Locale.getDefault().country
+    private fun applyCodePhone() {
         with(binding) {
-            tietNumPhone.addMask(
-                phoneUtil,
-                "55",
-                "BR"
-            )
+            tilCodePhone.editText?.addTextChangedListener { editable ->
+                codesCountries.filter {
+                    editable.toString() == it.codeCountry
+                }.forEach { responseCodeCountry ->
+                    applyMaskInInput(responseCodeCountry)
+                }
+            }
+        }
+    }
+
+    private fun applyMaskInInput(codeCountry: ResponseCodeCountry) {
+        with(binding) {
+            tietNumPhone.addMask((codeCountry.codeIson ?: "BR"))
+            tietNumPhone.addTextChangedListener {
+                val text = it.toString()
+                tilCodePhone.isEnabled = text.isEmpty()
+            }
         }
     }
 

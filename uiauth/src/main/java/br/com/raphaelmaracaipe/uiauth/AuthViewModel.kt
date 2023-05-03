@@ -27,7 +27,7 @@ class AuthViewModel(
         withContext(Dispatchers.IO) {
             _showLoading.postValue(true)
             try {
-                _success.postValue(phoneRepository.getCodeOfCountry());
+                _success.postValue(phoneRepository.getCodeOfCountry())
             } catch (e: Exception) {
                 _error.postValue(e.message)
             }

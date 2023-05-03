@@ -1,52 +1,31 @@
 package br.com.raphaelmaracaipe.extensions
 
+import android.telephony.PhoneNumberUtils
 import android.text.Editable
 import android.text.TextWatcher
-import br.com.raphaelmaracaipe.core.utils.phones.PhoneUtil
 import com.google.android.material.textfield.TextInputEditText
 
 fun TextInputEditText.addMask(
-    phoneUtil: PhoneUtil,
-    codeCountry: String,
     country: String
-) =
-    addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+) = addTextChangedListener(object : TextWatcher {
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun afterTextChanged(editable: Editable?) {
+        val splitCountry = country.split(" / ")
+        var phoneNumberFormat = PhoneNumberUtils.formatNumber(editable.toString(), splitCountry[0])
+        if(phoneNumberFormat == null) {
+            phoneNumberFormat = editable.toString()
         }
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        }
+        removeTextChangedListener(this)
 
-        override fun afterTextChanged(editable: Editable?) {
-            val phoneNumber = "${codeCountry}${editable.toString()}"
-            var maskPhoneNumber = phoneUtil.applyPhoneNumberMask(
-                phoneNumber,
-                country
-            )
+        setText(phoneNumberFormat)
+        setSelection(phoneNumberFormat.length)
 
-            maskPhoneNumber = taskMask(maskPhoneNumber)
-
-            removeTextChangedListener(this)
-            setText(maskPhoneNumber)
-            setSelection(maskPhoneNumber.length)
-            addTextChangedListener(this)
-        }
-
-        private fun taskMask(maskPhoneNumber: String) =
-            when (maskPhoneNumber.substring(0, codeCountry.length)) {
-                codeCountry -> {
-                    maskPhoneNumber.substring(
-                        codeCountry.length,
-                        maskPhoneNumber.length
-                    )
-                }
-
-                "($codeCountry" -> {
-                    maskPhoneNumber.replace("($codeCountry) ", "")
-                }
-
-                else -> {
-                    maskPhoneNumber
-                }
-            }
-    })
+        addTextChangedListener(this)
+    }
+})

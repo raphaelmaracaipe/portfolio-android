@@ -84,6 +84,7 @@
                         android:id="@+id/tilCodePhone"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:digits="0123456789"
                         android:hint="@string/input_code_phone"
                         tools:layout_editor_absoluteX="32dp"
                         tools:layout_editor_absoluteY="343dp">
@@ -102,6 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:digits="0123456789"
                         android:hint="@string/input_num_phone"
                         tools:layout_editor_absoluteX="148dp"
                         tools:layout_editor_absoluteY="343dp">
