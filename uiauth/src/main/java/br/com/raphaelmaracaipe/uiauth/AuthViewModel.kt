@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.data.PhoneRepository
-import br.com.raphaelmaracaipe.data.api.models.ResponseCodeCountry
+import br.com.raphaelmaracaipe.models.ResponseCodeCountry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -1,7 +1,7 @@
 package br.com.raphaelmaracaipe.data
 
 import br.com.raphaelmaracaipe.data.api.PhoneApi
-import br.com.raphaelmaracaipe.data.api.models.ResponseCodeCountry
+import br.com.raphaelmaracaipe.models.ResponseCodeCountry
 
 class PhoneRepositoryImpl(private val api: PhoneApi): PhoneRepository {
 

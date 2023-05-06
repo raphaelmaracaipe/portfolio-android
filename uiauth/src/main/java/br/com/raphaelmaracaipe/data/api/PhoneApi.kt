@@ -1,6 +1,6 @@
 package br.com.raphaelmaracaipe.data.api
 
-import br.com.raphaelmaracaipe.data.api.models.ResponseCodeCountry
+import br.com.raphaelmaracaipe.models.ResponseCodeCountry
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers

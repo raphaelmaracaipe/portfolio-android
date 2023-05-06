@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe
 
-import br.com.raphaelmaracaipe.core.BuildConfig
+import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.assets.AssetsImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.data.PhoneRepository
 import br.com.raphaelmaracaipe.data.PhoneRepositoryImpl
@@ -25,6 +26,7 @@ object AuthUiModule {
                 )
             )
         }
+        single<Assets> { AssetsImpl(get()) }
     }
 
 }
