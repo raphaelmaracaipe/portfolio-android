@@ -3,35 +3,43 @@ package br.com.raphaelmaracaipe.uiauth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.data.PhoneRepository
-import br.com.raphaelmaracaipe.models.ResponseCodeCountry
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import br.com.raphaelmaracaipe.models.CodeCountry
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class AuthViewModel(
-    private val phoneRepository: PhoneRepository
+    private val assets: Assets
 ) : ViewModel() {
-
-    private val _success = MutableLiveData<Array<ResponseCodeCountry>>()
-    val success: LiveData<Array<ResponseCodeCountry>> = _success
-
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> = _error
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading = _showLoading
 
-    fun getCodeOfCountry() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            _showLoading.postValue(true)
-            try {
-                _success.postValue(phoneRepository.getCodeOfCountry())
-            } catch (e: Exception) {
-                _error.postValue(e.message)
-            }
-            _showLoading.postValue(false)
+    private val _responseCodeCountry = MutableLiveData<CodeCountry>()
+    val responseCodeCountry: LiveData<CodeCountry> = _responseCodeCountry
+
+    private val _isEnableTextCode = MutableLiveData(true)
+    val isEnableTextCode: LiveData<Boolean> = _isEnableTextCode
+
+    private val codesCountries = readInformationAboutCodeOfCountry()
+
+    private fun readInformationAboutCodeOfCountry(): Array<CodeCountry> {
+        val codesInString = assets.read("json/codes.json")
+        val listType = object : TypeToken<Array<CodeCountry>>() {}.type
+        return Gson().fromJson(codesInString, listType)
+    }
+
+    fun setTextChangedNumPhone(text: String) {
+        _isEnableTextCode.postValue(text.isEmpty())
+    }
+
+    fun setTextChangedCodePhone(text: String) {
+        _responseCodeCountry.postValue(CodeCountry())
+        codesCountries.filter {
+            text == it.codeCountry
+        }.forEach { responseCodeCountry ->
+            _responseCodeCountry.postValue(responseCodeCountry)
         }
     }
 

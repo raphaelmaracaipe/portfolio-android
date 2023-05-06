@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Portfólio</string>
     <string name="loading">Carregando</string>
+    <string name="country">País</string>
 </resources>

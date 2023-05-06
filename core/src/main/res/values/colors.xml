@@ -11,4 +11,5 @@
     <color name="colorPrimaryVariant">#395b85</color>
     <color name="colorSecondary">#488ca9</color>
     <color name="colorSecondaryVariant">#4884a9</color>
+    <color name="gray">#5D6566</color>
 </resources>

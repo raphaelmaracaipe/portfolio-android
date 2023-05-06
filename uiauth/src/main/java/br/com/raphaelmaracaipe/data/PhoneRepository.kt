@@ -1,7 +1,7 @@
 package br.com.raphaelmaracaipe.data
 
-import br.com.raphaelmaracaipe.models.ResponseCodeCountry
+import br.com.raphaelmaracaipe.models.CodeCountry
 
 interface PhoneRepository {
-    suspend fun getCodeOfCountry(): Array<ResponseCodeCountry>?
+    suspend fun getCodeOfCountry(): Array<CodeCountry>?
 }

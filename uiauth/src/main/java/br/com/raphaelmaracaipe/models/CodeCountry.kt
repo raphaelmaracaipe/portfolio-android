@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ResponseCodeCountry(
+data class CodeCountry(
     @SerializedName("country_name")
     val countryName: String? = null,
     @SerializedName("code_country")

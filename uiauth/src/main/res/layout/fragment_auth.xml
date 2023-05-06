@@ -74,6 +74,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:digits="0123456789"
+                    android:enabled="false"
+                    android:hint="@string/country"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    app:endIconDrawable="@drawable/ic_chevron_right"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/gray"
+                    app:hintTextColor="@color/gray"
+                    tools:layout_editor_absoluteX="32dp"
+                    tools:layout_editor_absoluteY="343dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:text="@{viewModel.responseCodeCountry.countryName}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,6 +112,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:digits="0123456789"
+                        android:enabled="@{viewModel.isEnableTextCode()}"
                         android:hint="@string/input_code_phone"
                         tools:layout_editor_absoluteX="32dp"
                         tools:layout_editor_absoluteY="343dp">
