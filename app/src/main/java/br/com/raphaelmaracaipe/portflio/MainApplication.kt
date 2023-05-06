@@ -1,7 +1,7 @@
 package br.com.raphaelmaracaipe.portflio
 
 import android.app.Application
-import br.com.raphaelmaracaipe.AuthUiModule
+import br.com.raphaelmaracaipe.di.AuthUiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.loadKoinModules

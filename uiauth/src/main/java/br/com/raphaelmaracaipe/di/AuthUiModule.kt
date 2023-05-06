@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe
+package br.com.raphaelmaracaipe.di
 
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
