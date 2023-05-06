@@ -36,33 +36,16 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initObservable()
+        readInformationAboutCodeOfCountry()
         applyAnimationInContainerOfAuth()
         applyAnimationInText()
         applyCodePhone()
-        readInformationAboutCodeOfCountry()
-        iniCallToServer()
     }
 
     private fun readInformationAboutCodeOfCountry() {
         val codesInString = mAssets.read("json/codes.json")
-
-        val listType = object : TypeToken<List<ResponseCodeCountry>>() {}.type
-        val codes: List<ResponseCodeCountry> = Gson().fromJson(codesInString, listType)
-
-        Log.i("a", "b")
-    }
-
-    private fun initObservable() {
-        mViewModel.success.observe(viewLifecycleOwner) {
-            codesCountries = it
-        }
-    }
-
-    private fun iniCallToServer() {
-        binding.root.postDelayed({
-            mViewModel.getCodeOfCountry()
-        }, 2200)
+        val listType = object : TypeToken<Array<ResponseCodeCountry>>() {}.type
+        codesCountries = Gson().fromJson(codesInString, listType)
     }
 
     private fun applyCodePhone() {
