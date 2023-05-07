@@ -15,8 +15,8 @@ class AuthViewModel(
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading = _showLoading
 
-    private val _responseCodeCountry = MutableLiveData(CodeCountry())
-    val responseCodeCountry: LiveData<CodeCountry> = _responseCodeCountry
+    private val _codeCountry = MutableLiveData(CodeCountry())
+    val codeCountry: LiveData<CodeCountry> = _codeCountry
 
     private val _isEnableTextCode = MutableLiveData(true)
     val isEnableTextCode: LiveData<Boolean> = _isEnableTextCode
@@ -34,11 +34,11 @@ class AuthViewModel(
     }
 
     fun setTextChangedCodePhone(text: String) {
-        _responseCodeCountry.postValue(CodeCountry())
+        _codeCountry.postValue(CodeCountry())
         codesCountries.filter {
             text == it.codeCountry
         }.forEach { responseCodeCountry ->
-            _responseCodeCountry.postValue(responseCodeCountry)
+            _codeCountry.postValue(responseCodeCountry)
         }
     }
 
