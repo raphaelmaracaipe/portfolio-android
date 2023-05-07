@@ -56,7 +56,7 @@ class AuthFragment : Fragment() {
     }
 
     private fun initObservable() {
-        mViewModel.responseCodeCountry.observe(viewLifecycleOwner) {
+        mViewModel.codeCountry.observe(viewLifecycleOwner) {
             applyMaskInInput(it)
         }
     }
