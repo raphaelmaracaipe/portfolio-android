@@ -74,32 +74,41 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilCountry"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lltCountry"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:digits="0123456789"
-                    android:enabled="false"
-                    android:hint="@string/country"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:paddingRight="20dp"
-                    app:endIconDrawable="@drawable/ic_chevron_right"
-                    app:endIconMode="custom"
-                    app:endIconTint="@color/gray"
-                    app:hintTextColor="@color/gray"
-                    tools:layout_editor_absoluteX="32dp"
-                    tools:layout_editor_absoluteY="343dp">
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/bg_arround_text">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvwCountry"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:maxLength="6"
-                        android:text="@{viewModel.responseCodeCountry.countryName}" />
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@{viewModel.responseCodeCountry.countryName == null ? @string/country : viewModel.responseCodeCountry.countryName}"
+                        tools:text="Brasil"
+                        android:textColor="@color/box"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imvArrow"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/imvArrow" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:id="@+id/imvArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:tint="@color/box"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_chevron_right" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

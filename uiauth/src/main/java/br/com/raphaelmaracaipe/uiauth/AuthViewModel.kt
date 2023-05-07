@@ -16,7 +16,7 @@ class AuthViewModel(
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading = _showLoading
 
-    private val _responseCodeCountry = MutableLiveData<CodeCountry>()
+    private val _responseCodeCountry = MutableLiveData(CodeCountry())
     val responseCodeCountry: LiveData<CodeCountry> = _responseCodeCountry
 
     private val _isEnableTextCode = MutableLiveData(true)

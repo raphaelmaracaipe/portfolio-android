@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.transition.ChangeBounds
 import br.com.raphaelmaracaipe.extensions.addMask
 import br.com.raphaelmaracaipe.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
@@ -19,13 +21,22 @@ class AuthFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ) = FragmentAuthBinding.inflate(
-        inflater, container, false
-    ).apply {
-        binding = this
-        lifecycleOwner = viewLifecycleOwner
-        viewModel = mViewModel
-    }.root
+    ): View {
+        sharedElementEnterTransition = ChangeBounds().apply {
+            duration = 750
+        }
+        sharedElementReturnTransition= ChangeBounds().apply {
+            duration = 750
+        }
+
+        return FragmentAuthBinding.inflate(
+            inflater, container, false
+        ).apply {
+            binding = this
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = mViewModel
+        }.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,6 +44,15 @@ class AuthFragment : Fragment() {
         applyAnimationInContainerOfAuth()
         applyAnimationInText()
         applyCodePhone()
+        applyActionInButtons()
+    }
+
+    private fun applyActionInButtons() {
+        with(binding) {
+            lltCountry.setOnClickListener {
+                findNavController().navigate(AuthFragmentDirections.goToCountriesFragment())
+            }
+        }
     }
 
     private fun initObservable() {

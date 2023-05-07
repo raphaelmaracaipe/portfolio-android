@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_uiauth"
+    android:label="uiauth"
+    app:startDestination="@id/authFragment">
+
+    <fragment
+        tools:layout="@layout/fragment_auth"
+        android:id="@+id/authFragment"
+        android:name="br.com.raphaelmaracaipe.uiauth.AuthFragment"
+        android:label="AuthFragment" >
+        <action
+            android:id="@+id/goToCountriesFragment"
+            app:destination="@id/countriesFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_countries"
+        android:id="@+id/countriesFragment"
+        android:name="br.com.raphaelmaracaipe.countries.CountriesFragment"
+        android:label="CountriesFragment" />
+</navigation>
