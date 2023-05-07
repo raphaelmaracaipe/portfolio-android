@@ -1,14 +1,14 @@
 package br.com.raphaelmaracaipe.core.assets
 
-import android.content.Context
+import android.content.res.AssetManager
 import java.util.Scanner
 
 class AssetsImpl(
-    private val context: Context
-): Assets {
-    
+    private val assetManager: AssetManager
+) : Assets {
+
     override fun read(location: String): String {
-        val inputStream = context.assets.open(location)
+        val inputStream = assetManager.open(location)
         val scanner = Scanner(inputStream).useDelimiter("\\A")
 
         val json = if (scanner.hasNext()) {
@@ -20,5 +20,5 @@ class AssetsImpl(
         inputStream.close()
         return json
     }
-    
+
 }

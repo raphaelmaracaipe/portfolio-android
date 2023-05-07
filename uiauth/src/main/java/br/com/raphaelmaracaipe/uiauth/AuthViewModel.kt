@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.raphaelmaracaipe.core.assets.Assets
-import br.com.raphaelmaracaipe.data.PhoneRepository
 import br.com.raphaelmaracaipe.models.CodeCountry
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
