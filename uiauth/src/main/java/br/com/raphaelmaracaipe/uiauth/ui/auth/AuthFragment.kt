@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.uiauth
+package br.com.raphaelmaracaipe.uiauth.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
-import br.com.raphaelmaracaipe.extensions.addMask
-import br.com.raphaelmaracaipe.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import br.com.raphaelmaracaipe.core.R
+import br.com.raphaelmaracaipe.uiauth.extensions.addMask
 import br.com.raphaelmaracaipe.uiauth.R as UiAuthR
 
 class AuthFragment : Fragment() {

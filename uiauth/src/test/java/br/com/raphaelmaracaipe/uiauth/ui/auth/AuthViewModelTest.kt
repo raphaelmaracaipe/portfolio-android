@@ -1,11 +1,12 @@
-package br.com.raphaelmaracaipe.uiauth
+package br.com.raphaelmaracaipe.uiauth.ui.auth
 
 import android.content.res.AssetManager
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
-import br.com.raphaelmaracaipe.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthViewModel
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk

@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.extensions
+package br.com.raphaelmaracaipe.uiauth.extensions
 
 import android.content.Context
 import android.os.Build

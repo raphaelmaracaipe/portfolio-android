@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.uicountries
+package br.com.raphaelmaracaipe.uiauth.ui.countries
 
 import android.os.Build
 import android.view.View
@@ -8,7 +8,6 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import br.com.raphaelmaracaipe.TestApplication
-import br.com.raphaelmaracaipe.uiauth.AuthFragment
 import br.com.raphaelmaracaipe.uiauth.R
 import org.junit.After
 import org.junit.Assert

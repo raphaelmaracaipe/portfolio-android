@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.models
+package br.com.raphaelmaracaipe.uiauth.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

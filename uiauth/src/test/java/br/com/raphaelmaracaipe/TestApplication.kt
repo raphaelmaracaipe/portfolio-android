@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe
 
 import android.app.Application
 import br.com.raphaelmaracaipe.core.R
-import br.com.raphaelmaracaipe.di.AuthUiModule
+import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.loadKoinModules

@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.uicountries
+package br.com.raphaelmaracaipe.uiauth.ui.countries
 
 import android.os.Bundle
 import android.view.LayoutInflater

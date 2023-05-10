@@ -9,15 +9,23 @@
     <fragment
         tools:layout="@layout/fragment_auth"
         android:id="@+id/authFragment"
-        android:name="br.com.raphaelmaracaipe.uiauth.AuthFragment"
+        android:name="br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment"
         android:label="AuthFragment" >
         <action
             android:id="@+id/goToCountriesFragment"
             app:destination="@id/countriesFragment" />
+        <action
+            android:id="@+id/goToTeste"
+            app:destination="@id/teste" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_countries"
         android:id="@+id/countriesFragment"
-        android:name="br.com.raphaelmaracaipe.countries.CountriesFragment"
+        android:name="br.com.raphaelmaracaipe.ui.countries.CountriesViewFragment"
         android:label="CountriesFragment" />
+    <fragment
+        tools:layout="@layout/fragment_test"
+        android:id="@+id/teste"
+        android:name="br.com.raphaelmaracaipe.uiauth.ui.auth.Teste"
+        android:label="Teste" />
 </navigation>

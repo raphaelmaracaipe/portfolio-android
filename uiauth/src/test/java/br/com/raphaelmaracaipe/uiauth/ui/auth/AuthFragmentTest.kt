@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.uiauth
+package br.com.raphaelmaracaipe.uiauth.ui.auth
 
 import android.os.Build
 import android.widget.TextView

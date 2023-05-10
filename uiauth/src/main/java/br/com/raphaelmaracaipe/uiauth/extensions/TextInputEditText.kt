@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.extensions
+package br.com.raphaelmaracaipe.uiauth.extensions
 
 import android.telephony.PhoneNumberUtils
 import android.text.Editable
