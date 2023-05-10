@@ -5,12 +5,9 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="viewModel"
             type="br.com.raphaelmaracaipe.uiauth.AuthViewModel" />
-
     </data>
 
     <RelativeLayout
@@ -89,14 +86,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:text="@{viewModel.codeCountry.countryName == null ? @string/country : viewModel.codeCountry.countryName}"
-                        tools:text="Brasil"
+                        android:text="@string/country"
                         android:textColor="@color/box"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imvArrow"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/imvArrow" />
+                        app:layout_constraintTop_toTopOf="@+id/imvArrow"
+                        tools:text="Brasil" />
 
                     <ImageView
                         android:id="@+id/imvArrow"
@@ -121,7 +118,6 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:digits="0123456789"
-                        android:enabled="@{viewModel.isEnableTextCode()}"
                         android:hint="@string/input_code_phone"
                         tools:layout_editor_absoluteX="32dp"
                         tools:layout_editor_absoluteY="343dp">

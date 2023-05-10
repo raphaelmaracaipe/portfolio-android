@@ -13,6 +13,8 @@ import br.com.raphaelmaracaipe.extensions.addMask
 import br.com.raphaelmaracaipe.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import br.com.raphaelmaracaipe.core.R
+import br.com.raphaelmaracaipe.uiauth.R as UiAuthR
 
 class AuthFragment : Fragment() {
 
@@ -33,8 +35,6 @@ class AuthFragment : Fragment() {
             inflater, container, false
         ).apply {
             binding = this
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = mViewModel
         }.root
     }
 
@@ -57,7 +57,11 @@ class AuthFragment : Fragment() {
 
     private fun initObservable() {
         mViewModel.codeCountry.observe(viewLifecycleOwner) {
+            binding.tvwCountry.text = it.countryName ?: getString(R.string.country)
             applyMaskInInput(it)
+        }
+        mViewModel.isEnableTextCode.observe(viewLifecycleOwner) {
+            binding.tilCodePhone.isEnabled = it
         }
     }
 
@@ -96,7 +100,7 @@ class AuthFragment : Fragment() {
 
     private fun applyAnimationInContainerOfAuth() {
         context?.let { ctx ->
-            binding.lltAuth.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.auth_container))
+            binding.lltAuth.startAnimation(AnimationUtils.loadAnimation(ctx, UiAuthR.anim.auth_container))
         }
     }
 

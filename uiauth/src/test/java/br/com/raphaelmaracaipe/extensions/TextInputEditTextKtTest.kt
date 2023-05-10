@@ -36,10 +36,10 @@ class TextInputEditTextKtTest {
 
         val textInputEditText = TextInputEditText(mContext)
         textInputEditText.addMask("BR")
-        textInputEditText.setText("61982993098")
+        textInputEditText.setText("99999999999")
 
         val textChanged = textInputEditText.text
-        assertEquals("(61) 98299 3098", textChanged.toString())
+        assertEquals("(99) 99999-9999", textChanged.toString())
     }
 
 }
