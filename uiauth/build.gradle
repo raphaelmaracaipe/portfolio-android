@@ -40,6 +40,15 @@ android {
 
     testOptions {
         unitTests.includeAndroidResources = true
+        managedDevices {
+            devices {
+                nexusOneApi30(com.android.build.api.dsl.ManagedVirtualDevice) {
+                    device = "Nexus One"
+                    apiLevel = 30
+                    systemImageSource = "aosp-atd"
+                }
+            }
+        }
     }
 }
 
@@ -67,7 +76,9 @@ dependencies {
     testImplementation 'androidx.test:core:1.5.0'
 
     kaptTest "androidx.databinding:databinding-compiler:8.0.1"
+    kaptAndroidTest 'androidx.databinding:databinding-compiler:8.0.1'
 
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.5.7'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

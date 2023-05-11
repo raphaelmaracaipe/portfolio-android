@@ -123,6 +123,7 @@
                         tools:layout_editor_absoluteY="343dp">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietNumCountry"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
