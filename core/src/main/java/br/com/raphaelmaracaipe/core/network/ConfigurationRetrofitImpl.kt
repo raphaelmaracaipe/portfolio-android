@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.core.network
 
 import br.com.raphaelmaracaipe.core.BuildConfig
+import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils.URL_TO_MOCK
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -30,6 +31,12 @@ class ConfigurationRetrofitImpl(
 }
 
 fun <T : Any> configRetrofit(service: Class<T>): T {
-    val configurationRetrofit: ConfigurationRetrofit = ConfigurationRetrofitImpl(BuildConfig.URL)
+    val baseUrl = if(BuildConfig.DEBUG && URL_TO_MOCK.isNotEmpty()) {
+        URL_TO_MOCK
+    } else {
+        BuildConfig.URL
+    }
+
+    val configurationRetrofit: ConfigurationRetrofit = ConfigurationRetrofitImpl(baseUrl)
     return configurationRetrofit.create(service)
 }
