@@ -1,8 +1,6 @@
 package br.com.raphaelmaracaipe.core.data.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.raphaelmaracaipe.core.FORBIDDEN
-import br.com.raphaelmaracaipe.core.OK
 import br.com.raphaelmaracaipe.core.data.api.response.UserSendCodeResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils
@@ -36,7 +34,7 @@ class UserApiTest {
     @Test
     fun `when send to server number to phone`() = runBlocking {
         mockWebServer.enqueue(
-            MockResponse().setResponseCode(OK).setBody("{}")
+            MockResponse().setResponseCode(201).setBody("{}")
         )
 
         val userApi: UserApi = UserApiImpl(userService)
@@ -47,7 +45,7 @@ class UserApiTest {
     @Test
     fun `when send to server number to phone but api return error`() = runBlocking {
         mockWebServer.enqueue(
-            MockResponse().setResponseCode(FORBIDDEN).setBody("{}")
+            MockResponse().setResponseCode(403).setBody("{}")
         )
 
         val userApi: UserApi = UserApiImpl(userService)

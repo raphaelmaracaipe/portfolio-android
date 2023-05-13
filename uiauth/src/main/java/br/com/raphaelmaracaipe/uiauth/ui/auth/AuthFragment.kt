@@ -62,8 +62,8 @@ class AuthFragment : Fragment() {
 
     private fun validField() {
         with(binding) {
-            val fieldNumberCountry = tietNumCountry.text.toString() ?: ""
-            val fieldNumberPhone = tietNumPhone.text.toString() ?: ""
+            val fieldNumberCountry = tietNumCountry.text.toString()
+            val fieldNumberPhone = tietNumPhone.text.toString()
 
             if(fieldNumberCountry.isEmpty()) {
                 tilCodePhone.error = getString(R.string.err_field_code)
