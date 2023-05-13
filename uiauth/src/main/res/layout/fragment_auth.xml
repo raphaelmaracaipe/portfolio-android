@@ -71,6 +71,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
+                <TextView
+                    android:id="@+id/tvwMsgError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:gravity="center"
+                    android:textColor="@color/error"
+                    android:visibility="gone"
+                    tools:text="Erro"
+                    tools:visibility="visible" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/lltCountry"
                     android:layout_width="match_parent"
@@ -155,7 +169,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"

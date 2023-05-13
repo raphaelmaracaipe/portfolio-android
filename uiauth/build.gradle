@@ -39,7 +39,12 @@ android {
     }
 
     testOptions {
-        unitTests.includeAndroidResources = true
+        animationsDisabled = true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+
         managedDevices {
             devices {
                 nexusOneApi30(com.android.build.api.dsl.ManagedVirtualDevice) {
