@@ -4,4 +4,6 @@
     <string name="copy">Raphael Maracaipe</string>
     <string name="btn_login">Entrar</string>
     <string name="welcome">Seja bem-vindo</string>
+    <string name="err_request_general">Ops, ocorreu um erro. Poderia tentar mais tarde?</string>
+    <string name="err_field_code">Obrigatório.</string>
 </resources>
