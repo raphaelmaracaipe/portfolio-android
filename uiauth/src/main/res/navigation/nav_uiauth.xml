@@ -21,7 +21,7 @@
     <fragment
         tools:layout="@layout/fragment_countries"
         android:id="@+id/countriesFragment"
-        android:name="br.com.raphaelmaracaipe.ui.countries.CountriesViewFragment"
+        android:name="br.com.raphaelmaracaipe.uiauth.ui.countries.CountriesViewFragment"
         android:label="CountriesFragment" />
     <fragment
         tools:layout="@layout/fragment_test"
