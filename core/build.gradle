@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'br.com.raphaelmaracaipe.core'
-    compileSdk 33
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdk 21
-        targetSdk 33
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -54,7 +54,7 @@ dependencies {
     implementation "com.google.android.material:material:$material"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_livedata"
-    implementation "com.google.code.gson:$gson"
+    implementation "com.google.code.gson:gson:$gson"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "io.insert-koin:koin-android:$koin"

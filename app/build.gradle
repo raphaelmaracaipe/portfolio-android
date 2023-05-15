@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'br.com.raphaelmaracaipe.portflio'
-    compileSdk 33
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "br.com.raphaelmaracaipe.portflio"
-        minSdk 24
-        targetSdk 33
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
