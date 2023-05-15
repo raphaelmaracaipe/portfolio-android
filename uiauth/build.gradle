@@ -60,32 +60,32 @@ android {
 dependencies {
     implementation project(path: ':core')
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.6.1'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-    implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'io.insert-koin:koin-android:3.4.0'
-    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
-    implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$app_compact"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_livedata"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_livedata"
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "io.insert-koin:koin-android:$koin"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'androidx.test:core-ktx:1.5.0'
-    testImplementation 'io.mockk:mockk:1.13.5'
-    testImplementation 'androidx.arch.core:core-testing:2.2.0'
-    testImplementation 'org.robolectric:robolectric:4.10.2'
-    testImplementation 'androidx.fragment:fragment-testing:1.5.7'
-    testImplementation 'androidx.test:core:1.5.0'
+    testImplementation "junit:junit:$test_junit"
+    testImplementation "androidx.test:core-ktx:$test_core"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    testImplementation "org.robolectric:robolectric:$test_roboletric"
+    testImplementation "androidx.fragment:fragment-testing:$test_fragment"
+    testImplementation "androidx.test:core:$test_core"
 
-    kaptTest "androidx.databinding:databinding-compiler:8.0.1"
-    kaptAndroidTest 'androidx.databinding:databinding-compiler:8.0.1'
+    kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
+    kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
 
-    androidTestImplementation 'androidx.fragment:fragment-testing:1.5.7'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.11'
+    androidTestImplementation "androidx.fragment:fragment-testing:$test_fragment"
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
 
 }
