@@ -15,5 +15,5 @@ val coreModule = module {
     single { configRetrofit(UserService::class.java) }
     single<UserRepository> { UserRepositoryImpl(get()) }
     single<UserApi> { UserApiImpl(get()) }
-    single<Assets> { AssetsImpl(androidContext().assets) }
+    single<Assets> { AssetsImpl(androidContext(), androidContext().assets) }
 }
