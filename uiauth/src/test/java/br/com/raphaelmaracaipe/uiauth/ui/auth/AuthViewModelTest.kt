@@ -7,6 +7,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
+import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import com.google.gson.Gson
 import io.mockk.coEvery
@@ -21,7 +22,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import br.com.raphaelmaracaipe.uiauth.R
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.M])
@@ -55,7 +55,7 @@ class AuthViewModelTest {
         val assetsManager = mockk<AssetManager>()
         every { assetsManager.open(any()) } returns inputStream
 
-        val mAssets: Assets = AssetsImpl(assetsManager)
+        val mAssets: Assets = AssetsImpl(mContext, assetsManager)
         mUserRepository = mockk()
 
         mAuthViewModel = AuthViewModel(
@@ -67,8 +67,11 @@ class AuthViewModelTest {
 
     @Test
     fun `when send code phone should return code`() = runBlocking {
+        mAuthViewModel.readInformationAboutCodeOfCountry()
+        Thread.sleep(1000)
+
         mAuthViewModel.setTextChangedCodePhone("55")
-        mAuthViewModel.codeCountry.observeForever { codeCountry ->
+        mAuthViewModel.codeCountryWhenChangeCodePhone.observeForever { codeCountry ->
             assertEquals(codes[0].countryName, codeCountry.countryName)
         }
     }
@@ -76,7 +79,7 @@ class AuthViewModelTest {
     @Test
     fun `when send code phone but no found code should return null`() {
         mAuthViewModel.setTextChangedCodePhone("33")
-        mAuthViewModel.codeCountry.observeForever { codeCountry ->
+        mAuthViewModel.codeCountryWhenChangeCodePhone.observeForever { codeCountry ->
             assertEquals(null, codeCountry.codeCountry)
         }
     }

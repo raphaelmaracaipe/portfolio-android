@@ -14,7 +14,6 @@ import br.com.raphaelmaracaipe.TestApplication
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.di.coreModule
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.core.R as CoreR
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -27,10 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.context.loadKoinModules
-import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.mockito.Mockito.mock
@@ -148,6 +144,7 @@ class AuthFragmentTest {
         val userRepository = mockk<UserRepository>()
         val module = module {
             viewModel { AuthViewModel(androidContext(), get(), userRepository) }
+            viewModel { AuthSharedViewModel() }
         }
 
         app.loadModules(listOf(coreModule, module)) {

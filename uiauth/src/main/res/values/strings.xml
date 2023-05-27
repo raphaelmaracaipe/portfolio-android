@@ -6,4 +6,6 @@
     <string name="welcome">Seja bem-vindo</string>
     <string name="err_request_general">Ops, ocorreu um erro. Poderia tentar mais tarde?</string>
     <string name="err_field_code">Obrigatório.</string>
+    <string name="search_country">País</string>
+    <string name="search_title">Buscar país</string>
 </resources>

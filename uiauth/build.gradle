@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -44,16 +44,10 @@ android {
             returnDefaultValues = true
             includeAndroidResources = true
         }
+    }
 
-        managedDevices {
-            devices {
-                nexusOneApi30(com.android.build.api.dsl.ManagedVirtualDevice) {
-                    device = "Nexus One"
-                    apiLevel = 30
-                    systemImageSource = "aosp-atd"
-                }
-            }
-        }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
     }
 }
 
@@ -73,16 +67,19 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
 
     testImplementation "junit:junit:$test_junit"
-    testImplementation "androidx.test:core-ktx:$test_core"
-    testImplementation "io.mockk:mockk:$test_mockk"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
     testImplementation "org.robolectric:robolectric:$test_roboletric"
     testImplementation "androidx.fragment:fragment-testing:$test_fragment"
     testImplementation "androidx.test:core:$test_core"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "io.mockk:mockk-android:$test_mockk"
 
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
 
+    androidTestImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    androidTestImplementation "io.mockk:mockk:$test_mockk"
+    androidTestImplementation "io.mockk:mockk-android:$test_mockk"
     androidTestImplementation "androidx.fragment:fragment-testing:$test_fragment"
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"

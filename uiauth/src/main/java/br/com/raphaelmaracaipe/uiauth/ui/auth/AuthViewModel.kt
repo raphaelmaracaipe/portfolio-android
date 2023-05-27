@@ -8,23 +8,25 @@ import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.response.UserSendCodeResponse
+import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uiauth.R
+import br.com.raphaelmaracaipe.uiauth.consts.Location
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AuthViewModel(
     private val context: Context,
-    private val assets: Assets,
+    private val mAssets: Assets,
     private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading = _showLoading
 
-    private val _codeCountry = MutableLiveData(CodeCountry())
-    val codeCountry: LiveData<CodeCountry> = _codeCountry
+    private val _codeCountryWhenChangeCodePhone = MutableLiveData(CodeCountry())
+    val codeCountryWhenChangeCodePhone: LiveData<CodeCountry> = _codeCountryWhenChangeCodePhone
 
     private val _isEnableTextCode = MutableLiveData(true)
     val isEnableTextCode: LiveData<Boolean> = _isEnableTextCode
@@ -35,12 +37,20 @@ class AuthViewModel(
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String> = _error
 
-    private val codesCountries = readInformationAboutCodeOfCountry()
+    private var _codesCountries: Array<CodeCountry> = arrayOf()
 
-    private fun readInformationAboutCodeOfCountry(): Array<CodeCountry> {
-        val codesInString = assets.read("json/codes.json")
-        val listType = object : TypeToken<Array<CodeCountry>>() {}.type
-        return Gson().fromJson(codesInString, listType)
+    fun readInformationAboutCodeOfCountry() {
+        _showLoading.postValue(true)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val codes: Array<CodeCountry> = mAssets.read(
+                    Location.LOCATION_JSON_IN_ASSETS
+                ).fromJSON()
+
+                _codesCountries = codes
+                _showLoading.postValue(false)
+            }
+        }
     }
 
     fun setTextChangedNumPhone(text: String) {
@@ -48,11 +58,8 @@ class AuthViewModel(
     }
 
     fun setTextChangedCodePhone(text: String) {
-        _codeCountry.postValue(CodeCountry())
-        codesCountries.filter {
-            text == it.codeCountry
-        }.forEach { responseCodeCountry ->
-            _codeCountry.postValue(responseCodeCountry)
+        _codesCountries.find { text == it.codeCountry }?.let {
+            _codeCountryWhenChangeCodePhone.postValue(it)
         }
     }
 

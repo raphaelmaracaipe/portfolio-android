@@ -5,21 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
-import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import br.com.raphaelmaracaipe.core.R as CoreR
-import br.com.raphaelmaracaipe.uiauth.extensions.addMask
+import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.uiauth.R
+import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
+import br.com.raphaelmaracaipe.uiauth.extensions.addMask
+import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthFragment : Fragment() {
 
     private lateinit var binding: FragmentAuthBinding
+    private val mAssets: Assets by inject()
     private val mViewModel: AuthViewModel by viewModel()
+    private val mSharedViewModel: AuthSharedViewModel by activityViewModel()
+    private var isShowAnimation = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -27,7 +35,7 @@ class AuthFragment : Fragment() {
         sharedElementEnterTransition = ChangeBounds().apply {
             duration = 750
         }
-        sharedElementReturnTransition= ChangeBounds().apply {
+        sharedElementReturnTransition = ChangeBounds().apply {
             duration = 750
         }
 
@@ -40,11 +48,19 @@ class AuthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initObservable()
         applyAnimationInContainerOfAuth()
         applyAnimationInText()
         applyCodePhone()
         applyActionInButtons()
+
+        mViewModel.readInformationAboutCodeOfCountry()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isShowAnimation = false
     }
 
     private fun applyActionInButtons() {
@@ -65,9 +81,9 @@ class AuthFragment : Fragment() {
             val fieldNumberCountry = tietNumCountry.text.toString()
             val fieldNumberPhone = tietNumPhone.text.toString()
 
-            if(fieldNumberCountry.isEmpty()) {
+            if (fieldNumberCountry.isEmpty()) {
                 tilCodePhone.error = getString(R.string.err_field_code)
-            } else if(fieldNumberPhone.isEmpty()) {
+            } else if (fieldNumberPhone.isEmpty()) {
                 tilNumPhone.error = getString(R.string.err_field_code)
             } else {
                 sendCode(fieldNumberCountry, fieldNumberPhone)
@@ -81,8 +97,13 @@ class AuthFragment : Fragment() {
     }
 
     private fun initObservable() {
-        mViewModel.codeCountry.observe(viewLifecycleOwner) {
-            binding.tvwCountry.text = it.countryName ?: getString(CoreR.string.country)
+        mSharedViewModel.countrySelected.observe(viewLifecycleOwner) {
+            applyFlagAndCountryName(it)
+            applyMaskInInput(it)
+        }
+
+        mViewModel.codeCountryWhenChangeCodePhone.observe(viewLifecycleOwner) {
+            applyFlagAndCountryName(it)
             applyMaskInInput(it)
         }
 
@@ -98,7 +119,26 @@ class AuthFragment : Fragment() {
         }
 
         mViewModel.sendCodeResponse.observe(viewLifecycleOwner) {
+            findNavController().navigate(
+                NavDeepLinkRequest.Builder.fromUri(
+                    "android-app://br.com.raphaelmaracaipe.portflio/profile".toUri()
+                ).build()
+            )
+        }
+    }
 
+    private fun applyFlagAndCountryName(country: CodeCountry) {
+        country.countryName?.let {
+            with(binding) {
+                tvwCountry.text = country.countryName
+                imvFlag.visibility = View.VISIBLE
+                imvFlag.setImageDrawable(
+                    CountryCodeFlags.getFlag(
+                        mAssets,
+                        country
+                    )
+                )
+            }
         }
     }
 
@@ -106,7 +146,6 @@ class AuthFragment : Fragment() {
         with(binding) {
             tilCodePhone.editText?.addTextChangedListener {
                 cleanMsgError()
-
                 mViewModel.setTextChangedCodePhone(it.toString())
                 tilCodePhone.error = ""
             }
@@ -134,23 +173,38 @@ class AuthFragment : Fragment() {
 
     private fun applyAnimationInText() {
         with(binding) {
-            root.postDelayed({
-                context?.let { ctx ->
-                    val animationFade = AnimationUtils.loadAnimation(ctx, android.R.anim.fade_in)
+            if (isShowAnimation) {
+                root.postDelayed({
+                    context?.let { ctx ->
+                        val animationFade = AnimationUtils.loadAnimation(
+                            ctx,
+                            android.R.anim.fade_in
+                        )
 
-                    tvwTitle.visibility = View.VISIBLE
-                    tvwTitle.startAnimation(animationFade)
+                        tvwTitle.visibility = View.VISIBLE
+                        tvwTitle.startAnimation(animationFade)
 
-                    tvwWelcome.visibility = View.VISIBLE
-                    tvwWelcome.startAnimation(animationFade)
-                }
-            }, 1000)
+                        tvwWelcome.visibility = View.VISIBLE
+                        tvwWelcome.startAnimation(animationFade)
+                    }
+                }, 1000)
+            } else {
+                tvwTitle.visibility = View.VISIBLE
+                tvwWelcome.visibility = View.VISIBLE
+            }
         }
     }
 
     private fun applyAnimationInContainerOfAuth() {
-        context?.let { ctx ->
-            binding.lltAuth.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.auth_container))
+        if (isShowAnimation) {
+            context?.let { ctx ->
+                binding.lltAuth.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        ctx,
+                        R.anim.auth_container
+                    )
+                )
+            }
         }
     }
 
