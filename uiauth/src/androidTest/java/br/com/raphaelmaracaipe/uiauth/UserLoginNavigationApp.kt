@@ -1,10 +1,15 @@
 package br.com.raphaelmaracaipe.uiauth
 
 import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -14,10 +19,12 @@ import androidx.test.platform.app.InstrumentationRegistry
 import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment
+import io.mockk.mockk
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
@@ -27,19 +34,25 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import br.com.raphaelmaracaipe.core.R as CoreR
 
+
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class UserLoginNavigationApp {
 
+    @get:Rule
+    val instantTaskRule = InstantTaskExecutorRule()
+
     private val mockWebServer = MockWebServer()
     private lateinit var mContext: Context
+    private lateinit var scenario: FragmentScenario<AuthFragment>
+    private lateinit var navControllerMocked: NavController
 
     @Before
     fun setUp() {
         mockWebServer.start(8555)
         ConfigurationRetrofitUtils.URL_TO_MOCK = mockWebServer.url("").toString()
-        println("URL => ${ConfigurationRetrofitUtils.URL_TO_MOCK}")
         mContext = InstrumentationRegistry.getInstrumentation().targetContext
+        navControllerMocked = mockk()
 
         startKoin {
             androidLogger()
@@ -47,7 +60,7 @@ class UserLoginNavigationApp {
             loadKoinModules(AuthUiModule.allModule())
         }
 
-        launchFragmentInContainer<AuthFragment>(themeResId = CoreR.style.Theme_Portfolio)
+        scenario = launchFragmentInContainer(themeResId = CoreR.style.Theme_Portfolio)
     }
 
     @Test
@@ -57,26 +70,33 @@ class UserLoginNavigationApp {
 
     @Test
     fun when_UserInformCodeOfCountry_shouldChangeNameCountry() {
-        onView(withId(R.id.tietNumCountry)).perform(replaceText("55"))
+        onView(withId(R.id.tietNumCountry)).perform(typeText("55"))
         onView(withId(R.id.tvwCountry)).check(matches(ViewMatchers.withText("Brasil")))
+        closeSoftKeyboard()
     }
 
     @Test
     fun when_UserInformCodeOfCountryField_shouldGetMaskOfCountry() {
-        onView(withId(R.id.tietNumCountry)).perform(replaceText("55"))
+        onView(withId(R.id.tietNumCountry)).perform(typeText("55"))
         onView(withId(R.id.tvwCountry)).check(matches(ViewMatchers.withText("Brasil")))
-        onView(withId(R.id.tietNumPhone)).perform(replaceText("99999999999"))
+        onView(withId(R.id.tietNumPhone)).perform(typeText("99999999999"))
         onView(withId(R.id.tietNumPhone)).check(matches(ViewMatchers.withText("(99) 99999-9999")))
     }
 
     @Test
-    fun when_SendPhoneToServerButApiReturnSuccess() {
+    fun when_SendPhoneToServerAndApiReturnSuccess() {
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navControllerMocked)
+        }
+
         mockWebServer.enqueue(
             MockResponse().setResponseCode(201).setBody("{}")
         )
 
-        onView(withId(R.id.tietNumCountry)).perform(replaceText("55"))
-        onView(withId(R.id.tietNumPhone)).perform(replaceText("99999999999"))
+        onView(withId(R.id.tietNumCountry)).perform(typeText("55"))
+        onView(withId(R.id.tietNumPhone)).perform(typeText("99999999999"))
+        closeSoftKeyboard()
+
         onView(withId(R.id.btnLogin)).perform(click())
     }
 
@@ -86,8 +106,10 @@ class UserLoginNavigationApp {
             MockResponse().setResponseCode(403).setBody("{}")
         )
 
-        onView(withId(R.id.tietNumCountry)).perform(replaceText("55"))
-        onView(withId(R.id.tietNumPhone)).perform(replaceText("99999999999"))
+        onView(withId(R.id.tietNumCountry)).perform(typeText("55"))
+        onView(withId(R.id.tietNumPhone)).perform(typeText("99999999999"))
+        closeSoftKeyboard()
+
         onView(withId(R.id.btnLogin)).perform(click())
 
         val textError = mContext.getString(R.string.err_request_general)
