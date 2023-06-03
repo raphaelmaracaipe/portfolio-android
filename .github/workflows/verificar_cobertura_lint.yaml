@@ -1,0 +1,42 @@
+name: Verificar Cobertura de Código e Lint
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Configurar ambiente Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '12'
+
+    - name: Verificar Cobertura de Código e Lint
+      env:
+        GRADLE_OPTS: -Dorg.gradle.daemon=false
+      run: |
+        # Configurar o Android SDK
+        echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+
+        # Instalar as dependências do Android SDK
+        run: echo y | sdkmanager --update
+
+        # Executar tarefas do Gradle para verificar a cobertura de código e lint
+        ./gradlew clean testDebugUnitTestCoverage lint
+
+        # Copiar o relatório de cobertura de código e lint para o diretório de artefatos
+        cp app/build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.txt $GITHUB_WORKSPACE/coverage.txt
+        cp app/build/reports/lint-results.xml $GITHUB_WORKSPACE/lint-results.xml
+
+    - name: Publicar artefatos
+      uses: actions/upload-artifact@v2
+      with:
+        name: Cobertura de Código e Lint
+        path: |
+          coverage.txt
+          lint-results.xml
