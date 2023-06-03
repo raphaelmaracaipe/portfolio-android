@@ -125,11 +125,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:tint="@color/box"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_chevron_right" />
+                        app:srcCompat="@drawable/ic_chevron_right"
+                        app:tint="@color/box" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout

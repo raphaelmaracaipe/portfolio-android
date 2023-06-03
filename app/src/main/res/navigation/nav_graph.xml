@@ -14,4 +14,5 @@
             app:destination="@id/nav_uiauth" />
     </fragment>
     <include app:graph="@navigation/nav_uiauth" />
+    <include app:graph="@navigation/nav_uiprofile" />
 </navigation>

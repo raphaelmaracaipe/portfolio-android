@@ -16,3 +16,4 @@ rootProject.name = "Portfólio"
 include ':app'
 include ':core'
 include ':uiauth'
+include ':uiprofile'

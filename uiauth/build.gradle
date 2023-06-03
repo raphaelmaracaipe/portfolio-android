@@ -77,6 +77,7 @@ dependencies {
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
 
+    androidTestImplementation "androidx.navigation:navigation-testing:$navigation"
     androidTestImplementation "androidx.arch.core:core-testing:$test_core_testing"
     androidTestImplementation "io.mockk:mockk:$test_mockk"
     androidTestImplementation "io.mockk:mockk-android:$test_mockk"

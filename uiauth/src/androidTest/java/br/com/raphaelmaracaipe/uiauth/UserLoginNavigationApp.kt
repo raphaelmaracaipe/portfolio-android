@@ -5,7 +5,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -19,7 +22,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment
-import io.mockk.mockk
+import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragmentDirections
+import br.com.raphaelmaracaipe.uiauth.ui.countries.CountriesFragment
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -45,14 +49,13 @@ class UserLoginNavigationApp {
     private val mockWebServer = MockWebServer()
     private lateinit var mContext: Context
     private lateinit var scenario: FragmentScenario<AuthFragment>
-    private lateinit var navControllerMocked: NavController
+    private lateinit var navController: NavController
 
     @Before
     fun setUp() {
         mockWebServer.start(8555)
         ConfigurationRetrofitUtils.URL_TO_MOCK = mockWebServer.url("").toString()
         mContext = InstrumentationRegistry.getInstrumentation().targetContext
-        navControllerMocked = mockk()
 
         startKoin {
             androidLogger()
@@ -60,7 +63,13 @@ class UserLoginNavigationApp {
             loadKoinModules(AuthUiModule.allModule())
         }
 
+        navController = TestNavHostController(ApplicationProvider.getApplicationContext())
+        navController.setGraph(R.navigation.nav_uiauth)
+
         scenario = launchFragmentInContainer(themeResId = CoreR.style.Theme_Portfolio)
+        scenario.onFragment { fragment ->
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
     }
 
     @Test
@@ -85,10 +94,6 @@ class UserLoginNavigationApp {
 
     @Test
     fun when_SendPhoneToServerAndApiReturnSuccess() {
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), navControllerMocked)
-        }
-
         mockWebServer.enqueue(
             MockResponse().setResponseCode(201).setBody("{}")
         )

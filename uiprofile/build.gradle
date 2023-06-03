@@ -1,22 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
-    namespace 'br.com.raphaelmaracaipe.portflio'
+    namespace 'br.com.raphaelmaracaipe.uiprofile'
     compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "br.com.raphaelmaracaipe.portflio"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -24,10 +21,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    buildFeatures {
-        dataBinding true
     }
 
     compileOptions {
@@ -39,22 +32,17 @@ android {
         jvmTarget = '17'
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
-
 }
 
 dependencies {
-    implementation project(path: ':uiauth')
-    implementation project(path: ':uiprofile')
-
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$app_compact"
     implementation "com.google.android.material:material:$material"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
-    implementation "io.insert-koin:koin-android:$koin"
 
     testImplementation "junit:junit:$test_junit"
 
