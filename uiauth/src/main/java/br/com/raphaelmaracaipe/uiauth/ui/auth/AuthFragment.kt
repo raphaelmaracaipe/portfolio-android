@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -54,8 +55,17 @@ class AuthFragment : Fragment() {
         applyAnimationInText()
         applyCodePhone()
         applyActionInButtons()
+        settingBackPress()
 
         mViewModel.readInformationAboutCodeOfCountry()
+    }
+
+    private fun settingBackPress() {
+        with(requireActivity()) {
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                finish()
+            }
+        }
     }
 
     override fun onStop() {
@@ -121,7 +131,7 @@ class AuthFragment : Fragment() {
         mViewModel.sendCodeResponse.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 NavDeepLinkRequest.Builder.fromUri(
-                    "android-app://br.com.raphaelmaracaipe.portflio/profile".toUri()
+                    "android-app://br.com.raphaelmaracaipe.portfolio/profile".toUri()
                 ).build()
             )
         }
