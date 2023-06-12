@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portflio
+package br.com.raphaelmaracaipe.portfolio
 
 import org.junit.Test
 

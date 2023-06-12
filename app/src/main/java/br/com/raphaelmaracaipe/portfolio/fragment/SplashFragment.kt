@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.portflio.fragment
+package br.com.raphaelmaracaipe.portfolio.fragment
 
 import android.app.ActivityOptions
 import android.os.Bundle
@@ -10,8 +10,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import br.com.raphaelmaracaipe.portflio.R
-import br.com.raphaelmaracaipe.portflio.databinding.FragmentSplashBinding
+import br.com.raphaelmaracaipe.portfolio.R
+import br.com.raphaelmaracaipe.portfolio.databinding.FragmentSplashBinding
 
 class SplashFragment : Fragment() {
 
