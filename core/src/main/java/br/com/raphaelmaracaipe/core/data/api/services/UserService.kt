@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface UserService {
 
     @Headers("Accept: application/json", "x-api-key: ca03na188ame03u1d78620de67282882a84")
-    @POST("/api/v1/users/code1")
+    @POST("/api/v1/users/code")
     suspend fun sendCode(@Body userSendCodeResponse: UserSendCodeResponse): Response<Any>
 
 }
