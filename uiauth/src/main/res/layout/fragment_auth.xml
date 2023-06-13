@@ -66,6 +66,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/bg_arround_box_auth"
+                android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -179,14 +180,20 @@
 
                 </LinearLayout>
 
-                <Button
+                <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="@string/btn_login" />
+                    android:background="@drawable/bg_button_loading"
+                    android:text="@string/btn_login"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:spinning_bar_color="@color/white"
+                    app:spinning_bar_padding="10dp"
+                    app:spinning_bar_width="2dp" />
 
                 <TextView
                     android:id="@+id/tvwCopy"

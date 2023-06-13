@@ -66,6 +66,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.github.leandroborgesferreira:loading-button-android:$loading_button"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"

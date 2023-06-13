@@ -96,6 +96,7 @@ class AuthFragment : Fragment() {
             } else if (fieldNumberPhone.isEmpty()) {
                 tilNumPhone.error = getString(R.string.err_field_code)
             } else {
+                btnLogin.startAnimation()
                 sendCode(fieldNumberCountry, fieldNumberPhone)
             }
         }
@@ -108,11 +109,13 @@ class AuthFragment : Fragment() {
 
     private fun initObservable() {
         mSharedViewModel.countrySelected.observe(viewLifecycleOwner) {
+            stopAnimation()
             applyFlagAndCountryName(it)
             applyMaskInInput(it)
         }
 
         mViewModel.codeCountryWhenChangeCodePhone.observe(viewLifecycleOwner) {
+            stopAnimation()
             applyFlagAndCountryName(it)
             applyMaskInInput(it)
         }
@@ -122,6 +125,7 @@ class AuthFragment : Fragment() {
         }
 
         mViewModel.error.observe(viewLifecycleOwner) { msgError ->
+            stopAnimation()
             with(binding) {
                 tvwMsgError.text = msgError
                 tvwMsgError.visibility = View.VISIBLE
@@ -134,6 +138,14 @@ class AuthFragment : Fragment() {
                     "android-app://br.com.raphaelmaracaipe.portfolio/profile".toUri()
                 ).build()
             )
+        }
+    }
+
+    private fun stopAnimation() {
+        with(binding) {
+            btnLogin.revertAnimation {
+                btnLogin.setBackgroundResource(R.drawable.bg_button_loading)
+            }
         }
     }
 
