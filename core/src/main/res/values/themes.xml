@@ -8,4 +8,13 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
+    <style name="TextError" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/open_sans_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/error</item>
+    </style>
+    <style name="TextSmall" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>
