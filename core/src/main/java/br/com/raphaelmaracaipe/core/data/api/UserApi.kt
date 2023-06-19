@@ -2,13 +2,14 @@ package br.com.raphaelmaracaipe.core.data.api
 
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
+import br.com.raphaelmaracaipe.core.network.NetworkException
 
 interface UserApi {
 
     @Throws(Exception::class)
     suspend fun sendCode(userSendCodeRequest: UserSendCodeRequest): Boolean
 
-    @Throws(Exception::class)
+    @Throws(NetworkException::class)
     suspend fun validCode(code: String): TokensResponse
 
 }

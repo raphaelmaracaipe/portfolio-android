@@ -1,6 +1,5 @@
 package br.com.raphaelmaracaipe.core.data.api
 
-import android.util.Log
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService

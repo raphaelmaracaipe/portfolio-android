@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.core.data.api.response
 
 import android.os.Parcelable
+import br.com.raphaelmaracaipe.core.network.NetworkCodeEnum
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
