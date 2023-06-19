@@ -1,15 +1,15 @@
 package br.com.raphaelmaracaipe.core.network
 
 import br.com.raphaelmaracaipe.core.BuildConfig
-import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils.URL_TO_MOCK
+import br.com.raphaelmaracaipe.core.network.NetworkUtils.URL_TO_MOCK
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ConfigurationRetrofitImpl(
+class NetworkImpl(
     private val baseUrl: String
-) : ConfigurationRetrofit {
+) : Network {
 
     override fun <T : Any> create(service: Class<T>): T = getInstanceRetrofit()
         .create(service)
@@ -37,6 +37,6 @@ fun <T : Any> configRetrofit(service: Class<T>): T {
         BuildConfig.URL
     }
 
-    val configurationRetrofit: ConfigurationRetrofit = ConfigurationRetrofitImpl(baseUrl)
+    val configurationRetrofit: Network = NetworkImpl(baseUrl)
     return configurationRetrofit.create(service)
 }

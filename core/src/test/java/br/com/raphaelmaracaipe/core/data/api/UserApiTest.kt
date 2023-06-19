@@ -5,7 +5,7 @@ import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
-import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils
+import br.com.raphaelmaracaipe.core.network.NetworkUtils
 import br.com.raphaelmaracaipe.core.network.NetworkException
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import kotlinx.coroutines.runBlocking
@@ -29,7 +29,7 @@ class UserApiTest {
     fun setUp() {
         mockWebServer.start()
         val baseURL = mockWebServer.url("").toString()
-        ConfigurationRetrofitUtils.URL_TO_MOCK = baseURL
+        NetworkUtils.URL_TO_MOCK = baseURL
 
         userService = configRetrofit(UserService::class.java)
     }

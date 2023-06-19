@@ -5,7 +5,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -19,11 +18,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import br.com.raphaelmaracaipe.core.network.ConfigurationRetrofitUtils
+import br.com.raphaelmaracaipe.core.network.NetworkUtils
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment
-import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragmentDirections
-import br.com.raphaelmaracaipe.uiauth.ui.countries.CountriesFragment
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -54,7 +51,7 @@ class UserLoginNavigationApp {
     @Before
     fun setUp() {
         mockWebServer.start(8555)
-        ConfigurationRetrofitUtils.URL_TO_MOCK = mockWebServer.url("").toString()
+        NetworkUtils.URL_TO_MOCK = mockWebServer.url("").toString()
         mContext = InstrumentationRegistry.getInstrumentation().targetContext
 
         startKoin {

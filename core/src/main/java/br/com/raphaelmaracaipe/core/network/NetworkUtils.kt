@@ -1,6 +1,6 @@
 package br.com.raphaelmaracaipe.core.network
 
-object ConfigurationRetrofitUtils {
+object NetworkUtils {
 
     var URL_TO_MOCK = ""
 
