@@ -8,4 +8,12 @@
     <string name="err_field_code">Obrigatório.</string>
     <string name="search_country">País</string>
     <string name="search_title">Buscar país</string>
+    <string name="btn_valid">Validar código</string>
+    <string name="code_valid_title">Validação do código</string>
+    <string name="code_valid_desc">Enviamos um código de validação no seu e-mail.</string>
+    <string name="code_send_again"><u>Enviar o código novamente.</u></string>
+    <string name="code_hint">000000</string>
+    <string name="code_send_again_invalid">Ocorreu um erro ao realizar a novo solicitação de código. Por favor, tente novamente mais tarde.</string>
+    <string name="response_error_code_general">Ocorreu um erro ao realizar a validação do código.</string>
+    <string name="response_error_code_invalid">O código informado está inválido.</string>
 </resources>

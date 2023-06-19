@@ -9,11 +9,14 @@ import br.com.raphaelmaracaipe.core.assets.AssetsImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.sp.AuthSPImpl
 import com.google.gson.Gson
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -61,6 +64,7 @@ class AuthViewModelTest {
         mAuthViewModel = AuthViewModel(
             mContext,
             mAssets,
+            AuthSPImpl(mContext),
             mUserRepository
         )
     }

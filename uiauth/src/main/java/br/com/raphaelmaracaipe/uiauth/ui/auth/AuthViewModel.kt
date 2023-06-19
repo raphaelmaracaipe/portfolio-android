@@ -7,19 +7,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.data.UserRepository
-import br.com.raphaelmaracaipe.core.data.api.response.UserSendCodeResponse
+import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.consts.Location
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AuthViewModel(
     private val context: Context,
-    private val mAssets: Assets,
-    private val userRepository: UserRepository
+    private val assets: Assets,
+    private val authSP: AuthSP,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _showLoading = MutableLiveData<Boolean>()
@@ -43,7 +45,7 @@ class AuthViewModel(
         _showLoading.postValue(true)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val codes: Array<CodeCountry> = mAssets.read(
+                val codes: Array<CodeCountry> = assets.read(
                     Location.LOCATION_JSON_IN_ASSETS
                 ).fromJSON()
 
@@ -65,7 +67,8 @@ class AuthViewModel(
 
     fun sendCodeToServer(phone: String) = viewModelScope.launch {
         try {
-            userRepository.sendCode(UserSendCodeResponse(phone))
+            userRepository.sendCode(UserSendCodeRequest(phone))
+            authSP.setPhone(phone)
             _sendCodePhone.postValue(Unit)
         } catch (e: Exception) {
             _error.postValue(context.getString(R.string.err_request_general))

@@ -33,6 +33,7 @@ ext {
     test_roboletric = '4.10.2'
     test_fragment = '1.5.7'
     test_binding_compiler = '8.0.1'
+    test_coroutines = '1.6.4'
 
     //android test
     android_test_junit = '1.1.5'

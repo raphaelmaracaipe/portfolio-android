@@ -7,10 +7,10 @@
     app:startDestination="@id/authFragment">
 
     <fragment
-        tools:layout="@layout/fragment_auth"
         android:id="@+id/authFragment"
         android:name="br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment"
-        android:label="AuthFragment" >
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth">
         <action
             android:id="@+id/goToCountriesFragment"
             app:destination="@id/countriesFragment"
@@ -18,10 +18,22 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/goToValidCodeFragment"
+            app:destination="@id/validCodeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        tools:layout="@layout/fragment_countries"
         android:id="@+id/countriesFragment"
         android:name="br.com.raphaelmaracaipe.uiauth.ui.countries.CountriesFragment"
-        android:label="CountriesFragment" />
+        android:label="CountriesFragment"
+        tools:layout="@layout/fragment_countries" />
+    <fragment
+        android:id="@+id/validCodeFragment"
+        android:name="br.com.raphaelmaracaipe.uiauth.ui.validCode.ValidCodeFragment"
+        android:label="ValidCodeFragment"
+        tools:layout="@layout/fragment_valid_code" />
 </navigation>

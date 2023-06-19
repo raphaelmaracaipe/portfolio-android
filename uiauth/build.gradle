@@ -74,7 +74,9 @@ dependencies {
     testImplementation "androidx.fragment:fragment-testing:$test_fragment"
     testImplementation "androidx.test:core:$test_core"
     testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     testImplementation "io.mockk:mockk-android:$test_mockk"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
 
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"

@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.addCallback
-import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import br.com.raphaelmaracaipe.core.assets.Assets
@@ -17,6 +15,7 @@ import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import br.com.raphaelmaracaipe.uiauth.extensions.addMask
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -26,6 +25,7 @@ class AuthFragment : Fragment() {
 
     private lateinit var binding: FragmentAuthBinding
     private val mAssets: Assets by inject()
+    private val mAuthSP: AuthSP by inject()
     private val mViewModel: AuthViewModel by viewModel()
     private val mSharedViewModel: AuthSharedViewModel by activityViewModel()
     private var isShowAnimation = true
@@ -50,6 +50,7 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkIfIsCode()
         initObservable()
         applyAnimationInContainerOfAuth()
         applyAnimationInText()
@@ -58,6 +59,12 @@ class AuthFragment : Fragment() {
         settingBackPress()
 
         mViewModel.readInformationAboutCodeOfCountry()
+    }
+
+    private fun checkIfIsCode() {
+        if(mAuthSP.checkIfIsPhoneSaved()) {
+            findNavController().navigate(AuthFragmentDirections.goToValidCodeFragment())
+        }
     }
 
     private fun settingBackPress() {
@@ -133,11 +140,7 @@ class AuthFragment : Fragment() {
         }
 
         mViewModel.sendCodeResponse.observe(viewLifecycleOwner) {
-            findNavController().navigate(
-                NavDeepLinkRequest.Builder.fromUri(
-                    "android-app://br.com.raphaelmaracaipe.portfolio/profile".toUri()
-                ).build()
-            )
+            findNavController().navigate(AuthFragmentDirections.goToValidCodeFragment())
         }
     }
 

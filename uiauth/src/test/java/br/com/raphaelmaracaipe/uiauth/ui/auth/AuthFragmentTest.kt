@@ -15,13 +15,14 @@ import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.di.coreModule
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
+import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
+import br.com.raphaelmaracaipe.uiauth.sp.AuthSPImpl
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.After
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,11 +46,6 @@ class AuthFragmentTest {
     private val app: TestApplication = ApplicationProvider.getApplicationContext()
     private val mockNavController = mock(NavController::class.java)
     private val mContext: Context = RuntimeEnvironment.getApplication().applicationContext
-
-
-    @Before
-    fun setUp() {
-    }
 
     @Test
     fun `when clicked on butt and redirect to view countries`() {
@@ -142,12 +138,17 @@ class AuthFragmentTest {
     @Test
     fun `when send code phone but api return error`() {
         val userRepository = mockk<UserRepository>()
+
+        val test = module {
+            single<AuthSP> { AuthSPImpl(androidContext()) }
+        }
+
         val module = module {
-            viewModel { AuthViewModel(androidContext(), get(), userRepository) }
+            viewModel { AuthViewModel(androidContext(), get(), get(), userRepository) }
             viewModel { AuthSharedViewModel() }
         }
 
-        app.loadModules(listOf(coreModule, module)) {
+        app.loadModules(listOf(test, coreModule, module)) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->
