@@ -11,6 +11,7 @@ import br.com.raphaelmaracaipe.core.network.configRetrofit
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -92,4 +93,8 @@ class UserApiTest {
         }
     }
 
+    @After
+    fun after() {
+        mockWebServer.shutdown()
+    }
 }

@@ -31,7 +31,7 @@ class NetworkImpl(
 }
 
 fun <T : Any> configRetrofit(service: Class<T>): T {
-    val baseUrl = if(BuildConfig.DEBUG && URL_TO_MOCK.isNotEmpty()) {
+    val baseUrl = if(URL_TO_MOCK.isNotEmpty()) {
         URL_TO_MOCK
     } else {
         BuildConfig.URL
