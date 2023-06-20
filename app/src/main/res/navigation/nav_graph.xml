@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="br.com.raphaelmaracaipe.portfolio.fragment.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_nav_uiauth"
+            app:destination="@id/nav_uiauth" />
+    </fragment>
+    <include app:graph="@navigation/nav_uiauth" />
+    <include app:graph="@navigation/nav_uiprofile" />
+</navigation>

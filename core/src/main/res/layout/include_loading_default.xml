@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="isShow"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        app:visible="@{isShow}">
+
+        <ProgressBar
+            android:id="@+id/pbrLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvwLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/open_sans"
+            android:text="@string/loading"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/pbrLoading"
+            app:layout_constraintStart_toStartOf="@+id/pbrLoading"
+            app:layout_constraintTop_toBottomOf="@+id/pbrLoading" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
