@@ -10,7 +10,9 @@
 Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber mensagens de forma rápida e fácil. Desfrute de uma experiência de comunicação simples e eficiente em um único aplicativo. Fique conectado(a) e compartilhe suas mensagens de maneira conveniente com este app intuitivo e amigável.
 
 ## Dependência entre módulos
-<img src="./docs/modules.png" width="200" alt="Portfolio - Logo" />
+<p align="center">
+  <img src="./docs/modules.png" width="600" alt="Portfolio - Logo" />
+</p>
 
 ## Tecnologias utilizadas
 
