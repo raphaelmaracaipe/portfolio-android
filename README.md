@@ -9,9 +9,22 @@
 
 Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber mensagens de forma rápida e fácil. Desfrute de uma experiência de comunicação simples e eficiente em um único aplicativo. Fique conectado(a) e compartilhe suas mensagens de maneira conveniente com este app intuitivo e amigável.
 
+## Dependência entre módulos
+<img src="./docs/modules.png" width="200" alt="Portfolio - Logo" />
+
 ## Tecnologias utilizadas
 
 O app foi desenvolvido usando as seguintes tecnologias:
+- LiveData
+- ViewModel
+- Retrofit
+- Koin
+- Navigation
+- Coroutines
+- Roboletric
+- Junit
+- MockWebServer
+- AndroidExpresso
 
 ## Autor
 
