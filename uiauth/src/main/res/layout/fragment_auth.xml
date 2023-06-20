@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="br.com.raphaelmaracaipe.uiauth.ui.auth.AuthViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryVariant">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_icon"
+                android:transitionName="icon_app_transition"
+                app:layout_constraintBottom_toTopOf="@+id/lltAuth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/tvwTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="34sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvwWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:text="@string/welcome"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/tvwTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvwTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvwTitle"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/lltAuth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_arround_box_auth"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tvwMsgError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:gravity="center"
+                    android:textColor="@color/error"
+                    android:visibility="gone"
+                    tools:text="Erro"
+                    tools:visibility="visible" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lltCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/bg_arround_text">
+
+                    <ImageView
+                        android:id="@+id/imvFlag"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="16dp"
+                        android:adjustViewBounds="false"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/imvArrow"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/imvArrow" />
+
+                    <TextView
+                        android:id="@+id/tvwCountry"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/country"
+                        android:textColor="@color/box"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imvArrow"
+                        app:layout_constraintEnd_toStartOf="@+id/imvArrow"
+                        app:layout_constraintStart_toEndOf="@+id/imvFlag"
+                        app:layout_constraintTop_toTopOf="@+id/imvArrow"
+                        tools:text="Brasil" />
+
+                    <ImageView
+                        android:id="@+id/imvArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_chevron_right"
+                        app:tint="@color/box" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilCodePhone"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="@string/input_code_phone"
+                        tools:layout_editor_absoluteX="32dp"
+                        tools:layout_editor_absoluteY="343dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietNumCountry"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="6" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilNumPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:digits="0123456789"
+                        android:hint="@string/input_num_phone"
+                        tools:layout_editor_absoluteX="148dp"
+                        tools:layout_editor_absoluteY="343dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietNumPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="phone"
+                            android:maxLength="20" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_button_loading"
+                    android:text="@string/btn_login"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:spinning_bar_color="@color/white"
+                    app:spinning_bar_padding="10dp"
+                    app:spinning_bar_width="2dp" />
+
+                <TextView
+                    android:id="@+id/tvwCopy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:gravity="center"
+                    android:text="@string/copy"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    tools:layout_editor_absoluteX="148dp"
+                    tools:layout_editor_absoluteY="682dp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/include_loading_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:isShow="@{viewModel.showLoading}"
+            tools:visibility="gone" />
+
+    </RelativeLayout>
+</layout>

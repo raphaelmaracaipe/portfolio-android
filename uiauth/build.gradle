@@ -1,0 +1,93 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'br.com.raphaelmaracaipe.uiauth'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        releaseDebuggable {}
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+}
+
+dependencies {
+    implementation project(path: ':core')
+
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$app_compact"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_livedata"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_livedata"
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "io.insert-koin:koin-android:$koin"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.github.leandroborgesferreira:loading-button-android:$loading_button"
+
+    testImplementation "junit:junit:$test_junit"
+    testImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    testImplementation "org.robolectric:robolectric:$test_roboletric"
+    testImplementation "androidx.fragment:fragment-testing:$test_fragment"
+    testImplementation "androidx.test:core:$test_core"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+    testImplementation "io.mockk:mockk-android:$test_mockk"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
+
+    kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
+    kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
+
+    androidTestImplementation "androidx.navigation:navigation-testing:$navigation"
+    androidTestImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    androidTestImplementation "io.mockk:mockk:$test_mockk"
+    androidTestImplementation "io.mockk:mockk-android:$test_mockk"
+    androidTestImplementation "androidx.fragment:fragment-testing:$test_fragment"
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+
+}
