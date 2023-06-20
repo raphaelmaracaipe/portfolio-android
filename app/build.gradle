@@ -1,0 +1,89 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'br.com.raphaelmaracaipe.portfolio'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "br.com.raphaelmaracaipe.portfolio"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../key/build_test.jks')
+            storePassword '123456'
+            keyAlias 'test'
+            keyPassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        releaseDebuggable {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation project(path: ':uiauth')
+    implementation project(path: ':uiprofile')
+
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$app_compact"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "io.insert-koin:koin-android:$koin"
+
+    testImplementation "junit:junit:$test_junit"
+
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+}
+
+task getVersionName {
+    doLast {
+        def versionName = android.defaultConfig.versionName
+        println versionName
+    }
+}

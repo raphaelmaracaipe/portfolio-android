@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'br.com.raphaelmaracaipe.uiprofile'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        releaseDebuggable {}
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$app_compact"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+
+    testImplementation "junit:junit:$test_junit"
+
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+}

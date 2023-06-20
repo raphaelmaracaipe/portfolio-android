@@ -1,0 +1,78 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    namespace 'br.com.raphaelmaracaipe.core'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('String', 'API_KEY', '"ca03na188ame03u1d78620de67282882a84"')
+        }
+        releaseDebuggable {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('String', 'API_KEY', '"ca03na188ame03u1d78620de67282882a84"')
+        }
+        debug {
+            buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('String', 'API_KEY', '"d2e621a6646a4211768cd68e26f21228a81"')
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.appcompat:appcompat:$app_compact"
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_extensions"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_livedata"
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "io.insert-koin:koin-android:$koin"
+
+    testImplementation "junit:junit:$test_junit"
+    testImplementation "androidx.test:core-ktx:$test_core"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    testImplementation "org.robolectric:robolectric:$test_roboletric"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+}

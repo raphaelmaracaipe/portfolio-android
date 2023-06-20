@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cltContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imvFlag"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/sem_image"
+            tools:layout_editor_absoluteX="10dp"
+            tools:layout_editor_absoluteY="10dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{text}"
+            app:layout_constraintBottom_toBottomOf="@+id/imvFlag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imvFlag"
+            app:layout_constraintTop_toTopOf="@+id/imvFlag"
+            tools:text="TextView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

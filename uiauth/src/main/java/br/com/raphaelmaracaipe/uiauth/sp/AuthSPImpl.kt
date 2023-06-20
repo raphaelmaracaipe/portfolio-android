@@ -1,0 +1,26 @@
+package br.com.raphaelmaracaipe.uiauth.sp
+
+import android.content.Context
+
+class AuthSPImpl(
+    private val context: Context
+): AuthSP {
+
+    private val AUTH_KEY = "authKey"
+    private val PHONE = "phone"
+
+    override fun setPhone(phone: String) {
+        context.getSharedPreferences(AUTH_KEY, Context.MODE_PRIVATE).edit().apply {
+            putString(PHONE, phone)
+            apply()
+        }
+    }
+
+    override fun getPhone() = context.getSharedPreferences(
+        AUTH_KEY,
+        Context.MODE_PRIVATE
+    ).getString(PHONE, "") ?: ""
+
+    override fun checkIfIsPhoneSaved() = getPhone().isNotEmpty()
+
+}
