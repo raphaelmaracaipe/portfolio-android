@@ -17,22 +17,25 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('keys.properties').newDataInputStream())
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
-            buildConfigField('Byte[]', 'KEY', "{99, 97, 48, 51, 110, 97, 49, 56, 56, 97, 109, 101, 48, 51, 117, 49, 100, 55, 56, 54, 50, 48, 100, 101, 54, 55, 50, 56, 50, 56, 56, 50, 97, 56, 52}")
+            buildConfigField('String', 'API_KEY', "${properties.getProperty('API_KEY_PRD')}")
         }
         releaseDebuggable {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
-            buildConfigField('Byte[]', 'KEY', "{99, 97, 48, 51, 110, 97, 49, 56, 56, 97, 109, 101, 48, 51, 117, 49, 100, 55, 56, 54, 50, 48, 100, 101, 54, 55, 50, 56, 50, 56, 56, 50, 97, 56, 52}")
+            buildConfigField('String', 'API_KEY', "${properties.getProperty('API_KEY_PRD')}")
         }
         debug {
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
-            buildConfigField('Byte[]', 'KEY', "{100, 50, 101, 54, 50, 49, 97, 54, 54, 52, 54, 97, 52, 50, 49, 49, 55, 54, 56, 99, 100, 54, 56, 101, 50, 54, 102, 50, 49, 50, 50, 56, 97, 56, 49}")
+            buildConfigField('String', 'API_KEY', "${properties.getProperty('API_KEY_DEV')}")
         }
     }
 
