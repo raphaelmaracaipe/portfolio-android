@@ -27,6 +27,7 @@ jobs:
 
       - name: Run script (Prod)
         run: |
+          echo "${{secrets.API_KEY_PRD}}"
           node --version
           cd scripts
           npm run createApiKey:prod

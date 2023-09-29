@@ -5,7 +5,7 @@
   "main": "apiKey.js",
   "scripts": {
     "createApiKey:dev": "set API_KEY_DEV=secrets.API_KEY_DEV&& node apiKey.js",
-    "createApiKey:prod": "set API_KEY_PRD=secrets.API_KEY_PRD&& node apiKey.js"
+    "createApiKey:prod": "set API_KEY_PRD=${{secrets.API_KEY_PRD}}&& node apiKey.js"
   },
   "author": "",
   "license": "ISC"
