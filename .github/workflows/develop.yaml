@@ -27,8 +27,7 @@ jobs:
 
       - name: RunScrips
         run: |
-          cd .github
-          cd workflows
+          cd scripts
           npm run createApiKey:prod
 
       - name: Configurando JDK 17
