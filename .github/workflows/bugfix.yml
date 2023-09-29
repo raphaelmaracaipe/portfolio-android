@@ -5,7 +5,7 @@ on:
     branches:
       - release/*
     types:
-      - opened
+      - closed
 
 jobs:
   build:
