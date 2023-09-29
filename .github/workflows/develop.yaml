@@ -25,9 +25,10 @@ jobs:
         with:
           node-version: 18
 
-      - name: RunScrips
+      - name: Run script (Prod)
         run: |
-          cd ./scripts
+          node --version
+          cd scripts
           npm run createApiKey:prod
 
       - name: Configurando JDK 17
