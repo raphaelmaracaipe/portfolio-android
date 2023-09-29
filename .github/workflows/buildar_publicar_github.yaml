@@ -1,56 +1,56 @@
-name: Buildar e publicar no github APK (master)
-
-on:
-  pull_request:
-    branches:
-      - develop
-    types:
-      - closed
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20    
-
-    permissions:
-      issues: write
-      pull-requests: write
-      contents: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configurando Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-
-      - name: RunScrips
-        run: |
-          node ./scripts/apiKey.js
-
-      - name: Configurando JDK 17
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-          
-      - name: Aplicar permissão
-        run: chmod +x gradlew
-
-      - name: Build e rodando testes
-        run: ./gradlew clean test
-
-      - name: Build APK
-        run: ./gradlew assembleRelease
-
-      - name: Cria Git Tag
-        id: create_tag
-        env:
-          GH_TOKEN: ${{ secrets.TOKEN }}
-        run: |
-          TAG=$(./gradlew -q app:getVersionName)
-          echo "::set-output name=tag::$TAG"
-          git tag $TAG
+#name: Buildar e publicar no github APK (master)
+#
+#on:
+#  pull_request:
+#    branches:
+#      - develop.yaml
+#    types:
+#      - closed
+#
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 20
+#
+#    permissions:
+#      issues: write
+#      pull-requests: write
+#      contents: write
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Configurando Node.js
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: 18
+#
+#      - name: RunScrips
+#        run: |
+#          node ./scripts/apiKey.js
+#
+#      - name: Configurando JDK 17
+#        uses: actions/setup-java@v2
+#        with:
+#          distribution: 'adopt'
+#          java-version: '17'
+#
+#      - name: Aplicar permissão
+#        run: chmod +x gradlew
+#
+#      - name: Build e rodando testes
+#        run: ./gradlew clean test
+#
+#      - name: Build APK
+#        run: ./gradlew assembleRelease
+#
+#      - name: Cria Git Tag
+#        id: create_tag
+#        env:
+#          GH_TOKEN: ${{ secrets.TOKEN }}
+#        run: |
+#          TAG=$(./gradlew -q app:getVersionName)
+#          echo "::set-output name=tag::$TAG"
+#          git tag $TAG
           git push origin $TAG
