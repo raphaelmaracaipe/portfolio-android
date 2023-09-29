@@ -3,14 +3,14 @@ name: Buildar e publicar no github APK (master)
 on:
   pull_request:
     branches:
-      - develop
+      - master
     types:
       - closed
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20    
+    timeout-minutes: 20
 
     permissions:
       issues: write
@@ -26,7 +26,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-          
+
       - name: Aplicar permissão
         run: chmod +x gradlew
 

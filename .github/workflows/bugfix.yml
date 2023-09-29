@@ -1,14 +1,16 @@
-name: Buildar e publicar no firebase APK (develop)
+name: Test, build and send to firebase
 
 on:
   pull_request:
     branches:
       - release/*
+    types:
+      - closed
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20    
+    timeout-minutes: 20
 
     permissions:
       issues: write
@@ -24,7 +26,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-          
+
       - name: Aplicar permissão
         run: chmod +x gradlew
 
@@ -39,5 +41,5 @@ jobs:
         with:
           appId: ${{secrets.FIREBASE_APP_ID_ANDROID}}
           token: ${{secrets.FIREBASE_TOKEN}}
-          groups: android_testers
+          groups: QA
           file: app/build/outputs/apk/release/app-release.apk
