@@ -11,12 +11,20 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        loadingLibsCPP()
+        configKoin()
+    }
 
+    private fun configKoin() {
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
             loadKoinModules(AuthUiModule.allModule())
         }
+    }
+
+    private fun loadingLibsCPP() {
+        System.loadLibrary("native-lib")
     }
 
 }
