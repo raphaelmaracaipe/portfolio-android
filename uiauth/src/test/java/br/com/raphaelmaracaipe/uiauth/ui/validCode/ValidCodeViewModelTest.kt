@@ -5,8 +5,8 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.network.NetworkCodeEnum
-import br.com.raphaelmaracaipe.core.network.NetworkException
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSPImpl

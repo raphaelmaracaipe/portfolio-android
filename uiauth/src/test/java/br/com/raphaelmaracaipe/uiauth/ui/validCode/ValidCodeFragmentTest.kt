@@ -8,8 +8,8 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.TestApplication
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.network.NetworkUtils
-import br.com.raphaelmaracaipe.core.network.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton

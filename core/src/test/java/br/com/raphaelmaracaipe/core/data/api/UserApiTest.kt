@@ -5,8 +5,8 @@ import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
-import br.com.raphaelmaracaipe.core.network.NetworkUtils
-import br.com.raphaelmaracaipe.core.network.NetworkException
+import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse

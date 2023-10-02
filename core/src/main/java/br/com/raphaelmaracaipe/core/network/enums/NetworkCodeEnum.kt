@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.core.network
+package br.com.raphaelmaracaipe.core.network.enums
 
 enum class NetworkCodeEnum(val code: Int) {
     ERROR_GENERAL(1000),
