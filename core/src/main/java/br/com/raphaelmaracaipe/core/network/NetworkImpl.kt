@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.core.network
 
 import br.com.raphaelmaracaipe.core.BuildConfig
+import br.com.raphaelmaracaipe.core.network.interceptors.EncryptedInterceptor
 import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils.URL_TO_MOCK
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -23,6 +24,7 @@ class NetworkImpl(
     private fun createInstanceOkHttp(): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
         return okHttpClient
+            .addInterceptor(EncryptedInterceptor())
             .build()
     }
 

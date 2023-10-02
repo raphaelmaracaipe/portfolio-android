@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.portfolio
 
 import android.app.Application
+import br.com.raphaelmaracaipe.portfolio.di.SplashUiModule
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -19,7 +20,12 @@ class MainApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MainApplication)
-            loadKoinModules(AuthUiModule.allModule())
+            loadKoinModules(
+                listOf(
+                    *AuthUiModule.allModule().toTypedArray(),
+                    *SplashUiModule.allModule().toTypedArray()
+                )
+            )
         }
     }
 

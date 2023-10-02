@@ -1,2 +1,4 @@
 <resources>
+    <string name="error_register">Ocorreu um erro ao realizar o registro do seu dispositivo. Por favor, tente novamente mais tarde.</string>
+    <string name="ok">Ok</string>
 </resources>
