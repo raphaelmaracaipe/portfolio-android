@@ -22,14 +22,17 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('boolean', 'IS_DEV', 'false')
         }
         releaseDebuggable {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('boolean', 'IS_DEV', 'false')
         }
         debug {
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
+            buildConfigField('boolean', 'IS_DEV', 'true')
         }
     }
 
@@ -74,6 +77,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "io.insert-koin:koin-android:$koin"
+    implementation "com.github.curious-odd-man:rgxgen:$rgxgen"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.test:core-ktx:$test_core"

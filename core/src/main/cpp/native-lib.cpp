@@ -14,3 +14,17 @@ Java_br_com_raphaelmaracaipe_core_network_utils_ApiKeys_getApiKeyProd(JNIEnv *en
     std::string hello = "ca03na188ame03u1d78620de67282882a84";
     return env->NewStringUTF(hello.c_str());
 }
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_br_com_raphaelmaracaipe_core_network_utils_KeysDefault_getSeed(JNIEnv *env, jobject thiz) {
+    std::string hello = "RF22SW76BV83EDH8";
+    return env->NewStringUTF(hello.c_str());
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_br_com_raphaelmaracaipe_core_network_utils_KeysDefault_getKey(JNIEnv *env, jobject thiz) {
+    std::string hello = "askjd4432ajdl@q9";
+    return env->NewStringUTF(hello.c_str());
+}

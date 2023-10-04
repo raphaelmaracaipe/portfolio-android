@@ -7,6 +7,6 @@ import kotlin.jvm.Throws
 interface HandShakeApi {
 
     @Throws(NetworkException::class)
-    suspend fun send(request: HandShakeRequest)
+    suspend fun send(request: HandShakeRequest): Any?
 
 }

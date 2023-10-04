@@ -24,6 +24,7 @@ ext {
     okhttp = '5.0.0-alpha.11'
     retrofit = '2.9.0'
     loading_button = '2.3.0'
+    rgxgen = '1.4'
 
     //tests
     test_junit = '4.13.2'
