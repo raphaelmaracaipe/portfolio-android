@@ -28,23 +28,37 @@ import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val coreModule = module {
-    single<UserRepository> { UserRepositoryImpl(get()) }
-    single<HandShakeRepository> { HandShakeRepositoryImpl(get()) }
-    single<DeviceRepository> { DeviceRepositoryImpl(get()) }
-    single<KeyRepository> { KeyRepositoryImpl(get(), get()) }
+object CoreModule {
 
-    single<UserApi> { UserApiImpl(get()) }
-    single<HandShakeApi> { HandShakeApiImpl(get()) }
+    fun allModule() = listOf(repositories, apis, sps, utils, configRetrofit)
 
-    single<DeviceIdSP> { DeviceIdSPImpl(androidContext(), get(), get()) }
-    single<KeySP> { KeySPImpl(androidContext(), get(), get()) }
+    private val repositories = module {
+        single<UserRepository> { UserRepositoryImpl(get()) }
+        single<HandShakeRepository> { HandShakeRepositoryImpl(get()) }
+        single<DeviceRepository> { DeviceRepositoryImpl(get()) }
+        single<KeyRepository> { KeyRepositoryImpl(get(), get()) }
+    }
 
-    single<Assets> { AssetsImpl(androidContext(), androidContext().assets) }
-    single<CryptoHelper> { CryptoHelperImpl() }
-    single { KeysDefault() }
-    single { ApiKeys() }
+    private val apis = module {
+        single<UserApi> { UserApiImpl(get()) }
+        single<HandShakeApi> { HandShakeApiImpl(get()) }
+    }
 
-    single { configRetrofit(UserService::class.java, get(), get(), get(), get(), get()) }
-    single { configRetrofit(HandShakeService::class.java, get(), get(), get(), get(), get()) }
+    private val sps = module {
+        single<DeviceIdSP> { DeviceIdSPImpl(androidContext(), get(), get()) }
+        single<KeySP> { KeySPImpl(androidContext(), get(), get()) }
+    }
+
+    private val utils = module {
+        single<Assets> { AssetsImpl(androidContext(), androidContext().assets) }
+        single<CryptoHelper> { CryptoHelperImpl() }
+        single { KeysDefault() }
+        single { ApiKeys() }
+    }
+
+    private val configRetrofit = module {
+        single { configRetrofit(UserService::class.java, get(), get(), get(), get(), get()) }
+        single { configRetrofit(HandShakeService::class.java, get(), get(), get(), get(), get()) }
+    }
+
 }
