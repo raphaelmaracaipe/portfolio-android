@@ -23,9 +23,8 @@ class KeySPImpl(
     }
 
     override fun save(key: String) {
-        val keyEncrypted = cryptoHelper.encrypt(key, keysDefault.key, keysDefault.seed)
         sharedPreferences.edit {
-            putString(KEY, keyEncrypted)
+            putString(KEY, cryptoHelper.encrypt(key, keysDefault.key, keysDefault.seed))
             commit()
         }
     }
