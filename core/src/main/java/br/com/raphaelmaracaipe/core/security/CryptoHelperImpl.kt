@@ -9,10 +9,7 @@ import javax.crypto.spec.SecretKeySpec
 
 class CryptoHelperImpl : CryptoHelper {
 
-//    private var ivKey: String = ""
-//    private var keyValue: String = ""
     private var cipher: Cipher? = null
-
     private lateinit var ivSpec: IvParameterSpec
     private lateinit var keySpec: SecretKeySpec
 
@@ -26,17 +23,9 @@ class CryptoHelperImpl : CryptoHelper {
         }
     }
 
-//    override fun set(iv: String, key: String, algorithm: String) {
-//        ivKey = iv
-//        keyValue = key
-//        applyInstances()
-//    }
-
-
     @Throws(Exception::class)
     override fun encrypt(valueToEncrypt: String?, key: String?, iv: String?): String {
         return if (iv != null && key != null) {
-//            val enc = CryptoHelperImpl()
             applyInstances(key, iv)
             Base64.encodeToString(encryptInternal(valueToEncrypt), Base64.DEFAULT)
         } else {
@@ -47,9 +36,6 @@ class CryptoHelperImpl : CryptoHelper {
     @Throws(Exception::class)
     override fun decrypt(valueToDecrypt: String?, key: String?, iv: String?): String {
         return if (iv != null && key != null) {
-//            val enc = CryptoHelperImpl(
-//                ivKey = iv, keyValue = key
-//            )
             applyInstances(key, iv)
             String(decryptInternal(valueToDecrypt))
         } else {
