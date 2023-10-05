@@ -1,9 +1,6 @@
 package br.com.raphaelmaracaipe.core.network.utils
 
-class KeysDefault {
-
-    external fun getSeed(): String?
-
-    external fun getKey(): String?
-
-}
+data class KeysDefault(
+    val key: String = (KeysExternal.getKey() ?: ""),
+    val seed: String = (KeysExternal.getSeed() ?: ""),
+)

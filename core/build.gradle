@@ -78,6 +78,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "io.insert-koin:koin-android:$koin"
     implementation "com.github.curious-odd-man:rgxgen:$rgxgen"
+    implementation "com.squareup.okhttp3:logging-interceptor:$http_logger_inteceptor"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.test:core-ktx:$test_core"

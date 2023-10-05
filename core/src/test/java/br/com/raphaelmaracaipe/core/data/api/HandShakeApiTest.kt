@@ -6,10 +6,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.DeviceRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
-import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
-import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.data.api.services.UserService
+import br.com.raphaelmaracaipe.core.data.api.services.HandShakeService
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
@@ -18,14 +16,11 @@ import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -36,13 +31,13 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
-class UserApiTest {
+class HandShakeApiTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
     private val mockWebServer = MockWebServer()
-    private lateinit var userService: UserService
+    private lateinit var handShakeService: HandShakeService
     private lateinit var mContext: Context
 
     @Before
@@ -52,6 +47,7 @@ class UserApiTest {
         mockWebServer.start()
         val baseURL = mockWebServer.url("").toString()
         NetworkUtils.URL_TO_MOCK = baseURL
+        println("URL => ${NetworkUtils.URL_TO_MOCK}")
 
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
@@ -63,8 +59,8 @@ class UserApiTest {
         val deviceRepository = DeviceRepositoryImpl(deviceIdSP)
         val keyRepository = KeyRepositoryImpl(keySp, keysDefault)
 
-        userService = configRetrofit(
-            UserService::class.java,
+        handShakeService = configRetrofit(
+            HandShakeService::class.java,
             cryptoHelper,
             keysDefault,
             apiKeys,
@@ -74,60 +70,33 @@ class UserApiTest {
     }
 
     @Test
-    fun `when send to server number to phone`() = runBlocking {
+    fun `when send to server to register key of communication and return success`() = runBlocking {
         mockWebServer.enqueue(
-            MockResponse().setResponseCode(201).setBody("{}")
+            MockResponse().setResponseCode(200).setBody("{}")
         )
 
-        val userApi: UserApi = UserApiImpl(userService)
-        val returnOfApi = userApi.sendCode(UserSendCodeRequest("99999999999"))
-        assertTrue(returnOfApi)
-    }
-
-    @Test
-    fun `when send to server number to phone but api return error`() = runBlocking {
-        mockWebServer.enqueue(
-            MockResponse().setResponseCode(403).setBody("{}")
-        )
-
-        val userApi: UserApi = UserApiImpl(userService)
+        val handShakeApi: HandShakeApi = HandShakeApiImpl(handShakeService)
         try {
-            userApi.sendCode(UserSendCodeRequest("99999999999"))
-            assertTrue(false)
+            handShakeApi.send()
+            assertTrue(true)
         } catch (e: Exception) {
-            assertEquals(null, e.message)
-        }
-    }
-
-    @Test
-    fun `when send code correct and return token`() = runBlocking {
-        val tokens = TokensResponse("a", "b")
-        mockWebServer.enqueue(
-            MockResponse().setResponseCode(201).setBody(tokens.toJSON())
-        )
-
-        try {
-            val userApi: UserApi = UserApiImpl(userService)
-            val tokensResponse = userApi.validCode("1")
-            assertEquals(tokens.accessToken, tokensResponse.accessToken)
-        } catch (e: NetworkException) {
             assertTrue(false)
         }
     }
 
     @Test
-    fun `when send code incorrect`() = runBlocking {
+    fun `when send to server to register key of communication but return error`() = runBlocking {
         val errorResponse = ErrorResponse(401, 2001)
         mockWebServer.enqueue(
             MockResponse().setResponseCode(401).setBody(errorResponse.toJSON())
         )
 
+        val handShakeApi: HandShakeApi = HandShakeApiImpl(handShakeService)
         try {
-            val userApi: UserApi = UserApiImpl(userService)
-            userApi.validCode("1")
+            handShakeApi.send()
             assertTrue(false)
         } catch (e: NetworkException) {
-            assertEquals(2001, e.code)
+            assertEquals(errorResponse.codeError, e.code)
         }
     }
 
@@ -135,4 +104,5 @@ class UserApiTest {
     fun after() {
         mockWebServer.shutdown()
     }
+
 }

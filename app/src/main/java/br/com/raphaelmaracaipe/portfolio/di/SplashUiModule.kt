@@ -11,7 +11,7 @@ object SplashUiModule {
     fun allModule() = listOf(coreModule, viewModel)
 
     private val viewModel = module {
-        viewModel { SplashViewModel(get()) }
+        viewModel { SplashViewModel(get(), get()) }
     }
 
 

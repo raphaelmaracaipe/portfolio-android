@@ -25,6 +25,7 @@ ext {
     retrofit = '2.9.0'
     loading_button = '2.3.0'
     rgxgen = '1.4'
+    http_logger_inteceptor = '4.9.1'
 
     //tests
     test_junit = '4.13.2'

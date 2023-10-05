@@ -1,17 +1,26 @@
 package br.com.raphaelmaracaipe.core.network
 
 import br.com.raphaelmaracaipe.core.BuildConfig
+import br.com.raphaelmaracaipe.core.data.DeviceRepository
+import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.network.interceptors.EncryptedInterceptor
+import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
+import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils.URL_TO_MOCK
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkImpl(
     private val baseUrl: String,
-    private val cryptoHelper: CryptoHelper
+    private val cryptoHelper: CryptoHelper,
+    private val keysDefault: KeysDefault,
+    private val apiKeys: ApiKeys,
+    private val deviceRepository: DeviceRepository,
+    private val keyRepository: KeyRepository
 ) : Network {
 
     override fun <T : Any> create(service: Class<T>): T = getInstanceRetrofit()
@@ -26,7 +35,16 @@ class NetworkImpl(
     private fun createInstanceOkHttp(): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
         return okHttpClient
-            .addInterceptor(EncryptedInterceptor(cryptoHelper))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(
+                EncryptedInterceptor(
+                    keysDefault,
+                    apiKeys,
+                    cryptoHelper,
+                    deviceRepository,
+                    keyRepository
+                )
+            )
             .build()
     }
 
@@ -34,11 +52,25 @@ class NetworkImpl(
 
 }
 
-fun <T : Any> configRetrofit(service: Class<T>, cryptoHelper: CryptoHelper): T {
+fun <T : Any> configRetrofit(
+    service: Class<T>,
+    cryptoHelper: CryptoHelper,
+    keysDefault: KeysDefault,
+    apiKeys: ApiKeys,
+    deviceRepository: DeviceRepository,
+    keyRepository: KeyRepository
+): T {
     val baseUrl = URL_TO_MOCK.ifEmpty {
         BuildConfig.URL
     }
 
-    val configurationRetrofit: Network = NetworkImpl(baseUrl, cryptoHelper)
+    val configurationRetrofit: Network = NetworkImpl(
+        baseUrl,
+        cryptoHelper,
+        keysDefault,
+        apiKeys,
+        deviceRepository,
+        keyRepository
+    )
     return configurationRetrofit.create(service)
 }
