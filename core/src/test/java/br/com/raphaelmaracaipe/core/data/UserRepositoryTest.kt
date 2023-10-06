@@ -4,11 +4,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,17 +31,17 @@ class UserRepositoryTest {
 
     @Test
     fun `when request to server but api return error`() = runBlocking {
-        val msgError = "error in the request"
-
         val userApi = mockk<UserApi>()
-        coEvery { userApi.sendCode(any()) } throws Exception(msgError)
+        coEvery { userApi.sendCode(any()) } throws NetworkException(
+            NetworkCodeEnum.ERROR_GENERAL.code
+        )
 
         val userRepository: UserRepository = UserRepositoryImpl(userApi)
         try {
             userRepository.sendCode(UserSendCodeRequest("9999999999999"))
             assertTrue(true)
-        } catch (e: Exception) {
-            assertEquals(msgError, e.message)
+        } catch (e: NetworkException) {
+            assertEquals(NetworkCodeEnum.ERROR_GENERAL.code, e.code)
         }
     }
 

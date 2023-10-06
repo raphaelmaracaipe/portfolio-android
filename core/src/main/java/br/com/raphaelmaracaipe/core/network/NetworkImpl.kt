@@ -3,6 +3,7 @@ package br.com.raphaelmaracaipe.core.network
 import br.com.raphaelmaracaipe.core.BuildConfig
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.network.interceptors.DecryptedInterceptor
 import br.com.raphaelmaracaipe.core.network.interceptors.EncryptedInterceptor
 import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
@@ -13,6 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class NetworkImpl(
     private val baseUrl: String,
@@ -23,30 +25,26 @@ class NetworkImpl(
     private val keyRepository: KeyRepository
 ) : Network {
 
-    override fun <T : Any> create(service: Class<T>): T = getInstanceRetrofit()
-        .create(service)
+    override fun <T : Any> create(service: Class<T>): T = getInstanceRetrofit().create(service)
 
-    private fun getInstanceRetrofit() = Retrofit.Builder()
-        .baseUrl(baseUrl)
+    private fun getInstanceRetrofit() = Retrofit.Builder().baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create(createInstanceGSON()))
-        .client(createInstanceOkHttp())
-        .build()
+        .client(createInstanceOkHttp()).build()
 
-    private fun createInstanceOkHttp(): OkHttpClient {
-        val okHttpClient = OkHttpClient.Builder()
-        return okHttpClient
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(
-                EncryptedInterceptor(
-                    keysDefault,
-                    apiKeys,
-                    cryptoHelper,
-                    deviceRepository,
-                    keyRepository
-                )
+    private fun createInstanceOkHttp() = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(
+            EncryptedInterceptor(
+                keysDefault, apiKeys, cryptoHelper, deviceRepository, keyRepository
             )
-            .build()
-    }
+        )
+        .addInterceptor(
+            DecryptedInterceptor()
+        )
+        .build()
 
     private fun createInstanceGSON() = GsonBuilder().create()
 
@@ -65,12 +63,7 @@ fun <T : Any> configRetrofit(
     }
 
     val configurationRetrofit: Network = NetworkImpl(
-        baseUrl,
-        cryptoHelper,
-        keysDefault,
-        apiKeys,
-        deviceRepository,
-        keyRepository
+        baseUrl, cryptoHelper, keysDefault, apiKeys, deviceRepository, keyRepository
     )
     return configurationRetrofit.create(service)
 }
