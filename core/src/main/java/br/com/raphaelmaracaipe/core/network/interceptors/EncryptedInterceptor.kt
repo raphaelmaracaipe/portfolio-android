@@ -1,14 +1,13 @@
 package br.com.raphaelmaracaipe.core.network.interceptors
 
 import br.com.raphaelmaracaipe.core.BuildConfig
-import br.com.raphaelmaracaipe.core.consts.REGEX_SEED
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.extensions.bodyToString
 import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
-import com.github.curiousoddman.rgxgen.RgxGen
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
@@ -19,22 +18,21 @@ import org.json.JSONObject
 import java.net.URLEncoder
 
 class EncryptedInterceptor(
-    keysDefault: KeysDefault,
+    private val keysDefault: KeysDefault,
     private val apiKeys: ApiKeys,
     private val cryptoHelper: CryptoHelper,
     private val deviceRepository: DeviceRepository,
-    private val keyRepository: KeyRepository
+    private val keyRepository: KeyRepository,
+    private val seedRepository: SeedRepository
 ) : Interceptor {
 
-    private val seedGenerated = RgxGen(REGEX_SEED).generate()
-    private val seedDefault = keysDefault.seed
-
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
+        seedRepository.cleanSeedSaved()
         proceed(checkWhichMethodToChangeBody(chain))
     }
 
     private fun Interceptor.Chain.checkWhichMethodToChangeBody(chain: Interceptor.Chain): Request {
-        val seedGeneratedEncryptedWithDefault = encryptedSeed(seedGenerated)
+        val seedGeneratedEncryptedWithDefault = encryptedSeed()
         val deviceID = deviceRepository.getDeviceIDSaved()
 
         return request().newBuilder()
@@ -60,7 +58,12 @@ class EncryptedInterceptor(
     private fun transformBodyToEncrypted(chain: Interceptor.Chain): String {
         val body = chain.request().body.bodyToString() ?: ""
         return if (body.isNotEmpty()) {
-            val bodyEncrypted = cryptoHelper.encrypt(body, keyRepository.get(), seedGenerated)
+            val bodyEncrypted = cryptoHelper.encrypt(
+                body,
+                keyRepository.get(),
+                seedRepository.get()
+            )
+
             JSONObject().apply {
                 put("data", URLEncoder.encode(bodyEncrypted, "UTF-8"))
             }.toString()
@@ -69,10 +72,10 @@ class EncryptedInterceptor(
         }
     }
 
-    private fun encryptedSeed(seed: String) = cryptoHelper.encrypt(
-        seed,
-        keyRepository.get(),
-        seedDefault
+    private fun encryptedSeed() = cryptoHelper.encrypt(
+        seedRepository.get(),
+        keysDefault.key,
+        keysDefault.seed
     )
 
     private fun getApiKey(): String = if (BuildConfig.IS_DEV) {

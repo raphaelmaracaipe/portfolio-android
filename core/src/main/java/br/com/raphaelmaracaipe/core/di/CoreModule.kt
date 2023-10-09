@@ -8,6 +8,8 @@ import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.SeedRepository
+import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.UserRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
@@ -20,6 +22,8 @@ import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
+import br.com.raphaelmaracaipe.core.data.sp.SeedSP
+import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
@@ -37,6 +41,7 @@ object CoreModule {
         single<HandShakeRepository> { HandShakeRepositoryImpl(get()) }
         single<DeviceRepository> { DeviceRepositoryImpl(get()) }
         single<KeyRepository> { KeyRepositoryImpl(get(), get()) }
+        single<SeedRepository> { SeedRepositoryImpl(get()) }
     }
 
     private val apis = module {
@@ -47,6 +52,7 @@ object CoreModule {
     private val sps = module {
         single<DeviceIdSP> { DeviceIdSPImpl(androidContext(), get(), get()) }
         single<KeySP> { KeySPImpl(androidContext(), get(), get()) }
+        single<SeedSP> { SeedSPImpl(androidContext()) }
     }
 
     private val utils = module {
@@ -57,8 +63,28 @@ object CoreModule {
     }
 
     private val configRetrofit = module {
-        single { configRetrofit(UserService::class.java, get(), get(), get(), get(), get()) }
-        single { configRetrofit(HandShakeService::class.java, get(), get(), get(), get(), get()) }
+        single {
+            configRetrofit(
+                UserService::class.java,
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
+        }
+        single {
+            configRetrofit(
+                HandShakeService::class.java,
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
+        }
     }
 
 }
