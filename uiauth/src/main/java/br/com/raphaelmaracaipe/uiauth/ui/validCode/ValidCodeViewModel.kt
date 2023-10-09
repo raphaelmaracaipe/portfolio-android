@@ -35,10 +35,14 @@ class ValidCodeViewModel(
     private val _msgError: MutableLiveData<String> = MutableLiveData("")
     val msgError: LiveData<String> = _msgError
 
+    private val _goToNext: MutableLiveData<Unit> = MutableLiveData()
+    val goToNext: LiveData<Unit> = _goToNext
+
     fun sendToServer() = viewModelScope.launch {
         _showLoading.postValue(true)
         try {
             userRepository.validCode((code.value ?: ""))
+            _goToNext.postValue(Unit)
         } catch (e: NetworkException) {
             val msg = when (e.translateCodeError()) {
                 USER_SEND_CODE_INVALID -> R.string.response_error_code_invalid

@@ -65,7 +65,6 @@ class DecryptedInterceptor(
             keyAndSeed.first,
             keyAndSeed.second
         )
-        Log.i("RAPHAEL", "A")
 
         bodyDecrypted.ifEmpty {
             "{}"
