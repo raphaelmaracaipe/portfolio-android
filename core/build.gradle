@@ -25,6 +25,7 @@ android {
             buildConfigField('boolean', 'IS_DEV', 'false')
         }
         releaseDebuggable {
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')

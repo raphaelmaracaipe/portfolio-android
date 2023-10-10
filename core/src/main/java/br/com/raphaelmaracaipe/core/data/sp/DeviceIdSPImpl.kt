@@ -13,8 +13,8 @@ class DeviceIdSPImpl(
 
     private val sharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE)
     private val deviceID = "deviceId"
-    private val seedDefault = keysDefault.seed ?: ""
-    private val keyDefault = keysDefault.key ?: ""
+    private val seedDefault = keysDefault.seed
+    private val keyDefault = keysDefault.key
 
     override fun save(deviceId: String) {
         val deviceIdEncrypted = cryptoHelper.encrypt(deviceId, keyDefault, seedDefault)
