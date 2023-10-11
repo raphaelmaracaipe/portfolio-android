@@ -5,7 +5,7 @@ import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.extensions.bodyToString
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
+import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import okhttp3.Interceptor
@@ -19,7 +19,7 @@ import java.net.URLEncoder
 
 class EncryptedInterceptor(
     private val keysDefault: KeysDefault,
-    private val apiKeys: ApiKeys,
+    private val apiKeys: ApiKeysDefault,
     private val cryptoHelper: CryptoHelper,
     private val deviceRepository: DeviceRepository,
     private val keyRepository: KeyRepository,

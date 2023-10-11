@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.core.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -30,7 +31,7 @@ class HandShakeRepositoryTest {
     @Test
     fun `when send to key but return error`() = runBlocking {
         val handShakeApi = mockk<HandShakeApi>()
-        coEvery { handShakeApi.send() } throws NetworkException(4001)
+        coEvery { handShakeApi.send() } throws NetworkException(NetworkCodeEnum.SEED_INVALID.code)
 
         val handShakeRepository: HandShakeRepository = HandShakeRepositoryImpl(handShakeApi)
         try {
@@ -38,6 +39,20 @@ class HandShakeRepositoryTest {
             assertTrue(false)
         } catch (e: NetworkException) {
             assertEquals(4001, e.code)
+        }
+    }
+
+    @Test
+    fun `when send to key but return error generic`() = runBlocking {
+        val handShakeApi = mockk<HandShakeApi>()
+        coEvery { handShakeApi.send() } throws Exception("error")
+
+        val handShakeRepository: HandShakeRepository = HandShakeRepositoryImpl(handShakeApi)
+        try {
+            handShakeRepository.send()
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(NetworkCodeEnum.ERROR_GENERAL.code, e.code)
         }
     }
 

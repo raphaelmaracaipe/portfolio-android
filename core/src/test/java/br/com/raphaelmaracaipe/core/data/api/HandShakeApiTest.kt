@@ -6,13 +6,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.DeviceRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.data.api.services.HandShakeService
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
+import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
+import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
@@ -50,14 +52,16 @@ class HandShakeApiTest {
         println("URL => ${NetworkUtils.URL_TO_MOCK}")
 
         val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val apiKeys = ApiKeys("AAA", "BBB")
+        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX",)
+        val apiKeys = ApiKeysDefault("AAA", "BBB")
 
         val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, cryptoHelper)
         val keySp = KeySPImpl(mContext, keysDefault, cryptoHelper)
+        val seedSP = SeedSPImpl(mContext)
 
         val deviceRepository = DeviceRepositoryImpl(deviceIdSP)
         val keyRepository = KeyRepositoryImpl(keySp, keysDefault)
+        val seedRepository = SeedRepositoryImpl(seedSP)
 
         handShakeService = configRetrofit(
             HandShakeService::class.java,
@@ -65,7 +69,8 @@ class HandShakeApiTest {
             keysDefault,
             apiKeys,
             deviceRepository,
-            keyRepository
+            keyRepository,
+            seedRepository
         )
     }
 

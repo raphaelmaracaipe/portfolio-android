@@ -1,6 +1,6 @@
 package br.com.raphaelmaracaipe.core.network.utils
 
-object ApiKeyExternal {
+object ApiKeysExternal {
 
     external fun getApiKeyDev(): String?
 

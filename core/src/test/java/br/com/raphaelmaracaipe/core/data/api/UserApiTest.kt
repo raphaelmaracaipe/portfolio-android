@@ -2,27 +2,31 @@ package br.com.raphaelmaracaipe.core.data.api
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.DeviceRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
+import br.com.raphaelmaracaipe.core.data.sp.SeedSP
+import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
+import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
-import io.mockk.every
-import io.mockk.mockk
+import br.com.raphaelmaracaipe.core.utils.encryptedBodyRequest
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
+import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -54,14 +58,16 @@ class UserApiTest {
         NetworkUtils.URL_TO_MOCK = baseURL
 
         val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val apiKeys = ApiKeys("AAA", "BBB")
+        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX",)
+        val apiKeys = ApiKeysDefault("AAA", "BBB")
 
         val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, cryptoHelper)
         val keySp = KeySPImpl(mContext, keysDefault, cryptoHelper)
+        val seedSp = SeedSPImpl(mContext)
 
         val deviceRepository = DeviceRepositoryImpl(deviceIdSP)
         val keyRepository = KeyRepositoryImpl(keySp, keysDefault)
+        val seedRepository = SeedRepositoryImpl(seedSp)
 
         userService = configRetrofit(
             UserService::class.java,
@@ -69,7 +75,8 @@ class UserApiTest {
             keysDefault,
             apiKeys,
             deviceRepository,
-            keyRepository
+            keyRepository,
+            seedRepository
         )
     }
 
@@ -102,8 +109,10 @@ class UserApiTest {
     @Test
     fun `when send code correct and return token`() = runBlocking {
         val tokens = TokensResponse("a", "b")
+
+        val bodyEncrypted = encryptedBodyRequest(tokens.toJSON())
         mockWebServer.enqueue(
-            MockResponse().setResponseCode(201).setBody(tokens.toJSON())
+            MockResponse().setResponseCode(201).setBody(bodyEncrypted)
         )
 
         try {

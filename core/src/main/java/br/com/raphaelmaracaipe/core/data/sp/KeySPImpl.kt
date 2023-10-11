@@ -29,4 +29,11 @@ class KeySPImpl(
         }
     }
 
+    override fun clean() {
+        sharedPreferences.edit {
+            clear()
+            commit()
+        }
+    }
+
 }

@@ -6,7 +6,7 @@ import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.network.interceptors.DecryptedInterceptor
 import br.com.raphaelmaracaipe.core.network.interceptors.EncryptedInterceptor
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeys
+import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils.URL_TO_MOCK
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
@@ -20,7 +20,7 @@ class NetworkImpl(
     private val baseUrl: String,
     private val cryptoHelper: CryptoHelper,
     private val keysDefault: KeysDefault,
-    private val apiKeys: ApiKeys,
+    private val apiKeys: ApiKeysDefault,
     private val deviceRepository: DeviceRepository,
     private val keyRepository: KeyRepository,
     private val seedRepository: SeedRepository
@@ -64,7 +64,7 @@ fun <T : Any> configRetrofit(
     service: Class<T>,
     cryptoHelper: CryptoHelper,
     keysDefault: KeysDefault,
-    apiKeys: ApiKeys,
+    apiKeys: ApiKeysDefault,
     deviceRepository: DeviceRepository,
     keyRepository: KeyRepository,
     seedRepository: SeedRepository

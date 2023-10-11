@@ -6,5 +6,5 @@ import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 interface UserRepository {
     suspend fun sendCode(userSendCode: UserSendCodeRequest): Boolean
 
-    suspend fun validCode(code: String): TokensResponse
+    suspend fun validCode(code: String)
 }
