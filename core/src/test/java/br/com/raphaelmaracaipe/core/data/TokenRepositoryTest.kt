@@ -28,7 +28,7 @@ class TokenRepositoryTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeyDefault = SpKeyDefault("a", "b", "c", "d")
+        val spKeyDefault = SpKeyDefault("a", "b", "c", "d", "e", "f")
 
         tokenSP = TokenSPImpl(context, keysDefault, spKeyDefault, cryptoHelper)
         tokenRepository = TokenRepositoryImpl(tokenSP)

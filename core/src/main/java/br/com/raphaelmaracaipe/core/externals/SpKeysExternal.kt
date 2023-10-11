@@ -10,4 +10,8 @@ object SpKeysExternal {
 
     external fun getDeviceEditKey(): String?
 
+    external fun getKeySp(): String?
+
+    external fun getKeySpEdit(): String?
+
 }

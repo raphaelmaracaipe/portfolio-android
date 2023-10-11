@@ -54,11 +54,11 @@ class HandShakeApiTest {
 
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA")
+        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA", "AAA", "AAA")
         val apiKeys = ApiKeysDefault("AAA", "BBB")
 
         val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
-        val keySp = KeySPImpl(mContext, keysDefault, cryptoHelper)
+        val keySp = KeySPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
         val seedSP = SeedSPImpl(mContext)
 
         val deviceRepository = DeviceRepositoryImpl(deviceIdSP)

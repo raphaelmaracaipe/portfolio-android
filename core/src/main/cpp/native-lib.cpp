@@ -57,3 +57,17 @@ Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getDeviceEditKey(JNIE
     std::string hello = "deviceIdKeyEdit";
     return env->NewStringUTF(hello.c_str());
 }
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getKeySp(JNIEnv *env, jobject thiz) {
+    std::string hello = "keys";
+    return env->NewStringUTF(hello.c_str());
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getKeySpEdit(JNIEnv *env, jobject thiz) {
+    std::string hello = "keysEdit";
+    return env->NewStringUTF(hello.c_str());
+}

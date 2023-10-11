@@ -40,7 +40,7 @@ class UserRepositoryTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeyDefault = SpKeyDefault("tokenKey", "tokenKeyEdit", "deviceIdKey", "deviceEditKey")
+        val spKeyDefault = SpKeyDefault("tokenKey", "tokenKeyEdit", "deviceIdKey", "deviceEditKey", "keySp", "keySpEdit")
 
         val userApi = mockk<UserApi>()
 

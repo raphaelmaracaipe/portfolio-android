@@ -57,7 +57,7 @@ object CoreModule {
 
     private val sps = module {
         single<DeviceIdSP> { DeviceIdSPImpl(androidContext(), get(), get(), get()) }
-        single<KeySP> { KeySPImpl(androidContext(), get(), get()) }
+        single<KeySP> { KeySPImpl(androidContext(), get(), get(), get()) }
         single<SeedSP> { SeedSPImpl(androidContext()) }
         single<TokenSP> { TokenSPImpl(androidContext(), get(), get(), get()) }
     }

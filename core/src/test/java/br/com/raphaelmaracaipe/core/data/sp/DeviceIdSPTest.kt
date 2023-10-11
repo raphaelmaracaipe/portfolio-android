@@ -24,7 +24,7 @@ class DeviceIdSPTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA")
+        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA", "keySp", "keySpEdit")
 
         deviceIdSP = DeviceIdSPImpl(context, keysDefault, spKeysDefault, cryptoHelper)
     }
