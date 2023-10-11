@@ -2,9 +2,8 @@ package br.com.raphaelmaracaipe.core.data.sp
 
 import android.os.Build
 import br.com.raphaelmaracaipe.core.TestApplication
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
-import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
-import org.junit.Assert.*
+import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,24 +13,30 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
-class KeySPTest {
+class SeedSPTest {
 
-    private lateinit var keySP: KeySP
+    private lateinit var seedSP: SeedSP
 
     @Before
     fun setUp() {
         val context = RuntimeEnvironment.getApplication().applicationContext
-        val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX",)
-
-        keySP = KeySPImpl(context, keysDefault, cryptoHelper)
+        seedSP = SeedSPImpl(context)
     }
 
     @Test
-    fun `when saved key should get key registered`() {
-        keySP.save("AAA")
-        val keySaved = keySP.get()
-        assertEquals("AAA", keySaved)
+    fun `when save values in sp should call method with param`() {
+        seedSP.save("test")
+        val seedSaved = seedSP.get()
+        assertEquals(seedSaved, "test")
     }
+
+    @Test
+    fun `when clean data saved in sp should return value empty`() {
+        seedSP.save("test")
+        seedSP.clean()
+        val seedSaved = seedSP.get()
+        assertEquals(seedSaved, "")
+    }
+
 
 }

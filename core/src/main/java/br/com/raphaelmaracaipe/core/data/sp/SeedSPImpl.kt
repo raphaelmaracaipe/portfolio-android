@@ -7,8 +7,8 @@ class SeedSPImpl(
     context: Context
 ) : SeedSP {
 
-    private val sp = context.getSharedPreferences("SEED_KEEY", Context.MODE_PRIVATE)
-    private val key = "SEED_KEEY"
+    private val sp = context.getSharedPreferences("SEED_KEY", Context.MODE_PRIVATE)
+    private val key = "SEED_KEY"
 
     override fun save(seed: String) {
         sp.edit {

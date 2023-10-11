@@ -1,11 +1,9 @@
 package br.com.raphaelmaracaipe.core.data.sp
 
-import android.content.Context
 import android.os.Build
 import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +22,7 @@ class DeviceIdSPTest {
     fun setUp() {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
+        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX",)
 
         deviceIdSP = DeviceIdSPImpl(context, keysDefault, cryptoHelper)
     }
