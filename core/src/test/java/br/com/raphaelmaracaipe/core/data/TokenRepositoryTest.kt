@@ -5,10 +5,9 @@ import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSPImpl
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.SpKeyDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +28,7 @@ class TokenRepositoryTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeyDefault = SpKeyDefault("a", "b")
+        val spKeyDefault = SpKeyDefault("a", "b", "c", "d")
 
         tokenSP = TokenSPImpl(context, keysDefault, spKeyDefault, cryptoHelper)
         tokenRepository = TokenRepositoryImpl(tokenSP)

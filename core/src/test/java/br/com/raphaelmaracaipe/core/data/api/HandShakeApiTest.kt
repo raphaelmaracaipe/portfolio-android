@@ -14,9 +14,10 @@ import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
 import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils
+import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.NetworkUtils
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
@@ -52,10 +53,11 @@ class HandShakeApiTest {
         println("URL => ${NetworkUtils.URL_TO_MOCK}")
 
         val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX",)
+        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
+        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA")
         val apiKeys = ApiKeysDefault("AAA", "BBB")
 
-        val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, cryptoHelper)
+        val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
         val keySp = KeySPImpl(mContext, keysDefault, cryptoHelper)
         val seedSP = SeedSPImpl(mContext)
 

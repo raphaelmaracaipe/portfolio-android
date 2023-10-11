@@ -29,9 +29,9 @@ import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.SpKeyDefault
+import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import org.koin.android.ext.koin.androidContext
@@ -56,7 +56,7 @@ object CoreModule {
     }
 
     private val sps = module {
-        single<DeviceIdSP> { DeviceIdSPImpl(androidContext(), get(), get()) }
+        single<DeviceIdSP> { DeviceIdSPImpl(androidContext(), get(), get(), get()) }
         single<KeySP> { KeySPImpl(androidContext(), get(), get()) }
         single<SeedSP> { SeedSPImpl(androidContext()) }
         single<TokenSP> { TokenSPImpl(androidContext(), get(), get(), get()) }

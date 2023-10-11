@@ -5,8 +5,8 @@ import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.extensions.bodyToString
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

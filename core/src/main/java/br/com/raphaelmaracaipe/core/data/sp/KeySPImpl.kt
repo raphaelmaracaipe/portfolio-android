@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe.core.data.sp
 
 import android.content.Context
 import androidx.core.content.edit
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 
 class KeySPImpl(

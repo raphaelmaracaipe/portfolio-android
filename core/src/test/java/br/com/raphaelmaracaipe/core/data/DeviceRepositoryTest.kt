@@ -3,7 +3,8 @@ package br.com.raphaelmaracaipe.core.data
 import android.os.Build
 import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import org.junit.Assert.*
 import org.junit.Before
@@ -24,8 +25,9 @@ class DeviceRepositoryTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
+        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA")
 
-        deviceRepository = DeviceRepositoryImpl(DeviceIdSPImpl(context, keysDefault, cryptoHelper))
+        deviceRepository = DeviceRepositoryImpl(DeviceIdSPImpl(context, keysDefault, spKeysDefault, cryptoHelper))
     }
 
     @Test

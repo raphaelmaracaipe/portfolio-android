@@ -5,8 +5,8 @@ import androidx.core.content.edit
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.core.extensions.toSha1
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.SpKeyDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 
 class TokenSPImpl(

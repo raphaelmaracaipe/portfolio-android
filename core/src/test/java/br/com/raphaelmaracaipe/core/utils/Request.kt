@@ -1,6 +1,6 @@
 package br.com.raphaelmaracaipe.core.utils
 
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import org.json.JSONObject
 

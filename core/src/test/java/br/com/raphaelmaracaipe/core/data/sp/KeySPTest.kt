@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe.core.data.sp
 
 import android.os.Build
 import br.com.raphaelmaracaipe.core.TestApplication
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import org.junit.Assert.*
 import org.junit.Before

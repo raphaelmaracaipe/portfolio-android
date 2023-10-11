@@ -6,9 +6,9 @@ import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.network.interceptors.DecryptedInterceptor
 import br.com.raphaelmaracaipe.core.network.interceptors.EncryptedInterceptor
-import br.com.raphaelmaracaipe.core.network.utils.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
-import br.com.raphaelmaracaipe.core.network.utils.NetworkUtils.URL_TO_MOCK
+import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.NetworkUtils.URL_TO_MOCK
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

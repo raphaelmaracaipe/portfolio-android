@@ -44,8 +44,8 @@ class SplashFragment : Fragment() {
             showAlert()
         }
 
-        mViewModel.response.observe(viewLifecycleOwner) {
-            redirect(1800)
+        mViewModel.response.observe(viewLifecycleOwner) { isExistTokenSaved ->
+            redirect(isExistTokenSaved)
         }
     }
 
@@ -78,19 +78,23 @@ class SplashFragment : Fragment() {
         }, 1500)
     }
 
-    private fun redirect(timeToWait: Long = 3800) {
+    private fun redirect(isExistTokenSaved: Boolean) {
         binding.root.postDelayed({
-            val extras = FragmentNavigatorExtras(
-                binding.imvIcon to "icon_app_transition"
-            )
+            if(isExistTokenSaved) {
+                findNavController().navigate(R.id.action_splashFragment_to_nav_uiprofile)
+            } else {
+                val extras = FragmentNavigatorExtras(
+                    binding.imvIcon to "icon_app_transition"
+                )
 
-            findNavController().navigate(
-                R.id.action_splashFragment_to_nav_uiauth,
-                null,
-                null,
-                extras
-            )
-        }, timeToWait)
+                findNavController().navigate(
+                    R.id.action_splashFragment_to_nav_uiauth,
+                    null,
+                    null,
+                    extras
+                )
+            }
+        }, 2000)
     }
 
 

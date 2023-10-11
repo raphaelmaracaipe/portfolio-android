@@ -1,7 +1,7 @@
 package br.com.raphaelmaracaipe.core.data
 
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
 
 class KeyRepositoryImpl(
     private val keySP: KeySP,

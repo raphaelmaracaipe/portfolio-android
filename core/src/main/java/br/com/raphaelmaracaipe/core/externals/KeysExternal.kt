@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.core.network.utils
+package br.com.raphaelmaracaipe.core.externals
 
 object KeysExternal {
 

@@ -1,12 +1,11 @@
 package br.com.raphaelmaracaipe.core.network.interceptors
 
-import android.util.Log
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.models.TransactionEncryptedModel
-import br.com.raphaelmaracaipe.core.network.utils.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import okhttp3.Interceptor
 import okhttp3.MediaType
@@ -16,7 +15,6 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONObject
-import java.net.URLDecoder
 
 class DecryptedInterceptor(
     private val keysDefault: KeysDefault,

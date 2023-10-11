@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_splashFragment_to_nav_uiauth"
             app:destination="@id/nav_uiauth" />
+        <action
+            android:id="@+id/action_splashFragment_to_nav_uiprofile"
+            app:destination="@id/nav_uiprofile" />
     </fragment>
     <include app:graph="@navigation/nav_uiauth" />
     <include app:graph="@navigation/nav_uiprofile" />
