@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.portfolio.TestApplication
 import io.mockk.coEvery
@@ -31,6 +32,7 @@ class SplashViewModelTest {
     private lateinit var handShakeRepository: HandShakeRepository
     private lateinit var keyRepository: KeyRepository
     private lateinit var tokenRepository: TokenRepository
+    private lateinit var seedRepository: SeedRepository
     private lateinit var splashViewModel: SplashViewModel
 
     @Before
@@ -38,12 +40,26 @@ class SplashViewModelTest {
         handShakeRepository = mockk()
         keyRepository = mockk()
         tokenRepository = mockk()
+        seedRepository = mockk()
 
         splashViewModel = SplashViewModel(
             handShakeRepository,
             keyRepository,
-            tokenRepository
+            tokenRepository,
+            seedRepository
         )
+    }
+
+    @Test
+    fun `when call method to clean should clean data`() {
+        coEvery { seedRepository.cleanSeedSaved() } returns Unit
+
+        try {
+            splashViewModel.cleanSeedSaved()
+            assertTrue(true)
+        } catch (_: Exception) {
+            assertTrue(false)
+        }
     }
 
     @Test

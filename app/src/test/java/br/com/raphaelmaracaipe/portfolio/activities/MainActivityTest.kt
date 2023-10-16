@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
@@ -14,6 +15,7 @@ import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.TestApplication
 import br.com.raphaelmaracaipe.portfolio.fragment.SplashViewModel
+import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.After
 import org.junit.Assert.*
@@ -37,6 +39,7 @@ class MainActivityTest {
     private lateinit var modulesExternals: Module
     private lateinit var keyRepository: KeyRepository
     private lateinit var handShakeRepository: HandShakeRepository
+    private lateinit var seedRepository: SeedRepository
     private lateinit var tokenRepository: TokenRepository
     private lateinit var viewModelOfTest: Module
 
@@ -51,14 +54,17 @@ class MainActivityTest {
         keyRepository = mockk()
         handShakeRepository = mockk()
         tokenRepository = mockk()
+        seedRepository = mockk()
 
         viewModelOfTest = module {
-            viewModel { SplashViewModel(handShakeRepository, keyRepository, tokenRepository) }
+            viewModel { SplashViewModel(handShakeRepository, keyRepository, tokenRepository, seedRepository) }
         }
     }
 
     @Test
     fun `when init activity should visible container main`() {
+        coEvery { seedRepository.cleanSeedSaved() } returns Unit
+
         app.loadModules(listOf(
             *CoreModule.allModule().toTypedArray(),
             modulesExternals,

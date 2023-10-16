@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
     private val handShakeRepository: HandShakeRepository,
     private val keyRepository: KeyRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
+    private val seedRepository: SeedRepository
 ) : ViewModel() {
 
     private val _response: MutableLiveData<Boolean> = MutableLiveData()
@@ -20,6 +22,10 @@ class SplashViewModel(
 
     private val _errorRequest: MutableLiveData<Unit> = MutableLiveData()
     val errorRequest: LiveData<Unit> = _errorRequest
+
+    fun cleanSeedSaved() {
+        seedRepository.cleanSeedSaved()
+    }
 
     fun send() = viewModelScope.launch {
         try {

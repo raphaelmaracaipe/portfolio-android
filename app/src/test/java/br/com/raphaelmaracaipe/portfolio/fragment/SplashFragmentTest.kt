@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
@@ -47,6 +48,7 @@ class SplashFragmentTest {
     private lateinit var keyRepository: KeyRepository
     private lateinit var handShakeRepository: HandShakeRepository
     private lateinit var tokenRepository: TokenRepository
+    private lateinit var seedRepository: SeedRepository
     private lateinit var viewModelOfTest: Module
 
     @Before
@@ -60,9 +62,10 @@ class SplashFragmentTest {
         keyRepository = mockk()
         handShakeRepository = mockk()
         tokenRepository = mockk()
+        seedRepository = mockk()
 
         viewModelOfTest = module {
-            viewModel { SplashViewModel(handShakeRepository, keyRepository, tokenRepository) }
+            viewModel { SplashViewModel(handShakeRepository, keyRepository, tokenRepository, seedRepository) }
         }
     }
 
@@ -70,6 +73,7 @@ class SplashFragmentTest {
     fun `when not have key saved but api return error should show alert error`() {
         coEvery { handShakeRepository.send() } throws Exception("test of fail")
         coEvery { keyRepository.isExistKeyRegistered() } returns false
+        coEvery { seedRepository.cleanSeedSaved() } returns Unit
 
         app.loadModules(
             listOf(
@@ -92,6 +96,7 @@ class SplashFragmentTest {
         coEvery { handShakeRepository.send() } returns "AAA"
         coEvery { keyRepository.isExistKeyRegistered() } returns false
         coEvery { keyRepository.saveKeyGenerated(any()) } returns Unit
+        coEvery { seedRepository.cleanSeedSaved() } returns Unit
 
         app.loadModules(
             listOf(
@@ -113,6 +118,7 @@ class SplashFragmentTest {
     fun `when exist token saved should redirect to profile`() {
         coEvery { keyRepository.isExistKeyRegistered() } returns true
         coEvery { tokenRepository.isExistTokenRegistered() } returns true
+        coEvery { seedRepository.cleanSeedSaved() } returns Unit
 
         app.loadModules(
             listOf(

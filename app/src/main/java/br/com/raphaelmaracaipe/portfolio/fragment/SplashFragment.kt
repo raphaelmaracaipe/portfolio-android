@@ -39,6 +39,7 @@ class SplashFragment : Fragment() {
         animationOfIcon()
         observableHandShake()
 
+        mViewModel.cleanSeedSaved()
     }
 
     private fun observableHandShake() {

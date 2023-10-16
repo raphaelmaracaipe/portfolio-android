@@ -27,7 +27,6 @@ class EncryptedInterceptor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
-        seedRepository.cleanSeedSaved()
         proceed(checkWhichMethodToChangeBody(chain))
     }
 
