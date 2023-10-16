@@ -8,6 +8,7 @@ import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -53,14 +54,14 @@ class KeyRepositoryTest {
     }
 
     @Test
-    fun `when save value in sp should when call return data saved`() {
+    fun `when save value in sp should when call return data saved`() = runBlocking {
         val keyRepository = KeyRepositoryImpl(keySP, keysDefault)
         keyRepository.saveKeyGenerated("test")
         assertEquals(keySP.get(), keyRepository.get())
     }
 
     @Test
-    fun `when check if exist data should return true or false`() {
+    fun `when check if exist data should return true or false`() = runBlocking {
         val keyRepository = KeyRepositoryImpl(keySP, keysDefault)
         assertFalse(keyRepository.isExistKeyRegistered())
     }

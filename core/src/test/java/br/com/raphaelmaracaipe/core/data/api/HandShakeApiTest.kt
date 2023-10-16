@@ -50,7 +50,6 @@ class HandShakeApiTest {
         mockWebServer.start()
         val baseURL = mockWebServer.url("").toString()
         NetworkUtils.URL_TO_MOCK = baseURL
-        println("URL => ${NetworkUtils.URL_TO_MOCK}")
 
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")

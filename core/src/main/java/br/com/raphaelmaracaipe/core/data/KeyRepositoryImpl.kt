@@ -2,20 +2,24 @@ package br.com.raphaelmaracaipe.core.data
 
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class KeyRepositoryImpl(
     private val keySP: KeySP,
     private val keysDefault: KeysDefault
-): KeyRepository {
+) : KeyRepository {
 
-    override fun get(): String = keySP.get().ifEmpty {
+    override fun get() = keySP.get().ifEmpty {
         keysDefault.key
     }
 
-    override fun saveKeyGenerated(key: String) {
+    override suspend fun saveKeyGenerated(key: String) = withContext(Dispatchers.IO) {
         keySP.save(key)
     }
 
-    override fun isExistKeyRegistered(): Boolean = keySP.get().isNotEmpty()
+    override suspend fun isExistKeyRegistered(): Boolean = withContext(Dispatchers.IO) {
+        keySP.get().isNotEmpty()
+    }
 
 }

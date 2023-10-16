@@ -8,6 +8,7 @@ import br.com.raphaelmaracaipe.core.data.sp.TokenSPImpl
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -42,7 +43,7 @@ class TokenRepositoryTest {
     }
 
     @Test
-    fun `when check if exist token registered should return true or false`() {
+    fun `when check if exist token registered should return true or false`() = runBlocking {
         assertFalse(tokenRepository.isExistTokenRegistered())
     }
 

@@ -2,6 +2,6 @@ package br.com.raphaelmaracaipe.core.data
 
 interface KeyRepository {
     fun get(): String
-    fun saveKeyGenerated(key: String)
-    fun isExistKeyRegistered(): Boolean
+    suspend fun saveKeyGenerated(key: String)
+    suspend fun isExistKeyRegistered(): Boolean
 }
