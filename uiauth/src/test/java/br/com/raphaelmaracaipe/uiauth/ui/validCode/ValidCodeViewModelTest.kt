@@ -50,7 +50,8 @@ class ValidCodeViewModelTest {
 
     @Test
     fun `when valid code and return success`() = runBlocking {
-        coEvery { mUserRepository.validCode(any()) } returns TokensResponse("test1", "test2")
+        coEvery { mUserRepository.validCode(any()) } returns Unit
+
         mValidCodeViewModel.sendToServer()
         mValidCodeViewModel.showLoading.observeForever { isLoading ->
             Assert.assertFalse(isLoading)
