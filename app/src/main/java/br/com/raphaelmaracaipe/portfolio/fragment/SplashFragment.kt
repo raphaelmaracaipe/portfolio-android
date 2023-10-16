@@ -5,6 +5,8 @@ import android.os.Process
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -60,27 +62,40 @@ class SplashFragment : Fragment() {
     }
 
     private fun animationOfIcon() {
-        val animation = AnimationUtils.loadAnimation(
+        with(binding) {
+            imvIcon.visibility = View.VISIBLE
+            pbrLoading.visibility = View.VISIBLE
+
+            imvIcon.startAnimation(createAnimation(true))
+            pbrLoading.startAnimation(createAnimation())
+        }
+    }
+
+    private fun createAnimation(startConsultWhenAnimationEnd: Boolean = false): Animation {
+        return AnimationUtils.loadAnimation(
             requireContext(),
             R.anim.anim_splash_icon
-        )
+        ).apply {
+            setAnimationListener(object : AnimationListener {
+                override fun onAnimationStart(p0: Animation?) {
 
-        binding.root.postDelayed({
-            with(binding) {
-                imvIcon.visibility = View.VISIBLE
-                pbrLoading.visibility = View.VISIBLE
+                }
 
-                imvIcon.startAnimation(animation)
-                pbrLoading.startAnimation(animation)
+                override fun onAnimationEnd(p0: Animation?) {
+                    if (startConsultWhenAnimationEnd) {
+                        mViewModel.send()
+                    }
+                }
 
-                mViewModel.send()
-            }
-        }, 1500)
+                override fun onAnimationRepeat(p0: Animation?) {
+                }
+            })
+        }
     }
 
     private fun redirect(isExistTokenSaved: Boolean) {
-        binding.root.postDelayed({
-            if(isExistTokenSaved) {
+        try {
+            if (isExistTokenSaved) {
                 findNavController().navigate(R.id.action_splashFragment_to_nav_uiprofile)
             } else {
                 val extras = FragmentNavigatorExtras(
@@ -94,8 +109,9 @@ class SplashFragment : Fragment() {
                     extras
                 )
             }
-        }, 2000)
+        } catch (_: Exception) {
+            showAlert()
+        }
     }
-
 
 }

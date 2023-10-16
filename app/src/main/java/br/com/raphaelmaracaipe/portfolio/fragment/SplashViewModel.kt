@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
-import br.com.raphaelmaracaipe.core.data.api.request.HandShakeRequest
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SplashViewModel(
     private val handShakeRepository: HandShakeRepository,
@@ -25,20 +22,18 @@ class SplashViewModel(
     val errorRequest: LiveData<Unit> = _errorRequest
 
     fun send() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
-            try {
-                if(keyRepository.isExistKeyRegistered()) {
-                    _response.postValue(tokenRepository.isExistTokenRegistered())
-                    return@withContext
-                }
-
+        try {
+            if (keyRepository.isExistKeyRegistered()) {
+                _response.postValue(tokenRepository.isExistTokenRegistered())
+            } else {
                 val keySend = handShakeRepository.send()
                 keyRepository.saveKeyGenerated(keySend)
 
-                _response.postValue(tokenRepository.isExistTokenRegistered())
-            } catch (e: Exception) {
-                _errorRequest.postValue(Unit)
+                _response.postValue(false)
             }
+        } catch (e: Exception) {
+            _errorRequest.postValue(Unit)
         }
     }
+
 }
