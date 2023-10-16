@@ -6,24 +6,17 @@ import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
-import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.externals.KeysDefault
-import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.portfolio.TestApplication
-import br.com.raphaelmaracaipe.portfolio.di.SplashUiModule
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
@@ -67,18 +60,19 @@ class SplashViewModelTest {
     }
 
     @Test
-    fun `when call send and dont have token saved should call api and return key generated`() = runBlocking {
-        coEvery { keyRepository.isExistKeyRegistered() } returns false
-        coEvery { keyRepository.saveKeyGenerated(any()) } returns Unit
-        coEvery { handShakeRepository.send() } returns "AAA"
+    fun `when call send and dont have token saved should call api and return key generated`() =
+        runBlocking {
+            coEvery { keyRepository.isExistKeyRegistered() } returns false
+            coEvery { keyRepository.saveKeyGenerated(any()) } returns Unit
+            coEvery { handShakeRepository.send() } returns "AAA"
 
-        app.loadModules(listOf()) {
-            splashViewModel.send()
-            splashViewModel.response.observeForever {
-                assertFalse(it)
+            app.loadModules(listOf()) {
+                splashViewModel.send()
+                splashViewModel.response.observeForever {
+                    assertFalse(it)
+                }
             }
         }
-    }
 
     @Test
     fun `when call send but return error should return observable`() = runBlocking {

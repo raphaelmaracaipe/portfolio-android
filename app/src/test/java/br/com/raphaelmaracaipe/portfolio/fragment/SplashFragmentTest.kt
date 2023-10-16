@@ -15,12 +15,9 @@ import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.core.R as RCore
 import br.com.raphaelmaracaipe.portfolio.TestApplication
-import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragmentDirections
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -31,10 +28,10 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import br.com.raphaelmaracaipe.core.R as RCore
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
@@ -134,7 +131,11 @@ class SplashFragmentTest {
     }
 
     private fun fragmentScenario(): FragmentScenario<SplashFragment> {
-        val scenario = FragmentScenario.launch(SplashFragment::class.java, themeResId = RCore.style.Theme_Portfolio, initialState = Lifecycle.State.STARTED)
+        val scenario = FragmentScenario.launch(
+            SplashFragment::class.java,
+            themeResId = RCore.style.Theme_Portfolio,
+            initialState = Lifecycle.State.STARTED
+        )
         scenario.onFragment { fragment ->
             Navigation.setViewNavController(fragment.requireView(), mockNavController)
             mockNavController.setGraph(R.navigation.nav_graph)
