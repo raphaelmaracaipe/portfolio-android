@@ -11,8 +11,27 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
 
 ## Dependência entre módulos
 <p align="center">
-  <img src="./docs/modules.png" width="600" alt="Portfolio - Logo" />
+  <img src="./docs/modules.png" width="600" />
 </p>
+
+## Encriptar e decriptar o body
+Toda requisição que contém body em sua requisição e/ou resposta será encriptado ao sair do device e decriptado ao chegar do device
+
+### Geração da chave
+<p align="center">
+  <img src="./docs/geracao-key.png" width="600" />
+</p>
+
+### Encripta os dados requisição
+<p align="center">
+  <img src="./docs/encrypted.png" width="600"/>
+</p>
+
+### Decripta os dados da api
+<p align="center">
+  <img src="./docs/decrypted.png" width="600"/>
+</p>
+
 
 ## Tecnologias utilizadas
 
