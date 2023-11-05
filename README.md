@@ -32,6 +32,11 @@ Toda requisição que contém body em sua requisição e/ou resposta será encri
   <img src="./docs/decrypted.png" width="600"/>
 </p>
 
+## Esquema das branchs
+Aqui é a estrutura das branchs para o repositório.
+<p align="center">
+  <img src="./docs/gitflow_completo.png" width="600" />
+</p>
 
 ## Tecnologias utilizadas
 
