@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
-import br.com.raphaelmaracaipe.core.network.NetworkCodeEnum.USER_SEND_CODE_INVALID
-import br.com.raphaelmaracaipe.core.network.NetworkException
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_SEND_CODE_INVALID
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import kotlinx.coroutines.launch
@@ -35,10 +35,14 @@ class ValidCodeViewModel(
     private val _msgError: MutableLiveData<String> = MutableLiveData("")
     val msgError: LiveData<String> = _msgError
 
+    private val _goToNext: MutableLiveData<Unit> = MutableLiveData()
+    val goToNext: LiveData<Unit> = _goToNext
+
     fun sendToServer() = viewModelScope.launch {
         _showLoading.postValue(true)
         try {
             userRepository.validCode((code.value ?: ""))
+            _goToNext.postValue(Unit)
         } catch (e: NetworkException) {
             val msg = when (e.translateCodeError()) {
                 USER_SEND_CODE_INVALID -> R.string.response_error_code_invalid

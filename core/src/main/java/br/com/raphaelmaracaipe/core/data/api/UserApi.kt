@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe.core.data.api
 
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.network.NetworkException
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 
 interface UserApi {
 

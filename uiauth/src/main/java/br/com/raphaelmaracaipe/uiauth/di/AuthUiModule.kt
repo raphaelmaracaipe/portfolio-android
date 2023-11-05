@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe.uiauth.di
 
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
-import br.com.raphaelmaracaipe.core.di.coreModule
+import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSPImpl
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthSharedViewModel
@@ -15,11 +15,13 @@ import org.koin.dsl.module
 
 object AuthUiModule {
 
-    fun allModule() = listOf(coreModule, inject, viewModels)
+    fun allModule() = listOf(
+        *CoreModule.allModule().toTypedArray(), inject, viewModels
+    )
 
     private val inject = module {
-        single <Assets> { AssetsImpl(androidContext(), androidContext().assets) }
-        single <AuthSP> { AuthSPImpl(androidContext()) }
+        single<Assets> { AssetsImpl(androidContext(), androidContext().assets) }
+        single<AuthSP> { AuthSPImpl(androidContext()) }
     }
 
     private val viewModels = module {
