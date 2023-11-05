@@ -59,6 +59,7 @@ class SplashFragmentTest {
             single { SpKeyDefault("a", "b", "c", "d", "e", "f") }
         }
 
+
         keyRepository = mockk()
         handShakeRepository = mockk()
         tokenRepository = mockk()
