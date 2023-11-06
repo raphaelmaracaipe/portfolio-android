@@ -72,6 +72,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
     implementation "com.github.leandroborgesferreira:loading-button-android:$loading_button"
+    implementation "androidx.fragment:fragment-testing:$test_fragment"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
@@ -81,8 +82,6 @@ dependencies {
     testImplementation "io.mockk:mockk-android:$test_mockk"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
-
-    debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
 
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
