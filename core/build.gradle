@@ -22,17 +22,30 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
-            buildConfigField('String', 'API_KEY', '"ca03na188ame03u1d78620de67282882a84"')
+            buildConfigField('boolean', 'IS_DEV', 'false')
         }
         releaseDebuggable {
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
-            buildConfigField('String', 'API_KEY', '"ca03na188ame03u1d78620de67282882a84"')
+            buildConfigField('boolean', 'IS_DEV', 'false')
         }
         debug {
             buildConfigField('String', 'URL', '"http://10.0.2.2:3000"')
-            buildConfigField('String', 'API_KEY', '"d2e621a6646a4211768cd68e26f21228a81"')
+            buildConfigField('boolean', 'IS_DEV', 'true')
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/cpp']
         }
     }
 
@@ -65,6 +78,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "io.insert-koin:koin-android:$koin"
+    implementation "com.github.curious-odd-man:rgxgen:$rgxgen"
+    implementation "com.squareup.okhttp3:logging-interceptor:$http_logger_inteceptor"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.test:core-ktx:$test_core"

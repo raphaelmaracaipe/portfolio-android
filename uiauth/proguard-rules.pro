@@ -21,3 +21,13 @@
 #-renamesourcefileattribute SourceFile
 
 -dontwarn br.com.raphaelmaracaipe.core.R$layout
+
+-keepattributes LineNumberTable,SourceFile
+-renamesourcefileattribute SourceFile
+
+-dontwarn java.lang.invoke.StringConcatFactory
+
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-dontwarn java.lang.invoke.StringConcatFactory

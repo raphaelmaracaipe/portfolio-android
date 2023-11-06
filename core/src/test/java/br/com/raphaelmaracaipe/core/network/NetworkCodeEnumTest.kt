@@ -1,6 +1,7 @@
 package br.com.raphaelmaracaipe.core.network
 
-import br.com.raphaelmaracaipe.core.network.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
 import org.junit.Assert
 import org.junit.Test
 

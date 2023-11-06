@@ -20,10 +20,15 @@ android {
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        releaseDebuggable {}
+        releaseDebuggable {
+            debuggable true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
 
     buildFeatures {
@@ -67,15 +72,15 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
     implementation "com.github.leandroborgesferreira:loading-button-android:$loading_button"
+    implementation "androidx.fragment:fragment-testing:$test_fragment"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
     testImplementation "org.robolectric:robolectric:$test_roboletric"
-    testImplementation "androidx.fragment:fragment-testing:$test_fragment"
     testImplementation "androidx.test:core:$test_core"
     testImplementation "io.mockk:mockk:$test_mockk"
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     testImplementation "io.mockk:mockk-android:$test_mockk"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
 
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
@@ -85,7 +90,6 @@ dependencies {
     androidTestImplementation "androidx.arch.core:core-testing:$test_core_testing"
     androidTestImplementation "io.mockk:mockk:$test_mockk"
     androidTestImplementation "io.mockk:mockk-android:$test_mockk"
-    androidTestImplementation "androidx.fragment:fragment-testing:$test_fragment"
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"

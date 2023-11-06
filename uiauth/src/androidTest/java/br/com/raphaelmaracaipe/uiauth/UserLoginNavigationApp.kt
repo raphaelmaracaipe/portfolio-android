@@ -18,7 +18,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import br.com.raphaelmaracaipe.core.network.NetworkUtils
+import br.com.raphaelmaracaipe.core.externals.NetworkUtils
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment
 import okhttp3.mockwebserver.MockResponse

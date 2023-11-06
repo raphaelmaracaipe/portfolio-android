@@ -12,7 +12,10 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.TestApplication
 import br.com.raphaelmaracaipe.core.data.UserRepository
-import br.com.raphaelmaracaipe.core.di.coreModule
+import br.com.raphaelmaracaipe.core.di.CoreModule
+import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
@@ -23,12 +26,14 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.stopKoin
+import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
@@ -46,10 +51,25 @@ class AuthFragmentTest {
     private val app: TestApplication = ApplicationProvider.getApplicationContext()
     private val mockNavController = mock(NavController::class.java)
     private val mContext: Context = RuntimeEnvironment.getApplication().applicationContext
+    private lateinit var modules: List<Module>
+
+    @Before
+    fun setUp() {
+        val modulesToTest = module {
+            single { KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX") }
+            single { ApiKeysDefault("aaa", "aaa") }
+            single { SpKeyDefault("a", "b", "c", "d", "e", "f") }
+        }
+
+        modules = listOf(
+            *AuthUiModule.allModule().toTypedArray(),
+            modulesToTest
+        )
+    }
 
     @Test
     fun `when clicked on butt and redirect to view countries`() {
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(modules) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->
@@ -63,7 +83,7 @@ class AuthFragmentTest {
 
     @Test
     fun `when digit code 55 should return country Brasil`() {
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(modules) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->
@@ -81,7 +101,7 @@ class AuthFragmentTest {
 
     @Test
     fun `when digit code country and apply format should return number formatted`() {
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(modules) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->
@@ -100,7 +120,7 @@ class AuthFragmentTest {
 
     @Test
     fun `when click in the button but field of code country is empty should msgError to user`() {
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(modules) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->
@@ -117,7 +137,7 @@ class AuthFragmentTest {
 
     @Test
     fun `when click in the button but field of number phone is empty should msgError to user`() {
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(modules) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->
@@ -148,7 +168,7 @@ class AuthFragmentTest {
             viewModel { AuthSharedViewModel() }
         }
 
-        app.loadModules(listOf(test, coreModule, module)) {
+        app.loadModules(listOf(*CoreModule.allModule().toTypedArray(), test, module)) {
             val scenario = fragmentScenario()
             scenario.onFragment { fragment ->
                 fragment.view?.let { view ->

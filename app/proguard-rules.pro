@@ -20,6 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keepattributes LineNumberTable,SourceFile
+-renamesourcefileattribute SourceFile
+
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 -keep class com.google.gson.reflect.TypeToken
@@ -31,3 +34,9 @@
 
 -keepattributes Signature
 -keepattributes *Annotation*
+
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+-dontwarn java.lang.invoke.StringConcatFactory

@@ -8,8 +8,11 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.TestApplication
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.network.NetworkUtils
-import br.com.raphaelmaracaipe.core.network.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
+import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.externals.NetworkUtils
+import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
@@ -21,6 +24,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
+import org.koin.core.module.Module
+import org.koin.dsl.module
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -33,6 +38,7 @@ class ValidCodeFragmentTest {
     private val app: TestApplication = ApplicationProvider.getApplicationContext()
     private val mockNavController = Mockito.mock(NavController::class.java)
     private val mockWebServer = MockWebServer()
+    private lateinit var modulesToTest: Module
 
     @Before
     fun setUp() {
@@ -41,6 +47,12 @@ class ValidCodeFragmentTest {
         mockWebServer.start()
         val baseURL = mockWebServer.url("").toString()
         NetworkUtils.URL_TO_MOCK = baseURL
+
+        modulesToTest = module {
+            single { KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX") }
+            single { ApiKeysDefault("aaa", "aaa") }
+            single { SpKeyDefault("a", "b", "c", "d", "e", "f") }
+        }
     }
 
     @Test
@@ -52,7 +64,7 @@ class ValidCodeFragmentTest {
             MockResponse().setResponseCode(400).setBody(jsonObject.toString())
         )
 
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(listOf(*AuthUiModule.allModule().toTypedArray(), modulesToTest)) {
             fragmentScenario().onFragment { fragment ->
                 fragment.view?.let {
                     val etNumber = it.findViewById<EditText>(R.id.etNumber)
@@ -72,7 +84,7 @@ class ValidCodeFragmentTest {
             MockResponse().setResponseCode(201).setBody(token.toJSON())
         )
 
-        app.loadModules(AuthUiModule.allModule()) {
+        app.loadModules(listOf(*AuthUiModule.allModule().toTypedArray(), modulesToTest)) {
             fragmentScenario().onFragment { fragment ->
                 fragment.view?.let {
                     val etNumber = it.findViewById<EditText>(R.id.etNumber)

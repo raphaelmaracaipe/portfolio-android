@@ -11,11 +11,11 @@ import retrofit2.http.Query
 
 interface UserService {
 
-    @Headers("Accept: application/json", "x-api-key: ca03na188ame03u1d78620de67282882a84")
+    @Headers("Accept: application/json")
     @POST("/api/v1/users/code")
     suspend fun sendCode(@Body userSendCodeRequest: UserSendCodeRequest): Response<Any>
 
-    @Headers("Accept: application/json", "x-api-key: ca03na188ame03u1d78620de67282882a84")
+    @Headers("Accept: application/json")
     @GET("/api/v1/users/valid")
     suspend fun validCode(@Query("code") code: String): Response<TokensResponse>
 
