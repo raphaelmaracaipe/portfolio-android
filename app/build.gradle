@@ -83,13 +83,12 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "io.insert-koin:koin-android:$koin"
+    implementation "androidx.fragment:fragment-testing:$test_fragment"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
     testImplementation "org.robolectric:robolectric:$test_roboletric"
     testImplementation "io.mockk:mockk:$test_mockk"
-
-    debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
 
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
