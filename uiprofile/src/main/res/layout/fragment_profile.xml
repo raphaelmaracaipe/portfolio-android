@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +31,20 @@
             app:strokeColor="@color/gray"
             app:strokeWidth="1dp" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/sivOpenOptionsToCapture"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/gray2"
+            app:contentPadding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/sivProfile"
+            app:layout_constraintEnd_toEndOf="@+id/sivProfile"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            app:srcCompat="@drawable/ic_camera"
+            app:strokeColor="@color/gray2"
+            app:strokeWidth="1dp"
+            app:tint="@color/white" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCodePhone"
             android:layout_width="0dp"
@@ -54,13 +67,14 @@
 
         <Button
             android:id="@+id/btnContinue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="92dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/button_continue"
+            app:layout_constraintBottom_toTopOf="@+id/tvwCopy"
             app:layout_constraintEnd_toEndOf="@+id/tilCodePhone"
-            app:layout_constraintStart_toStartOf="@+id/tilCodePhone"
-            app:layout_constraintTop_toBottomOf="@+id/tilCodePhone" />
+            app:layout_constraintStart_toStartOf="@+id/tilCodePhone" />
 
         <TextView
             android:id="@+id/tvwCopy"
