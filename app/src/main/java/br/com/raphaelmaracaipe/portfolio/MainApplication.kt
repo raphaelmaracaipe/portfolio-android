@@ -3,6 +3,7 @@ package br.com.raphaelmaracaipe.portfolio
 import android.app.Application
 import br.com.raphaelmaracaipe.portfolio.di.SplashUiModule
 import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
+import br.com.raphaelmaracaipe.uiprofile.di.ProfileUiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.loadKoinModules
@@ -23,7 +24,8 @@ class MainApplication : Application() {
             loadKoinModules(
                 listOf(
                     *AuthUiModule.allModule().toTypedArray(),
-                    *SplashUiModule.allModule().toTypedArray()
+                    *SplashUiModule.allModule().toTypedArray(),
+                    *ProfileUiModule.allModule().toTypedArray()
                 )
             )
         }

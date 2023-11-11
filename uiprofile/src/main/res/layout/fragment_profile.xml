@@ -2,12 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="br.com.raphaelmaracaipe.uiprofile.ui.ProfileViewModel" />
+
+        <variable
+            name="viewModel"
+            type="ProfileViewModel" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/materialToolbar"
+            android:id="@+id/mtbToolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -15,17 +25,19 @@
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/title"
+            app:titleTextColor="@color/white" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/sivProfile"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:padding="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/tilCodePhone"
+            app:layout_constraintBottom_toTopOf="@+id/tilNameProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
+            app:layout_constraintTop_toBottomOf="@+id/mtbToolbar"
             app:shapeAppearanceOverlay="@style/circleImageView"
             app:srcCompat="@drawable/ic_profile"
             app:strokeColor="@color/gray"
@@ -46,7 +58,7 @@
             app:tint="@color/white" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilCodePhone"
+            android:id="@+id/tilNameProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -55,13 +67,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+            app:layout_constraintTop_toBottomOf="@+id/mtbToolbar">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietNumCountry"
+                android:id="@+id/tietNameProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext" />
+                android:imeOptions="actionNext"
+                android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChange(text)}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,8 +86,8 @@
             android:layout_marginBottom="32dp"
             android:text="@string/button_continue"
             app:layout_constraintBottom_toTopOf="@+id/tvwCopy"
-            app:layout_constraintEnd_toEndOf="@+id/tilCodePhone"
-            app:layout_constraintStart_toStartOf="@+id/tilCodePhone" />
+            app:layout_constraintEnd_toEndOf="@+id/tilNameProfile"
+            app:layout_constraintStart_toStartOf="@+id/tilNameProfile" />
 
         <TextView
             android:id="@+id/tvwCopy"

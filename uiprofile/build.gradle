@@ -50,6 +50,7 @@ dependencies {
     implementation "com.google.android.material:material:$material"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "io.insert-koin:koin-android:$koin"
 
     testImplementation "junit:junit:$test_junit"
 

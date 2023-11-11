@@ -2,4 +2,11 @@
 <resources>
     <string name="input_name">Informe o nome do seu perfil.</string>
     <string name="button_continue">Continuar</string>
+    <string name="title">Perfil</string>
+    <string name="close">Fechar</string>
+    <string name="close_description">Fechar a edição do profile.</string>
+    <string name="alert_empty_title">Atenção</string>
+    <string name="alert_empty_name">O nome do perfíl está vazio. Tem certeza que deseja continuar?</string>
+    <string name="alert_empty_image">A imagem do perfil está vazia. Tem certeza que deseja continuar?</string>
+    <string name="alert_yes">Sim</string>
 </resources>
