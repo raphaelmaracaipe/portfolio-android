@@ -11,6 +11,7 @@ import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
@@ -49,6 +50,7 @@ class SplashFragmentTest {
     private lateinit var handShakeRepository: HandShakeRepository
     private lateinit var tokenRepository: TokenRepository
     private lateinit var seedRepository: SeedRepository
+    private lateinit var userRepository: UserRepository
     private lateinit var viewModelOfTest: Module
 
     @Before
@@ -64,9 +66,18 @@ class SplashFragmentTest {
         handShakeRepository = mockk()
         tokenRepository = mockk()
         seedRepository = mockk()
+        userRepository = mockk()
 
         viewModelOfTest = module {
-            viewModel { SplashViewModel(handShakeRepository, keyRepository, tokenRepository, seedRepository) }
+            viewModel {
+                SplashViewModel(
+                    handShakeRepository,
+                    keyRepository,
+                    tokenRepository,
+                    userRepository,
+                    seedRepository
+                )
+            }
         }
     }
 

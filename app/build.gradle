@@ -75,6 +75,7 @@ android {
 dependencies {
     implementation project(path: ':uiauth')
     implementation project(path: ':uiprofile')
+    implementation project(path: ':uicontacts')
     implementation project(path: ':core')
 
     implementation "androidx.core:core-ktx:$core_ktx"

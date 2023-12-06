@@ -50,6 +50,10 @@ class SplashFragment : Fragment() {
         mViewModel.response.observe(viewLifecycleOwner) { isExistTokenSaved ->
             redirect(isExistTokenSaved)
         }
+
+        mViewModel.isExistProfile.observe(viewLifecycleOwner) {
+            redirectToContact()
+        }
     }
 
     private fun showAlert() {
@@ -92,6 +96,10 @@ class SplashFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun redirectToContact() {
+        findNavController().navigate(R.id.action_splashFragment_to_nav_uicontacts)
     }
 
     private fun redirect(isExistTokenSaved: Boolean) {
