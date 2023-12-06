@@ -12,7 +12,7 @@ object SplashUiModule {
     )
 
     private val viewModel = module {
-        viewModel { SplashViewModel(get(), get(), get(), get()) }
+        viewModel { SplashViewModel(get(), get(), get(), get(), get()) }
     }
 
 

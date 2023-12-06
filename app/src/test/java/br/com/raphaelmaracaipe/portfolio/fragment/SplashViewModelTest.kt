@@ -7,6 +7,7 @@ import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.portfolio.TestApplication
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -33,6 +34,7 @@ class SplashViewModelTest {
     private lateinit var keyRepository: KeyRepository
     private lateinit var tokenRepository: TokenRepository
     private lateinit var seedRepository: SeedRepository
+    private lateinit var userRepository: UserRepository
     private lateinit var splashViewModel: SplashViewModel
 
     @Before
@@ -41,11 +43,13 @@ class SplashViewModelTest {
         keyRepository = mockk()
         tokenRepository = mockk()
         seedRepository = mockk()
+        userRepository = mockk()
 
         splashViewModel = SplashViewModel(
             handShakeRepository,
             keyRepository,
             tokenRepository,
+            userRepository,
             seedRepository
         )
     }
@@ -97,6 +101,39 @@ class SplashViewModelTest {
         splashViewModel.send()
         splashViewModel.errorRequest.observeForever {
             assertTrue(true)
+        }
+    }
+
+    @Test
+    fun `when check if user is have profile saved should return observable`() {
+        coEvery { userRepository.isExistProfileSaved() } returns true
+
+        splashViewModel.send()
+        splashViewModel.isExistProfile.observeForever {
+            assertTrue(true)
+        }
+    }
+
+    @Test
+    fun `when check if user is have key registered should return observable`() {
+        coEvery { userRepository.isExistProfileSaved() } returns false
+        coEvery { keyRepository.isExistKeyRegistered() } returns true
+        coEvery { tokenRepository.isExistTokenRegistered() } returns true
+
+        splashViewModel.send()
+        splashViewModel.response.observeForever {
+            assertTrue(it)
+        }
+    }
+
+    @Test
+    fun `when check if user have token but not exist should return observable with false`() {
+        coEvery { userRepository.isExistProfileSaved() } returns false
+        coEvery { keyRepository.isExistKeyRegistered() } returns false
+
+        splashViewModel.send()
+        splashViewModel.response.observeForever {
+            assertFalse(it)
         }
     }
 
