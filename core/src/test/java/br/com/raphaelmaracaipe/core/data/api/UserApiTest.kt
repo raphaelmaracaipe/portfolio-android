@@ -7,6 +7,8 @@ import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.DeviceRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
@@ -14,6 +16,7 @@ import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
 import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
+import br.com.raphaelmaracaipe.core.data.sp.TokenSPImpl
 import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
@@ -57,16 +60,27 @@ class UserApiTest {
 
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA", "AAA", "BBB")
         val apiKeys = ApiKeysDefault("AAA", "BBB")
+        val spKeysDefault = SpKeyDefault(
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA"
+        )
 
         val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
         val keySp = KeySPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
+        val tokenSP = TokenSPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
         val seedSp = SeedSPImpl(mContext)
 
         val deviceRepository = DeviceRepositoryImpl(deviceIdSP)
         val keyRepository = KeyRepositoryImpl(keySp, keysDefault)
         val seedRepository = SeedRepositoryImpl(seedSp)
+        val tokenRepository = TokenRepositoryImpl(tokenSP)
 
         userService = configRetrofit(
             UserService::class.java,
@@ -75,7 +89,8 @@ class UserApiTest {
             apiKeys,
             deviceRepository,
             keyRepository,
-            seedRepository
+            seedRepository,
+            tokenRepository
         )
     }
 
@@ -136,6 +151,37 @@ class UserApiTest {
             assertTrue(false)
         } catch (e: NetworkException) {
             assertEquals(2001, e.code)
+        }
+    }
+
+    @Test
+    fun `when send profile but return error`() = runBlocking {
+        val errorResponse = ErrorResponse(401, 2001)
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(401).setBody(errorResponse.toJSON())
+        )
+
+        try {
+            val userApi: UserApi = UserApiImpl(userService)
+            userApi.profile(ProfileRequest())
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(2001, e.code)
+        }
+    }
+
+    @Test
+    fun `when send profile and return success`() = runBlocking {
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(200)
+        )
+
+        try {
+            val userApi: UserApi = UserApiImpl(userService)
+            userApi.profile(ProfileRequest())
+            assertTrue(true)
+        } catch (e: NetworkException) {
+            assertTrue(false)
         }
     }
 
