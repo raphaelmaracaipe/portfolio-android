@@ -6,7 +6,6 @@ import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.sp.SeedSP
 import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -24,18 +23,26 @@ class SeedRepositoryTest {
     val instantTaskRule = InstantTaskExecutorRule()
 
     private lateinit var seedSp: SeedSP
+    private lateinit var seedRepository: SeedRepository
 
     @Before
     fun setUp() {
         val context = RuntimeEnvironment.getApplication().applicationContext
         seedSp = SeedSPImpl(context)
+        seedRepository = SeedRepositoryImpl(seedSp)
     }
 
     @Test
     fun `when save seed should check value when call get`() {
-        seedSp.save("test")
+        val seedSaved = seedRepository.get()
+        assertNotEquals("", seedSaved)
+    }
+
+    @Test
+    fun `when clean seed should not exist data saved`() {
+        seedRepository.cleanSeedSaved()
         val seedSaved = seedSp.get()
-        assertEquals("test", seedSaved)
+        assertEquals("", seedSaved)
     }
 
     @After

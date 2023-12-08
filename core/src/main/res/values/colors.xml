@@ -15,4 +15,5 @@
     <color name="gray2">#AFAFAF</color>
     <color name="box">#79747E</color>
     <color name="error">#D21B08</color>
+    <color name="opacity_80_black">#60000000</color>
 </resources>

@@ -34,7 +34,16 @@ class KeyRepositoryTest {
     fun setUp() {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
-        val spKeyDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA", "AAA", "AAA")
+        val spKeyDefault = SpKeyDefault(
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA"
+        )
         keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
 
         keySP = KeySPImpl(context, keysDefault, spKeyDefault, cryptoHelper)

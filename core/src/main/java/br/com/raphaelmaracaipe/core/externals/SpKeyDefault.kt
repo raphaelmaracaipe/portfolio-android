@@ -6,5 +6,7 @@ data class SpKeyDefault(
     val deviceIdKey: String = (SpKeysExternal.getDeviceKey() ?: ""),
     val deviceEditKey: String = (SpKeysExternal.getDeviceEditKey() ?: ""),
     val keySp: String = (SpKeysExternal.getKeySp() ?: ""),
-    val keySpEdit: String = (SpKeysExternal.getKeySpEdit() ?: "")
+    val keySpEdit: String = (SpKeysExternal.getKeySpEdit() ?: ""),
+    val profileSp: String = (SpKeysExternal.getProfileSpKey() ?: ""),
+    val profileSpEdit: String = (SpKeysExternal.getProfileEditSpKey() ?: "")
 )

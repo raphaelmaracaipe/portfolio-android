@@ -4,6 +4,7 @@ import br.com.raphaelmaracaipe.core.BuildConfig
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
+import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.extensions.bodyToString
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
@@ -23,7 +24,8 @@ class EncryptedInterceptor(
     private val cryptoHelper: CryptoHelper,
     private val deviceRepository: DeviceRepository,
     private val keyRepository: KeyRepository,
-    private val seedRepository: SeedRepository
+    private val seedRepository: SeedRepository,
+    private val tokenRepository: TokenRepository
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
@@ -34,7 +36,7 @@ class EncryptedInterceptor(
         val seedGeneratedEncryptedWithDefault = encryptedSeed()
         val deviceID = deviceRepository.getDeviceIDSaved()
 
-        return request().newBuilder()
+        val newRequest = request().newBuilder()
             .addHeader("x-api-key", getApiKey())
             .addHeader("seed", URLEncoder.encode(seedGeneratedEncryptedWithDefault, "UTF-8"))
             .addHeader("device_id", URLEncoder.encode(deviceID, "UTF-8"))
@@ -42,7 +44,17 @@ class EncryptedInterceptor(
                 chain.request().method,
                 checkWhichTypeRequestAndEncryptedBody(chain)
             )
-            .build()
+
+        addTokenInHeader(newRequest)
+
+        return newRequest.build()
+    }
+
+    private fun addTokenInHeader(newRequest: Request.Builder) {
+//        if (tokenRepository.isExistTokenRegistered()) {
+//            val tokenResponse = tokenRepository.getTokenRegistered()
+//            newRequest.addHeader("authorization", "Bearer ${tokenResponse.accessToken}")
+//        }
     }
 
     private fun checkWhichTypeRequestAndEncryptedBody(chain: Interceptor.Chain): RequestBody? {

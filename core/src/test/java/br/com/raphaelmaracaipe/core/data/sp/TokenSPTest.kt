@@ -25,7 +25,16 @@ class TokenSPTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeyDefault = SpKeyDefault("a", "b", "c", "d", "e", "f")
+        val spKeyDefault = SpKeyDefault(
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA"
+        )
 
         tokenSP = TokenSPImpl(context, keysDefault, spKeyDefault, cryptoHelper)
     }

@@ -16,22 +16,27 @@ import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.UserRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApiImpl
+import br.com.raphaelmaracaipe.core.data.api.TokenApi
+import br.com.raphaelmaracaipe.core.data.api.TokenApiImpl
 import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.api.UserApiImpl
 import br.com.raphaelmaracaipe.core.data.api.services.HandShakeService
+import br.com.raphaelmaracaipe.core.data.api.services.TokenService
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
+import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
+import br.com.raphaelmaracaipe.core.data.sp.ProfileSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.SeedSP
 import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSPImpl
-import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
+import br.com.raphaelmaracaipe.core.network.configRetrofit
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
 import org.koin.android.ext.koin.androidContext
@@ -42,7 +47,7 @@ object CoreModule {
     fun allModule() = listOf(repositories, apis, sps, utils, configRetrofit)
 
     private val repositories = module {
-        single<UserRepository> { UserRepositoryImpl(get(), get()) }
+        single<UserRepository> { UserRepositoryImpl(get(), get(), get()) }
         single<HandShakeRepository> { HandShakeRepositoryImpl(get()) }
         single<DeviceRepository> { DeviceRepositoryImpl(get()) }
         single<KeyRepository> { KeyRepositoryImpl(get(), get()) }
@@ -53,6 +58,7 @@ object CoreModule {
     private val apis = module {
         single<UserApi> { UserApiImpl(get()) }
         single<HandShakeApi> { HandShakeApiImpl(get()) }
+        single<TokenApi> { TokenApiImpl() }
     }
 
     private val sps = module {
@@ -60,6 +66,7 @@ object CoreModule {
         single<KeySP> { KeySPImpl(androidContext(), get(), get(), get()) }
         single<SeedSP> { SeedSPImpl(androidContext()) }
         single<TokenSP> { TokenSPImpl(androidContext(), get(), get(), get()) }
+        single<ProfileSP> { ProfileSPImpl(androidContext(), get(), get(), get()) }
     }
 
     private val utils = module {
@@ -71,9 +78,10 @@ object CoreModule {
     }
 
     private val configRetrofit = module {
-        single {
+        single<UserService> {
             configRetrofit(
                 UserService::class.java,
+                get(),
                 get(),
                 get(),
                 get(),
@@ -82,9 +90,22 @@ object CoreModule {
                 get()
             )
         }
-        single {
+        single<HandShakeService> {
             configRetrofit(
                 HandShakeService::class.java,
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+                get()
+            )
+        }
+        single<TokenService> {
+            configRetrofit(
+                TokenService::class.java,
+                get(),
                 get(),
                 get(),
                 get(),

@@ -69,3 +69,17 @@ Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getKeySpEdit(JNIEnv *
     std::string hello = "keysEdit";
     return env->NewStringUTF(hello.c_str());
 }
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getProfileSpKey(JNIEnv *env,
+                                                                           jobject thiz) {
+    std::string hello = "profileKey";
+    return env->NewStringUTF(hello.c_str());
+}
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getProfileEditSpKey(JNIEnv *env,
+                                                                               jobject thiz) {
+    std::string hello = "profileEditKey";
+    return env->NewStringUTF(hello.c_str());
+}

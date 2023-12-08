@@ -29,7 +29,16 @@ class TokenRepositoryTest {
         val context = RuntimeEnvironment.getApplication().applicationContext
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeyDefault = SpKeyDefault("a", "b", "c", "d", "e", "f")
+        val spKeyDefault = SpKeyDefault(
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA",
+            "AAA"
+        )
 
         tokenSP = TokenSPImpl(context, keysDefault, spKeyDefault, cryptoHelper)
         tokenRepository = TokenRepositoryImpl(tokenSP)
@@ -45,6 +54,12 @@ class TokenRepositoryTest {
     @Test
     fun `when check if exist token registered should return true or false`() = runBlocking {
         assertFalse(tokenRepository.isExistTokenRegistered())
+    }
+
+    @Test
+    fun `when update token`() = runBlocking {
+        val tokens = tokenRepository.updateToken()
+        assertEquals(tokens.accessToken, "")
     }
 
 }

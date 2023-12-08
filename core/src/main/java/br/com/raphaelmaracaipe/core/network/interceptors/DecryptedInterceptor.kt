@@ -2,11 +2,15 @@ package br.com.raphaelmaracaipe.core.network.interceptors
 
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
+import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
-import br.com.raphaelmaracaipe.core.network.models.TransactionEncryptedModel
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.ERROR_GENERAL
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.TOKEN_INVALID
+import br.com.raphaelmaracaipe.core.network.models.TransactionEncryptedModel
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
+import com.google.gson.Gson
 import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -20,7 +24,8 @@ class DecryptedInterceptor(
     private val keysDefault: KeysDefault,
     private val seedRepository: SeedRepository,
     private val keyRepository: KeyRepository,
-    private val cryptoHelper: CryptoHelper
+    private val cryptoHelper: CryptoHelper,
+    private val tokenRepository: TokenRepository
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
@@ -36,10 +41,32 @@ class DecryptedInterceptor(
                 }
 
                 else -> {
+//                    if (checkIfToUpdateToken(response)) {
+//                        val retryResponse = updateToNewToken(chain)
+//                        chain.proceed(retryResponse)
+//                    } else {
+//                        response
+//                    }
                     response
                 }
             }
         }
+    }
+
+//    private fun updateToNewToken(chain: Interceptor.Chain): Request {
+//        val tokenResponse = runBlocking {
+//            tokenRepository.updateToken()
+//        }
+//
+//        return chain.request().newBuilder()
+//            .addHeader("authorization", "Bearer ${tokenResponse.accessToken}")
+//            .build()
+//    }
+
+    private fun checkIfToUpdateToken(response: Response): Boolean {
+        val jsonBody = response.body?.string() ?: "{}"
+        val objectOfError = Gson().fromJson(jsonBody, ErrorResponse::class.java)
+        return objectOfError.codeError == TOKEN_INVALID.code
     }
 
     private fun takeCareResponseEncrypted(response: Response): Response {
@@ -90,7 +117,7 @@ class DecryptedInterceptor(
 
     private fun responseBody(): ResponseBody {
         val body = JSONObject().apply {
-            put("code", NetworkCodeEnum.ERROR_GENERAL.code)
+            put("code", ERROR_GENERAL.code)
         }.toString()
         return body.toResponseBody(mediaType())
     }

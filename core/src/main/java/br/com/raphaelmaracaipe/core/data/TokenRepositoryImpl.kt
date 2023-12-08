@@ -9,10 +9,12 @@ class TokenRepositoryImpl(
     private val tokenSP: TokenSP
 ) : TokenRepository {
 
-    override suspend fun isExistTokenRegistered(): Boolean = withContext(Dispatchers.IO) {
-        tokenSP.isExist()
-    }
+    override fun isExistTokenRegistered(): Boolean = tokenSP.isExist()
 
     override fun getTokenRegistered(): TokensResponse = tokenSP.get()
+
+    override suspend fun updateToken(): TokensResponse = withContext(Dispatchers.IO) {
+        TokensResponse()
+    }
 
 }
