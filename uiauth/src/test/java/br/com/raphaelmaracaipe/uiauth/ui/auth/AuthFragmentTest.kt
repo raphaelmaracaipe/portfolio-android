@@ -58,7 +58,18 @@ class AuthFragmentTest {
         val modulesToTest = module {
             single { KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX") }
             single { ApiKeysDefault("aaa", "aaa") }
-            single { SpKeyDefault("a", "b", "c", "d", "e", "f") }
+            single {
+                SpKeyDefault(
+                    "AAA",
+                    "AAA",
+                    "AAA",
+                    "AAA",
+                    "AAA",
+                    "AAA",
+                    "AAA",
+                    "AAA"
+                )
+            }
         }
 
         modules = listOf(
