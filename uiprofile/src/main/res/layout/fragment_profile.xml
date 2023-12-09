@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="br.com.raphaelmaracaipe.uiprofile.ui.ProfileViewModel" />
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -12,95 +15,134 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/mtbToolbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/title"
-            app:titleTextColor="@color/white" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/sivProfile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:padding="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/tilNameProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mtbToolbar"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            app:srcCompat="@drawable/ic_profile"
-            app:strokeColor="@color/gray"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/sivOpenOptionsToCapture"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@color/gray2"
-            app:contentPadding="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/sivProfile"
-            app:layout_constraintEnd_toEndOf="@+id/sivProfile"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            app:srcCompat="@drawable/ic_camera"
-            app:strokeColor="@color/gray2"
-            app:strokeWidth="1dp"
-            app:tint="@color/white" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilNameProfile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:hint="@string/input_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mtbToolbar">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tietNameProfile"
-                android:layout_width="match_parent"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mtbToolbar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChange(text)}" />
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="@string/title"
+                app:titleTextColor="@color/white" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/sivProfile"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                app:imageBitmapAD="@{viewModel.imagePreview}"
+                app:imageResourceIfNotExistBitmap="@{@drawable/ic_profile}"
+                app:layout_constraintBottom_toTopOf="@+id/tilNameProfile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtbToolbar"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                app:srcCompat="@drawable/ic_profile"
+                app:strokeColor="@color/gray"
+                app:strokeWidth="1dp" />
 
-        <Button
-            android:id="@+id/btnContinue"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="92dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/button_continue"
-            app:layout_constraintBottom_toTopOf="@+id/tvwCopy"
-            app:layout_constraintEnd_toEndOf="@+id/tilNameProfile"
-            app:layout_constraintStart_toStartOf="@+id/tilNameProfile" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/sivCleanCamera"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@color/colorPrimary"
+                android:onClick="@{() -> viewModel.cleanImageSelectedToPreview()}"
+                android:padding="5dp"
+                android:visibility="@{viewModel.imagePreview != null ? View.VISIBLE : View.GONE}"
+                app:contentPadding="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/sivProfile"
+                app:layout_constraintEnd_toEndOf="@+id/sivProfile"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                app:srcCompat="@drawable/ic_close"
+                app:strokeColor="@color/colorPrimaryVariant"
+                app:strokeWidth="1dp"
+                app:tint="@color/white" />
 
-        <TextView
-            android:id="@+id/tvwCopy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:fontFamily="@font/open_sans_bold"
-            android:gravity="center"
-            android:text="@string/copy"
-            android:textColor="@color/gray"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/sivOpenOptionsToCapture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@color/colorPrimary"
+                android:padding="5dp"
+                android:visibility="@{viewModel.imagePreview == null ? View.VISIBLE : View.GONE}"
+                app:contentPadding="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/sivProfile"
+                app:layout_constraintEnd_toEndOf="@+id/sivProfile"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                app:srcCompat="@drawable/ic_camera"
+                app:strokeColor="@color/colorPrimaryVariant"
+                app:strokeWidth="1dp"
+                app:tint="@color/white"
+                tools:visibility="gone" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNameProfile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="@string/input_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtbToolbar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietNameProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChange(text)}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnContinue"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="92dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/button_continue"
+                app:layout_constraintBottom_toTopOf="@+id/tvwCopy"
+                app:layout_constraintEnd_toEndOf="@+id/tilNameProfile"
+                app:layout_constraintStart_toStartOf="@+id/tilNameProfile" />
+
+            <TextView
+                android:id="@+id/tvwCopy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:fontFamily="@font/open_sans_bold"
+                android:gravity="center"
+                android:text="@string/copy"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/include_loading_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:isShow="@{viewModel.showLoading}"
+            tools:visibility="gone" />
+
+    </RelativeLayout>
 </layout>

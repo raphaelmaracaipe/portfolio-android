@@ -1,10 +1,60 @@
 package br.com.raphaelmaracaipe.uiprofile.ui
 
+import android.content.Context
+import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.com.raphaelmaracaipe.core.data.UserRepository
+import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
+import br.com.raphaelmaracaipe.uiprofile.R
+import kotlinx.coroutines.launch
 
-class ProfileViewModel: ViewModel() {
+class ProfileViewModel(
+    private val context: Context,
+    private val userRepository: UserRepository
+) : ViewModel() {
+
+    private val profile = ProfileRequest()
+
+    private val _msgError = MutableLiveData<String>()
+    val msgError: LiveData<String> = _msgError
+
+    private val _imagePreview = MutableLiveData<Bitmap?>()
+    val imagePreview: LiveData<Bitmap?> = _imagePreview
+
+    private val _isShowLoading = MutableLiveData<Boolean>()
+    val isShowLoading: LiveData<Boolean> = _isShowLoading
 
     fun onTextChange(text: CharSequence) {
+        profile.name = text.toString()
     }
+
+    fun addImage(bitmap: Bitmap) {
+        _imagePreview.postValue(bitmap)
+    }
+
+    fun markWhichProfileSaved(imageProfile: String) {
+        profile.photo = imageProfile
+        userRepository.markWhichProfileSaved()
+    }
+
+    fun cleanImageSelectedToPreview() {
+        _imagePreview.postValue(null)
+    }
+
+    fun sendProfileToServer() = viewModelScope.launch {
+        _isShowLoading.postValue(true)
+        try {
+            userRepository.profile(profile)
+        } catch (e: NetworkException) {
+            _msgError.postValue(context.getString(R.string.error_to_send_profile))
+        }
+        _isShowLoading.postValue(false)
+    }
+
+    fun ifExistData(): Boolean = profile.name.isNotEmpty() || profile.photo.isNotEmpty()
 
 }

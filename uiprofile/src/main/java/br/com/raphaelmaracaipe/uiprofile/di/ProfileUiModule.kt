@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.uiprofile.di
 
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.uiprofile.ui.ProfileViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -13,7 +14,7 @@ object ProfileUiModule {
     )
 
     private val viewModels = module {
-        viewModel { ProfileViewModel() }
+        viewModel { ProfileViewModel(androidContext(), get()) }
     }
 
 }

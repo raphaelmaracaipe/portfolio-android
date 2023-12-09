@@ -40,6 +40,14 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -51,8 +59,16 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "io.insert-koin:koin-android:$koin"
+    implementation "androidx.fragment:fragment-testing:$test_fragment"
 
     testImplementation "junit:junit:$test_junit"
+    testImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    testImplementation "org.robolectric:robolectric:$test_roboletric"
+    testImplementation "androidx.test:core:$test_core"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "io.mockk:mockk-android:$test_mockk"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
 
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
