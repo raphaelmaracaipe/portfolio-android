@@ -1,84 +1,80 @@
 package br.com.raphaelmaracaipe.portfolio.fragment
 
 import android.os.Build
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.fragment.app.testing.FragmentScenario
-import androidx.lifecycle.Lifecycle
+import android.os.Looper.getMainLooper
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
-import br.com.raphaelmaracaipe.core.di.CoreModule
-import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.externals.KeysDefault
-import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
-import br.com.raphaelmaracaipe.portfolio.R
-import br.com.raphaelmaracaipe.portfolio.TestApplication
-import io.mockk.coEvery
+import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.MockKAnnotations
 import io.mockk.mockk
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.context.stopKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import br.com.raphaelmaracaipe.core.R as RCore
+import br.com.raphaelmaracaipe.portfolio.R
+import br.com.raphaelmaracaipe.core.testUnit.extentions.launchFragmentInHiltContainer
+import io.mockk.coEvery
+import org.mockito.Mockito.mock
+import org.robolectric.Shadows
+import java.time.Duration
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
+@Config(
+    manifest = Config.NONE,
+    sdk = [Build.VERSION_CODES.M],
+    application = HiltTestApplication::class
+)
+@UninstallModules(RepositoryModule::class)
 class SplashFragmentTest {
 
     @get:Rule
-    val instantTaskRule = InstantTaskExecutorRule()
+    val hiltRule = HiltAndroidRule(this)
 
-    private val app: TestApplication = ApplicationProvider.getApplicationContext()
+
+    @BindValue
+    @JvmField
+    var userRepository: UserRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var seedRepository: SeedRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var handShakeRepository: HandShakeRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var keyRepository: KeyRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var tokenRepository: TokenRepository = mockk(relaxed = true)
+
+
     private val mockNavController = mock(NavController::class.java)
-
-    private lateinit var modulesExternals: Module
-    private lateinit var keyRepository: KeyRepository
-    private lateinit var handShakeRepository: HandShakeRepository
-    private lateinit var tokenRepository: TokenRepository
-    private lateinit var seedRepository: SeedRepository
-    private lateinit var userRepository: UserRepository
-    private lateinit var viewModelOfTest: Module
 
     @Before
     fun setUp() {
-        modulesExternals = module {
-            single { KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX") }
-            single { ApiKeysDefault("aaa", "aaa") }
-            single { SpKeyDefault("a", "b", "c", "d", "e", "f") }
-        }
-
-
-        keyRepository = mockk()
-        handShakeRepository = mockk()
-        tokenRepository = mockk()
-        seedRepository = mockk()
-        userRepository = mockk()
-
-        viewModelOfTest = module {
-            viewModel {
-                SplashViewModel(
-                    handShakeRepository,
-                    keyRepository,
-                    tokenRepository,
-                    userRepository,
-                    seedRepository
-                )
-            }
-        }
+        hiltRule.inject()
+        MockKAnnotations.init(this)
     }
 
     @Test
@@ -87,18 +83,13 @@ class SplashFragmentTest {
         coEvery { keyRepository.isExistKeyRegistered() } returns false
         coEvery { seedRepository.cleanSeedSaved() } returns Unit
 
-        app.loadModules(
-            listOf(
-                *CoreModule.allModule().toTypedArray(),
-                modulesExternals,
-                viewModelOfTest
-            )
-        ) {
-            fragmentScenario().onFragment { fragment ->
-                fragment.parentFragmentManager.executePendingTransactions()
-                fragment.view?.let {
-                    assertTrue(true)
-                }
+
+        fragmentScenario { fragment ->
+            fragment.parentFragmentManager.executePendingTransactions()
+
+            Shadows.shadowOf(getMainLooper()).idleFor(Duration.ofMillis(3000))
+            fragment.view?.let {
+                assertTrue(true)
             }
         }
     }
@@ -110,18 +101,12 @@ class SplashFragmentTest {
         coEvery { keyRepository.saveKeyGenerated(any()) } returns Unit
         coEvery { seedRepository.cleanSeedSaved() } returns Unit
 
-        app.loadModules(
-            listOf(
-                *CoreModule.allModule().toTypedArray(),
-                modulesExternals,
-                viewModelOfTest
-            )
-        ) {
-            fragmentScenario().onFragment { fragment ->
-                fragment.parentFragmentManager.executePendingTransactions()
-                fragment.view?.let {
-                    assertTrue(true)
-                }
+        fragmentScenario { fragment ->
+            fragment.parentFragmentManager.executePendingTransactions()
+
+            Shadows.shadowOf(getMainLooper()).idleFor(Duration.ofMillis(3000))
+            fragment.view?.let {
+                assertTrue(true)
             }
         }
     }
@@ -132,44 +117,33 @@ class SplashFragmentTest {
         coEvery { tokenRepository.isExistTokenRegistered() } returns true
         coEvery { seedRepository.cleanSeedSaved() } returns Unit
 
-        app.loadModules(
-            listOf(
-                *CoreModule.allModule().toTypedArray(),
-                modulesExternals,
-                viewModelOfTest
-            )
-        ) {
-            fragmentScenario().onFragment { fragment ->
-                fragment.parentFragmentManager.executePendingTransactions()
-                fragment.view?.let {
-                    assertTrue(true)
-                }
+        fragmentScenario { fragment ->
+            fragment.parentFragmentManager.executePendingTransactions()
+            fragment.view?.let {
+                assertTrue(true)
             }
         }
     }
 
-    private fun fragmentScenario(): FragmentScenario<SplashFragment> {
-        val scenario = FragmentScenario.launch(
-            SplashFragment::class.java,
-            themeResId = RCore.style.Theme_Portfolio,
-            initialState = Lifecycle.State.STARTED
-        )
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
+    private fun fragmentScenario(onFragment: (fragment: Fragment) -> Unit) {
+        launchFragmentInHiltContainer<SplashFragment> {
+            Navigation.setViewNavController(requireView(), mockNavController)
             mockNavController.setGraph(R.navigation.nav_graph)
 
-            fragment.viewLifecycleOwnerLiveData.observeForever {
+            viewLifecycleOwnerLiveData.observeForever {
                 if (it != null) {
-                    Navigation.setViewNavController(fragment.requireView(), mockNavController)
+                    Navigation.setViewNavController(requireView(), mockNavController)
                 }
             }
+
+            onFragment.invoke(this)
         }
-        return scenario
     }
+
 
     @After
     fun tearDown() {
-        stopKoin()
+        unmockkAll()
     }
 
 }

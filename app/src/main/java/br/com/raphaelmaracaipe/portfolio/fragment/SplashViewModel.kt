@@ -9,14 +9,18 @@ import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.reflect.typeOf
 
-class SplashViewModel(
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val seedRepository: SeedRepository,
+    private val userRepository: UserRepository,
     private val handShakeRepository: HandShakeRepository,
     private val keyRepository: KeyRepository,
-    private val tokenRepository: TokenRepository,
-    private val userRepository: UserRepository,
-    private val seedRepository: SeedRepository
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _response: MutableLiveData<Boolean> = MutableLiveData()

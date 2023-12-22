@@ -27,6 +27,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="br.com.raphaelmaracaipe.core.testUnit.HiltTestActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

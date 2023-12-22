@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -16,7 +17,7 @@ android {
         versionCode 1
         versionName "1.1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "br.com.raphaelmaracaipe.core.testUnit.CustomTestRunner"
     }
 
     signingConfigs {
@@ -69,7 +70,6 @@ android {
             includeAndroidResources = true
         }
     }
-
 }
 
 dependencies {
@@ -83,19 +83,31 @@ dependencies {
     implementation "com.google.android.material:material:$material"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
-    implementation "io.insert-koin:koin-android:$koin"
-    implementation "androidx.fragment:fragment-testing:$test_fragment"
+    implementation "com.google.dagger:hilt-android:$dagger_hil"
+
+    debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
 
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
     testImplementation "org.robolectric:robolectric:$test_roboletric"
     testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_hil"
 
+    kapt "com.google.dagger:hilt-compiler:$dagger_hil"
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
+    kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hil"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
 
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+hilt {
+    enableTransformForLocalTests = true
 }
 
 task getVersionName {

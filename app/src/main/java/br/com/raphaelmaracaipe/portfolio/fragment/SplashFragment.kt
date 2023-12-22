@@ -10,16 +10,19 @@ import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentSplashBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class SplashFragment : Fragment() {
+@AndroidEntryPoint
+class SplashFragment @Inject constructor() : Fragment() {
 
+    private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var binding: FragmentSplashBinding
-    private val mViewModel: SplashViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,19 +42,19 @@ class SplashFragment : Fragment() {
         animationOfIcon()
         observableHandShake()
 
-        mViewModel.cleanSeedSaved()
+        splashViewModel.cleanSeedSaved()
     }
 
     private fun observableHandShake() {
-        mViewModel.errorRequest.observe(viewLifecycleOwner) {
+        splashViewModel.errorRequest.observe(viewLifecycleOwner) {
             showAlert()
         }
 
-        mViewModel.response.observe(viewLifecycleOwner) { isExistTokenSaved ->
+        splashViewModel.response.observe(viewLifecycleOwner) { isExistTokenSaved ->
             redirect(isExistTokenSaved)
         }
 
-        mViewModel.isExistProfile.observe(viewLifecycleOwner) {
+        splashViewModel.isExistProfile.observe(viewLifecycleOwner) {
             redirectToContact()
         }
     }
@@ -88,7 +91,7 @@ class SplashFragment : Fragment() {
 
                 override fun onAnimationEnd(p0: Animation?) {
                     if (startConsultWhenAnimationEnd) {
-                        mViewModel.send()
+                        splashViewModel.send()
                     }
                 }
 
