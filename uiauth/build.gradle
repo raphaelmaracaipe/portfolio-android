@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -67,13 +68,15 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_livedata"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_livedata"
     implementation "com.google.code.gson:gson:$gson"
-    implementation "io.insert-koin:koin-android:$koin"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "com.squareup.okhttp3:okhttp:$okhttp"
     implementation "com.github.leandroborgesferreira:loading-button-android:$loading_button"
-    implementation "androidx.fragment:fragment-testing:$test_fragment"
+    implementation "com.google.dagger:hilt-android:$dagger_hil"
 
+    debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
+
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_hil"
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
     testImplementation "org.robolectric:robolectric:$test_roboletric"
@@ -83,6 +86,8 @@ dependencies {
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
 
+    kapt "com.google.dagger:hilt-compiler:$dagger_hil"
+    kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hil"
     kaptTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
     kaptAndroidTest "androidx.databinding:databinding-compiler:$test_binding_compiler"
 

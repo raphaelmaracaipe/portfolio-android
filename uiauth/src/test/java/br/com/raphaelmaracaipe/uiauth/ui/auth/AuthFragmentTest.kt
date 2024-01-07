@@ -6,218 +6,192 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.testing.FragmentScenario
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.test.core.app.ApplicationProvider
-import br.com.raphaelmaracaipe.TestApplication
+import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.data.UserRepository
+import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule
-import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.externals.KeysDefault
-import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
+import br.com.raphaelmaracaipe.core.testUnit.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
-import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
-import br.com.raphaelmaracaipe.uiauth.sp.AuthSPImpl
+import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.context.stopKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
-class AuthFragmentTest {
+@Config(
+    manifest = Config.NONE,
+    sdk = [Build.VERSION_CODES.M],
+    application = HiltTestApplication::class
+)
+@UninstallModules(RepositoryModule::class, CoreModule::class)
+class AuthFragmentTest : FragmentTest() {
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    private val app: TestApplication = ApplicationProvider.getApplicationContext()
-    private val mockNavController = mock(NavController::class.java)
-    private val mContext: Context = RuntimeEnvironment.getApplication().applicationContext
-    private lateinit var modules: List<Module>
+    @BindValue
+    @JvmField
+    var userRepository: UserRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var assets: Assets = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var context: Context = RuntimeEnvironment.getApplication().applicationContext
 
     @Before
     fun setUp() {
-        val modulesToTest = module {
-            single { KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX") }
-            single { ApiKeysDefault("aaa", "aaa") }
-            single {
-                SpKeyDefault(
-                    "AAA",
-                    "AAA",
-                    "AAA",
-                    "AAA",
-                    "AAA",
-                    "AAA",
-                    "AAA",
-                    "AAA"
-                )
-            }
-        }
-
-        modules = listOf(
-            *AuthUiModule.allModule().toTypedArray(),
-            modulesToTest
-        )
+        hiltRule.inject()
+        MockKAnnotations.init(this)
     }
 
     @Test
     fun `when clicked on butt and redirect to view countries`() {
-        app.loadModules(modules) {
-            val scenario = fragmentScenario()
-            scenario.onFragment { fragment ->
-                fragment.view?.let { view ->
-                    val lltCountry = view.findViewById<ConstraintLayout>(R.id.lltCountry)
-                    lltCountry.performClick()
-                    verify(mockNavController).navigate(AuthFragmentDirections.goToCountriesFragment())
-                }
+        fragmentScenario<AuthFragment>(R.navigation.nav_uiauth) { fragment ->
+            fragment.view?.let { view ->
+                val lltCountry = view.findViewById<ConstraintLayout>(R.id.lltCountry)
+                lltCountry.performClick()
+                verify(mockNavController).navigate(AuthFragmentDirections.goToCountriesFragment())
             }
         }
     }
 
     @Test
     fun `when digit code 55 should return country Brasil`() {
-        app.loadModules(modules) {
-            val scenario = fragmentScenario()
-            scenario.onFragment { fragment ->
-                fragment.view?.let { view ->
-                    val tilCodePhone = view.findViewById<TextInputLayout>(R.id.tilCodePhone)
-                    val tvwCountry = view.findViewById<TextView>(R.id.tvwCountry)
+        val arrayCountries = arrayOf(
+            CodeCountry("Brasil", "55", "BR / BRA")
+        )
+        val json = Gson().toJson(arrayCountries)
+        every { assets.read(any()) }.returns(json)
 
-                    tilCodePhone.editText?.setText("55")
-                    val textCountry = tvwCountry.text
+        fragmentScenario<AuthFragment>(R.navigation.nav_uiauth) { fragment ->
+            fragment.view?.let { view ->
+                val tilCodePhone = view.findViewById<TextInputLayout>(R.id.tilCodePhone)
+                val tvwCountry = view.findViewById<TextView>(R.id.tvwCountry)
 
-                    assertEquals("Brasil", textCountry)
-                }
+                tilCodePhone.editText?.setText("55")
+                val textCountry = tvwCountry.text
+
+                assertEquals("Brasil", textCountry)
             }
         }
     }
 
     @Test
     fun `when digit code country and apply format should return number formatted`() {
-        app.loadModules(modules) {
-            val scenario = fragmentScenario()
-            scenario.onFragment { fragment ->
-                fragment.view?.let { view ->
-                    val tilCodePhone = view.findViewById<TextInputLayout>(R.id.tilCodePhone)
-                    val tietNumPhone = view.findViewById<TextInputEditText>(R.id.tietNumPhone)
+        val arrayCountries = arrayOf(
+            CodeCountry("Brasil", "55", "BR / BRA")
+        )
+        val json = Gson().toJson(arrayCountries)
+        every { assets.read(any()) }.returns(json)
 
-                    tilCodePhone.editText?.setText("55")
-                    tietNumPhone.setText("99999999999")
+        fragmentScenario<AuthFragment>(R.navigation.nav_uiauth) { fragment ->
+            fragment.view?.let { view ->
+                val tilCodePhone = view.findViewById<TextInputLayout>(R.id.tilCodePhone)
+                val tietNumPhone = view.findViewById<TextInputEditText>(R.id.tietNumPhone)
 
-                    val valueOfNumberPhone = tietNumPhone.text.toString()
-                    assertEquals("(99) 99999-9999", valueOfNumberPhone)
-                }
+                tilCodePhone.editText?.setText("55")
+                tietNumPhone.setText("99999999999")
+
+                val valueOfNumberPhone = tietNumPhone.text.toString()
+                assertEquals("(99) 99999-9999", valueOfNumberPhone)
             }
         }
     }
 
     @Test
     fun `when click in the button but field of code country is empty should msgError to user`() {
-        app.loadModules(modules) {
-            val scenario = fragmentScenario()
-            scenario.onFragment { fragment ->
-                fragment.view?.let { view ->
-                    val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-                    btnLogin.performClick()
+        fragmentScenario<AuthFragment>(R.navigation.nav_uiauth) { fragment ->
+            fragment.view?.let { view ->
+                val btnLogin = view.findViewById<Button>(R.id.btnLogin)
+                btnLogin.performClick()
 
-                    val tilCodePhone = view.findViewById<TextInputLayout>(R.id.tilCodePhone)
-                    val msgErrorField = tilCodePhone.error
-                    assertEquals(mContext.getString(R.string.err_field_code), msgErrorField)
-                }
+                val tilCodePhone = view.findViewById<TextInputLayout>(R.id.tilCodePhone)
+                val msgErrorField = tilCodePhone.error
+                assertEquals(context.getString(R.string.err_field_code), msgErrorField)
             }
         }
     }
 
     @Test
     fun `when click in the button but field of number phone is empty should msgError to user`() {
-        app.loadModules(modules) {
-            val scenario = fragmentScenario()
-            scenario.onFragment { fragment ->
-                fragment.view?.let { view ->
-                    val tietNumCountry = view.findViewById<TextInputEditText>(R.id.tietNumCountry)
-                    tietNumCountry.setText("55")
+        val arrayCountries = arrayOf(
+            CodeCountry("Brasil", "55", "BR / BRA")
+        )
+        val json = Gson().toJson(arrayCountries)
+        every { assets.read(any()) }.returns(json)
 
-                    val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-                    btnLogin.performClick()
+        fragmentScenario<AuthFragment>(R.navigation.nav_uiauth) { fragment ->
+            fragment.view?.let { view ->
+                val tietNumCountry = view.findViewById<TextInputEditText>(R.id.tietNumCountry)
+                tietNumCountry.setText("55")
 
-                    val tilNumPhone = view.findViewById<TextInputLayout>(R.id.tilNumPhone)
-                    val msgErrorField = tilNumPhone.error
-                    assertEquals(mContext.getString(R.string.err_field_code), msgErrorField)
-                }
+                val btnLogin = view.findViewById<Button>(R.id.btnLogin)
+                btnLogin.performClick()
+
+                val tilNumPhone = view.findViewById<TextInputLayout>(R.id.tilNumPhone)
+                val msgErrorField = tilNumPhone.error
+                assertEquals(context.getString(R.string.err_field_code), msgErrorField)
             }
         }
     }
 
     @Test
     fun `when send code phone but api return error`() {
-        val userRepository = mockk<UserRepository>()
+        val arrayCountries = arrayOf(
+            CodeCountry("Brasil", "55", "BR / BRA")
+        )
+        val json = Gson().toJson(arrayCountries)
 
-        val test = module {
-            single<AuthSP> { AuthSPImpl(androidContext()) }
-        }
+        every { assets.read(any()) }.returns(json)
+        coEvery { userRepository.sendCode(any()) } throws Exception("a")
 
-        val module = module {
-            viewModel { AuthViewModel(androidContext(), get(), get(), userRepository) }
-            viewModel { AuthSharedViewModel() }
-        }
+        fragmentScenario<AuthFragment>(R.navigation.nav_uiauth) { fragment ->
+            fragment.view?.let { view ->
+                val tietNumCountry = view.findViewById<TextInputEditText>(R.id.tietNumCountry)
+                tietNumCountry.setText("55")
 
-        app.loadModules(listOf(*CoreModule.allModule().toTypedArray(), test, module)) {
-            val scenario = fragmentScenario()
-            scenario.onFragment { fragment ->
-                fragment.view?.let { view ->
-                    val tietNumCountry = view.findViewById<TextInputEditText>(R.id.tietNumCountry)
-                    tietNumCountry.setText("55")
+                val tietNumPhone = view.findViewById<TextInputEditText>(R.id.tietNumPhone)
+                tietNumPhone.setText("99999999999")
 
-                    val tietNumPhone = view.findViewById<TextInputEditText>(R.id.tietNumPhone)
-                    tietNumPhone.setText("99999999999")
+                val btnLogin = view.findViewById<Button>(R.id.btnLogin)
+                btnLogin.performClick()
 
-                    val btnLogin = view.findViewById<Button>(R.id.btnLogin)
-                    btnLogin.performClick()
-
-                    coEvery { userRepository.sendCode(any()) } throws Exception("a")
-                    val tvwMsgError = view.findViewById<TextView>(R.id.tvwMsgError)
-                    assertEquals(mContext.getString(R.string.err_request_general), tvwMsgError.text)
-                }
+                val tvwMsgError = view.findViewById<TextView>(R.id.tvwMsgError)
+                assertEquals(context.getString(R.string.err_request_general), tvwMsgError.text)
             }
         }
-    }
-
-    private fun fragmentScenario(): FragmentScenario<AuthFragment> {
-        val scenario = FragmentScenario.launch(AuthFragment::class.java)
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-            mockNavController.setGraph(R.navigation.nav_uiauth)
-
-            fragment.viewLifecycleOwnerLiveData.observeForever {
-                if (it != null) {
-                    Navigation.setViewNavController(fragment.requireView(), mockNavController)
-                }
-            }
-        }
-        return scenario
     }
 
     @After
     fun tearDown() {
-        stopKoin()
+        unmockkAll()
     }
 
 }

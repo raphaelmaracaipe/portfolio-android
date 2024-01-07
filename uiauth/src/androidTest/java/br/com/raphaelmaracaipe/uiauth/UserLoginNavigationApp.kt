@@ -19,7 +19,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
-import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
+import br.com.raphaelmaracaipe.uiauth.di.AuthUiModuleKoin
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthFragment
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -57,7 +57,7 @@ class UserLoginNavigationApp {
         startKoin {
             androidLogger()
             androidContext(mContext)
-            loadKoinModules(AuthUiModule.allModule())
+            loadKoinModules(AuthUiModuleKoin.allModule())
         }
 
         navController = TestNavHostController(ApplicationProvider.getApplicationContext())

@@ -8,6 +8,8 @@ import android.view.animation.AnimationUtils
 import androidx.activity.addCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import br.com.raphaelmaracaipe.core.assets.Assets
@@ -17,17 +19,21 @@ import br.com.raphaelmaracaipe.uiauth.extensions.addMask
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class AuthFragment : Fragment() {
+@AndroidEntryPoint
+class AuthFragment @Inject constructor() : Fragment() {
+
+    @Inject
+    lateinit var mAssets: Assets
+
+    @Inject
+    lateinit var mAuthSP: AuthSP
 
     private lateinit var binding: FragmentAuthBinding
-    private val mAssets: Assets by inject()
-    private val mAuthSP: AuthSP by inject()
-    private val mViewModel: AuthViewModel by viewModel()
-    private val mSharedViewModel: AuthSharedViewModel by activityViewModel()
+    private val mViewModel: AuthViewModel by viewModels()
+    private val mSharedViewModel: AuthSharedViewModel by activityViewModels()
     private var isShowAnimation = true
 
     override fun onCreateView(

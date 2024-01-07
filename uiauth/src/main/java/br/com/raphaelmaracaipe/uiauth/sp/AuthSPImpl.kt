@@ -1,8 +1,9 @@
 package br.com.raphaelmaracaipe.uiauth.sp
 
 import android.content.Context
+import javax.inject.Inject
 
-class AuthSPImpl(
+class AuthSPImpl @Inject constructor(
     private val context: Context
 ): AuthSP {
 
