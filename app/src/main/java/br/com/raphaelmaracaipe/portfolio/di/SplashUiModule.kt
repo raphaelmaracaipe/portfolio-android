@@ -14,7 +14,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(FragmentComponent::class)
-class SplashUiModule {
+object SplashUiModule {
 
     @ViewModelScoped
     @Provides

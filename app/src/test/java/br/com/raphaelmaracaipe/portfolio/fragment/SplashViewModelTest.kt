@@ -7,7 +7,7 @@ import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
-import br.com.raphaelmaracaipe.portfolio.TestApplication
+import dagger.hilt.android.testing.HiltTestApplication
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -20,7 +20,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
+@Config(sdk = [Build.VERSION_CODES.M], application = HiltTestApplication::class)
 class SplashViewModelTest {
 
     @get:Rule
