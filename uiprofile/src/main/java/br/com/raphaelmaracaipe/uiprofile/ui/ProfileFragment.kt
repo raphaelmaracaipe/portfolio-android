@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.core.alerts.BottomSheetMessages
 import br.com.raphaelmaracaipe.core.extensions.toBase64
@@ -28,15 +29,17 @@ import br.com.raphaelmaracaipe.core.extensions.toByteArray
 import br.com.raphaelmaracaipe.core.navigation.NavigationURI
 import br.com.raphaelmaracaipe.uiprofile.R
 import br.com.raphaelmaracaipe.uiprofile.databinding.FragmentProfileBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.FileOutputStream
+import javax.inject.Inject
 import kotlin.system.exitProcess
 import br.com.raphaelmaracaipe.core.R as RCore
 
-class ProfileFragment : Fragment() {
+@AndroidEntryPoint
+class ProfileFragment @Inject constructor() : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private val mViewModel: ProfileViewModel by viewModel()
+    private val mViewModel: ProfileViewModel by viewModels()
     private val TYPE_PERMISSION_GENERIC = 0
     private val TYPE_PERMISSION_GALLERY = 1
     private val TYPE_PERMISSION_CAMERA = 2

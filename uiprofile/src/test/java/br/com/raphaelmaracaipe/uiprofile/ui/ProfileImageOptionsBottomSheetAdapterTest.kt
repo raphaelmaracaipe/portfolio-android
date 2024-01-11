@@ -6,18 +6,18 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import br.com.raphaelmaracaipe.uiprofile.TestApplication
+import br.com.raphaelmaracaipe.uiprofile.R
 import br.com.raphaelmaracaipe.uiprofile.ui.ProfileImageOptionsBottomSheetAdapter.*
+import dagger.hilt.android.testing.HiltTestApplication
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import br.com.raphaelmaracaipe.uiprofile.R
-import org.junit.Assert
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
+@Config(sdk = [Build.VERSION_CODES.M], application = HiltTestApplication::class)
 class ProfileImageOptionsBottomSheetAdapterTest {
 
     private val mContext: Context = RuntimeEnvironment.getApplication().applicationContext

@@ -1,20 +1,27 @@
 package br.com.raphaelmaracaipe.uiprofile.di
 
-import br.com.raphaelmaracaipe.core.di.CoreModule
+import android.content.Context
+import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.uiprofile.ui.ProfileViewModel
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 
+@Module
+@InstallIn(FragmentComponent::class)
 object ProfileUiModule {
 
-    fun allModule() = listOf(
-        *CoreModule.allModule().toTypedArray(),
-        viewModels
+    @ViewModelScoped
+    @Provides
+    fun providerProfileViewModel(
+        @ApplicationContext context: Context,
+        userRepository: UserRepository
+    ) = ProfileViewModel(
+        context,
+        userRepository
     )
-
-    private val viewModels = module {
-        viewModel { ProfileViewModel(androidContext(), get()) }
-    }
 
 }
