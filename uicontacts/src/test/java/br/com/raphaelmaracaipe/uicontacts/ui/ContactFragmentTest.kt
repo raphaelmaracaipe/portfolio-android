@@ -3,27 +3,48 @@ package br.com.raphaelmaracaipe.uicontacts.ui
 import android.os.Build
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.testing.FragmentScenario
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
+import br.com.raphaelmaracaipe.core.di.CoreModule
+import br.com.raphaelmaracaipe.core.testUnit.FragmentTest
 import br.com.raphaelmaracaipe.uicontacts.R
-import br.com.raphaelmaracaipe.uicontacts.TestApplication
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.MockKAnnotations
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
-class ContactFragmentTest {
+@Config(
+    manifest = Config.NONE,
+    sdk = [Build.VERSION_CODES.M],
+    application = HiltTestApplication::class
+)
+class ContactFragmentTest: FragmentTest() {
 
-    private val mockNavController = Mockito.mock(NavController::class.java)
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+        MockKAnnotations.init(this)
+    }
 
     @Test
     fun `when init view should show container`() {
-        fragmentScenario().onFragment { fragment ->
+        fragmentScenario<ContactFragment>(
+            R.navigation.nav_uicontacts
+        ) { fragment ->
             fragment.view?.let { view ->
                 val cltContainer = view.findViewById<ConstraintLayout>(R.id.cltContainer)
                 assertEquals(View.VISIBLE, cltContainer.visibility)
@@ -31,18 +52,8 @@ class ContactFragmentTest {
         }
     }
 
-    private fun fragmentScenario(): FragmentScenario<ContactFragment> {
-        val scenario = FragmentScenario.launch(ContactFragment::class.java)
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-            mockNavController.setGraph(R.navigation.nav_uicontacts)
-
-            fragment.viewLifecycleOwnerLiveData.observeForever {
-                if (it != null) {
-                    Navigation.setViewNavController(fragment.requireView(), mockNavController)
-                }
-            }
-        }
-        return scenario
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 }

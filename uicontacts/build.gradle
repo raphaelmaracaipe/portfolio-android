@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -52,9 +54,11 @@ dependencies {
     implementation "com.google.android.material:material:$material"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
-    implementation "io.insert-koin:koin-android:$koin"
-    implementation "androidx.fragment:fragment-testing:$test_fragment"
+    implementation "com.google.dagger:hilt-android:$dagger_hil"
 
+    debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
+
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_hil"
     testImplementation "junit:junit:$test_junit"
     testImplementation "androidx.arch.core:core-testing:$test_core_testing"
     testImplementation "org.robolectric:robolectric:$test_roboletric"
@@ -63,6 +67,9 @@ dependencies {
     testImplementation "io.mockk:mockk-android:$test_mockk"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
+
+    kapt "com.google.dagger:hilt-compiler:$dagger_hil"
+    kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hil"
 
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"
