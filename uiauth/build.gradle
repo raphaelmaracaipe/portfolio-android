@@ -60,6 +60,7 @@ android {
 
 dependencies {
     implementation project(path: ':core')
+    implementation project(path: ':tests')
 
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$app_compact"

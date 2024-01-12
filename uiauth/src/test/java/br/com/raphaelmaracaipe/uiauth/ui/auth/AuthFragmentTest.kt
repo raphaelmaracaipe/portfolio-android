@@ -10,7 +10,7 @@ import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule
-import br.com.raphaelmaracaipe.core.testUnit.FragmentTest
+import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import com.google.android.material.textfield.TextInputEditText

@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Button
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
-import br.com.raphaelmaracaipe.core.testUnit.FragmentTest
+import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiprofile.R
 import com.google.android.material.imageview.ShapeableImageView
 import dagger.hilt.android.testing.BindValue

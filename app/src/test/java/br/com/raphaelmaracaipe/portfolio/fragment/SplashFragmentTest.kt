@@ -8,8 +8,8 @@ import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
-import br.com.raphaelmaracaipe.core.testUnit.FragmentTest
 import br.com.raphaelmaracaipe.portfolio.R
+import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

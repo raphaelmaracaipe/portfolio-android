@@ -14,7 +14,7 @@ import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.data.sp.di.SpModule
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
-import br.com.raphaelmaracaipe.core.testUnit.FragmentTest
+import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
 import com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
 import dagger.hilt.android.testing.BindValue
