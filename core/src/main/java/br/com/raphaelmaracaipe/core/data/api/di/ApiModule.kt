@@ -11,7 +11,7 @@ import br.com.raphaelmaracaipe.core.data.api.TokenApiImpl
 import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.api.UserApiImpl
 import br.com.raphaelmaracaipe.core.data.api.services.HandShakeService
-import br.com.raphaelmaracaipe.core.data.api.services.TokenInterceptorService
+import br.com.raphaelmaracaipe.core.data.api.services.TokenService
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
@@ -78,7 +78,7 @@ class ApiModule {
 
     @Provides
     fun getTokenApi(
-        tokenService: TokenInterceptorService
+        tokenService: TokenService
     ): TokenApi = TokenApiImpl(
         tokenService
     )

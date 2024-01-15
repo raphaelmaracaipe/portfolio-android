@@ -12,7 +12,7 @@ import br.com.raphaelmaracaipe.core.data.api.TokenApiImpl
 import br.com.raphaelmaracaipe.core.data.api.request.TokenRefreshRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.data.api.services.TokenInterceptorService
+import br.com.raphaelmaracaipe.core.data.api.services.TokenService
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySPImpl
 import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
@@ -47,7 +47,7 @@ class DecryptedInterceptorTest {
     val instantTaskRule = InstantTaskExecutorRule()
 
     private val mockWebServer = MockWebServer()
-    private lateinit var tokenService: TokenInterceptorService
+    private lateinit var tokenService: TokenService
 
 
     @Before
@@ -85,7 +85,7 @@ class DecryptedInterceptorTest {
         val tokenRepository = TokenRepositoryInterceptorApiImpl(tokenSP)
 
         tokenService = configRetrofit(
-            TokenInterceptorService::class.java,
+            TokenService::class.java,
             cryptoHelper,
             keysDefault,
             apiKeys,
