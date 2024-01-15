@@ -4,7 +4,7 @@ import br.com.raphaelmaracaipe.core.BuildConfig
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
-import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorApi
 import br.com.raphaelmaracaipe.core.extensions.bodyToString
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
@@ -25,7 +25,7 @@ class EncryptedInterceptor(
     private val deviceRepository: DeviceRepository,
     private val keyRepository: KeyRepository,
     private val seedRepository: SeedRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepositoryWithoutApi: TokenRepositoryInterceptorApi
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
@@ -46,15 +46,14 @@ class EncryptedInterceptor(
             )
 
         addTokenInHeader(newRequest)
-
         return newRequest.build()
     }
 
     private fun addTokenInHeader(newRequest: Request.Builder) {
-//        if (tokenRepository.isExistTokenRegistered()) {
-//            val tokenResponse = tokenRepository.getTokenRegistered()
-//            newRequest.addHeader("authorization", "Bearer ${tokenResponse.accessToken}")
-//        }
+        if (tokenRepositoryWithoutApi.isExistTokenRegistered()) {
+            val tokenResponse = tokenRepositoryWithoutApi.getTokenRegistered()
+            newRequest.addHeader("authorization", "Bearer ${tokenResponse.accessToken}")
+        }
     }
 
     private fun checkWhichTypeRequestAndEncryptedBody(chain: Interceptor.Chain): RequestBody? {

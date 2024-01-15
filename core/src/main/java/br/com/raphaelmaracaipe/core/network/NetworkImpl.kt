@@ -1,9 +1,10 @@
 package br.com.raphaelmaracaipe.core.network
 
+import br.com.raphaelmaracaipe.core.BuildConfig
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
-import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorApi
 import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils.URL_TO_MOCK
@@ -24,7 +25,7 @@ class NetworkImpl(
     private val deviceRepository: DeviceRepository,
     private val keyRepository: KeyRepository,
     private val seedRepository: SeedRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepositoryWithoutApi: TokenRepositoryInterceptorApi
 ) : Network {
 
     override fun <T : Any> create(service: Class<T>): T = getInstanceRetrofit().create(service)
@@ -45,7 +46,7 @@ class NetworkImpl(
                 deviceRepository,
                 keyRepository,
                 seedRepository,
-                tokenRepository
+                tokenRepositoryWithoutApi
             )
         )
         .addInterceptor(
@@ -54,7 +55,7 @@ class NetworkImpl(
                 seedRepository,
                 keyRepository,
                 cryptoHelper,
-                tokenRepository
+                tokenRepositoryWithoutApi
             )
         )
         .build()
@@ -71,11 +72,10 @@ fun <T : Any> configRetrofit(
     deviceRepository: DeviceRepository,
     keyRepository: KeyRepository,
     seedRepository: SeedRepository,
-    tokenRepository: TokenRepository
+    tokenRepositoryWithoutApi: TokenRepositoryInterceptorApi
 ): T {
     val baseUrl = URL_TO_MOCK.ifEmpty {
-//        BuildConfig.URL
-        "http://192.168.0.244:3000"
+        BuildConfig.URL
     }
 
     val configurationRetrofit: Network = NetworkImpl(
@@ -86,7 +86,7 @@ fun <T : Any> configRetrofit(
         deviceRepository,
         keyRepository,
         seedRepository,
-        tokenRepository
+        tokenRepositoryWithoutApi
     )
     return configurationRetrofit.create(service)
 }

@@ -6,6 +6,7 @@ import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.extensions.getCodeOfErrorBody
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
+import javax.inject.Inject
 
 class UserApiImpl(
     private val userService: UserService

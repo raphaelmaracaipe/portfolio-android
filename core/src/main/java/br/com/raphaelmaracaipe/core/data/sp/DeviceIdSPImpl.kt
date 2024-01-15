@@ -6,9 +6,10 @@ import br.com.raphaelmaracaipe.core.extensions.toSha1
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelper
+import javax.inject.Inject
 
-class DeviceIdSPImpl(
-    context: Context,
+class DeviceIdSPImpl @Inject constructor(
+    private val context: Context,
     private val keysDefault: KeysDefault,
     private val spKeyDefault: SpKeyDefault,
     private val cryptoHelper: CryptoHelper
@@ -47,6 +48,13 @@ class DeviceIdSPImpl(
         }
 
         return cryptoHelper.decrypt(deviceIdSaved, keysDefault.key, keysDefault.seed)
+    }
+
+    override fun clean() {
+        sharedPreferences.edit {
+            putString(keyEdit, "")
+            commit()
+        }
     }
 
 }

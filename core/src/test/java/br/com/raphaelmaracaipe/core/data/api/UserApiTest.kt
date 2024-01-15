@@ -7,7 +7,7 @@ import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.DeviceRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
-import br.com.raphaelmaracaipe.core.data.TokenRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorApiImpl
 import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
@@ -24,6 +24,7 @@ import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
+import br.com.raphaelmaracaipe.core.utils.Strings.generateStringRandom
 import br.com.raphaelmaracaipe.core.utils.encryptedBodyRequest
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
@@ -60,16 +61,16 @@ class UserApiTest {
 
         val cryptoHelper = CryptoHelperImpl()
         val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val apiKeys = ApiKeysDefault("AAA", "BBB")
+        val apiKeys = ApiKeysDefault(generateStringRandom(6), generateStringRandom(6))
         val spKeysDefault = SpKeyDefault(
-            "AAA",
-            "AAA",
-            "AAA",
-            "AAA",
-            "AAA",
-            "AAA",
-            "AAA",
-            "AAA"
+            generateStringRandom(6),
+            generateStringRandom(6),
+            generateStringRandom(6),
+            generateStringRandom(6),
+            generateStringRandom(6),
+            generateStringRandom(6),
+            generateStringRandom(6),
+            generateStringRandom(6)
         )
 
         val deviceIdSP = DeviceIdSPImpl(mContext, keysDefault, spKeysDefault, cryptoHelper)
@@ -80,7 +81,7 @@ class UserApiTest {
         val deviceRepository = DeviceRepositoryImpl(deviceIdSP)
         val keyRepository = KeyRepositoryImpl(keySp, keysDefault)
         val seedRepository = SeedRepositoryImpl(seedSp)
-        val tokenRepository = TokenRepositoryImpl(tokenSP)
+        val tokenRepository = TokenRepositoryInterceptorApiImpl(tokenSP)
 
         userService = configRetrofit(
             UserService::class.java,

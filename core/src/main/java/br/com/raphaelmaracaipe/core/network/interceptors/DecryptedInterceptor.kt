@@ -2,7 +2,7 @@ package br.com.raphaelmaracaipe.core.network.interceptors
 
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
-import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.response.ErrorResponse
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
@@ -18,14 +18,13 @@ import okhttp3.Protocol
 import okhttp3.Response
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.json.JSONObject
 
 class DecryptedInterceptor(
     private val keysDefault: KeysDefault,
     private val seedRepository: SeedRepository,
     private val keyRepository: KeyRepository,
     private val cryptoHelper: CryptoHelper,
-    private val tokenRepository: TokenRepository
+    private val tokenRepositoryInterceptorApi: TokenRepositoryInterceptorApi
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
@@ -41,13 +40,14 @@ class DecryptedInterceptor(
                 }
 
                 else -> {
-//                    if (checkIfToUpdateToken(response)) {
+                    if (checkIfToUpdateToken(response)) {
 //                        val retryResponse = updateToNewToken(chain)
 //                        chain.proceed(retryResponse)
-//                    } else {
-//                        response
-//                    }
-                    response
+                        response
+                    } else {
+                        response
+                    }
+//                    response
                 }
             }
         }
@@ -55,7 +55,7 @@ class DecryptedInterceptor(
 
 //    private fun updateToNewToken(chain: Interceptor.Chain): Request {
 //        val tokenResponse = runBlocking {
-//            tokenRepository.updateToken()
+//            tokenRepositoryWithoutApi.updateToken()
 //        }
 //
 //        return chain.request().newBuilder()
@@ -64,7 +64,7 @@ class DecryptedInterceptor(
 //    }
 
     private fun checkIfToUpdateToken(response: Response): Boolean {
-        val jsonBody = response.body?.string() ?: "{}"
+        val jsonBody = response.body.string()
         val objectOfError = Gson().fromJson(jsonBody, ErrorResponse::class.java)
         return objectOfError.codeError == TOKEN_INVALID.code
     }
@@ -81,8 +81,7 @@ class DecryptedInterceptor(
     }
 
     private fun bodyDecrypted(response: Response): String = try {
-        val bodyEncrypted = response.body?.string()?.fromJSON<TransactionEncryptedModel>(
-        ) ?: TransactionEncryptedModel()
+        val bodyEncrypted = response.body.string().fromJSON<TransactionEncryptedModel>()
 
         val keyAndSeed = getKeys()
         val bodyDecrypted = cryptoHelper.decrypt(
@@ -108,19 +107,16 @@ class DecryptedInterceptor(
     }
 
     private fun buildResponseGeneric(response: Response) = Response.Builder()
-        .code(401)
+        .code(500)
         .protocol(Protocol.HTTP_1_1)
         .request(response.request)
         .message("ok")
         .body(responseBody())
         .build()
 
-    private fun responseBody(): ResponseBody {
-        val body = JSONObject().apply {
-            put("code", ERROR_GENERAL.code)
-        }.toString()
-        return body.toResponseBody(mediaType())
-    }
+    private fun responseBody(): ResponseBody = ErrorResponse(500, ERROR_GENERAL.code)
+        .toJSON()
+        .toResponseBody(mediaType())
 
     private fun mediaType(): MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
 
