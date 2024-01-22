@@ -1,10 +1,9 @@
 package br.com.raphaelmaracaipe.core.extensions
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Build
-import br.com.raphaelmaracaipe.core.TestApplication
+import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.assets.AssetsImpl
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -14,33 +13,33 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
+@Config(sdk = [Build.VERSION_CODES.M])
 class BitmapExtensionsTest {
 
-    private var bitmap: Bitmap? = null
+    private lateinit var assets: Assets
 
     @Before
-    fun setUp() {
+    fun setUP() {
         val context = RuntimeEnvironment.getApplication().applicationContext
-        getImageInAssertsTestToBitmap(context)
+        val assetsManager = context.assets
+        assets = AssetsImpl(context, assetsManager)
     }
 
     @Test
-    fun `when transform bitmap in base64`() {
-        val imageIn64 = bitmap?.toBase64() ?: ""
-        assertNotEquals("", imageIn64)
+    fun `when convert bitmap to base64 should return text`() {
+        val drawableInAssets = assets.drawableImage("br.png")
+        val bitmapTransformed = drawableInAssets?.toBitmap()
+        val bitmapToBase64 = bitmapTransformed?.toBase64()
+        assertNotEquals("", bitmapToBase64)
     }
 
     @Test
-    fun `when transform bitmap to byte array`() {
-        val imageByteArray = bitmap?.toByteArray() ?: byteArrayOf()
-        assertNotEquals(0, imageByteArray.size)
+    fun `when convert bitmap to byte array should return array`() {
+        val drawableInAssets = assets.drawableImage("br.png")
+        val bitmapTransformed = drawableInAssets?.toBitmap()
+        val bitmapToArray = bitmapTransformed?.toByteArray()
+        assertNotEquals(0, (bitmapToArray?.size ?: 0))
     }
 
-    private fun getImageInAssertsTestToBitmap(context: Context) {
-        context.assets.open("br.png").use {
-            bitmap = BitmapFactory.decodeStream(it)
-        }
-    }
 
 }

@@ -1,53 +1,64 @@
 package br.com.raphaelmaracaipe.core.data
 
 import android.os.Build
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.sp.SeedSP
-import br.com.raphaelmaracaipe.core.data.sp.SeedSPImpl
-import org.junit.After
+import io.mockk.every
+import io.mockk.mockk
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
+@Config(sdk = [Build.VERSION_CODES.M])
 class SeedRepositoryTest {
 
-    @get:Rule
-    val instantTaskRule = InstantTaskExecutorRule()
-
-    private lateinit var seedSp: SeedSP
     private lateinit var seedRepository: SeedRepository
+    private lateinit var seedSP: SeedSP
 
     @Before
     fun setUp() {
-        val context = RuntimeEnvironment.getApplication().applicationContext
-        seedSp = SeedSPImpl(context)
-        seedRepository = SeedRepositoryImpl(seedSp)
+        seedSP = mockk()
+        seedRepository = SeedRepositoryImpl(seedSP)
     }
 
     @Test
-    fun `when save seed should check value when call get`() {
-        val seedSaved = seedRepository.get()
-        assertNotEquals("", seedSaved)
+    fun `when clean seed saved`() {
+        every { seedSP.clean() } returns Unit
+        try {
+            seedRepository.cleanSeedSaved()
+            assertTrue(true)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
     }
 
     @Test
-    fun `when clean seed should not exist data saved`() {
-        seedRepository.cleanSeedSaved()
-        val seedSaved = seedSp.get()
-        assertEquals("", seedSaved)
+    fun `when get seed registered`() {
+        every { seedSP.get() } returns "test"
+
+        try {
+            val seedSaved = seedRepository.get()
+            assertEquals("test", seedSaved)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
     }
 
-    @After
-    fun tearDown() {
-        seedSp.clean()
+    @Test
+    fun `when get seed but not exist saved`() {
+        every { seedSP.get() } returns ""
+        every { seedSP.save(any()) } returns Unit
+
+        try {
+            val seedSaved = seedRepository.get()
+            assertNotEquals("", seedSaved)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
     }
 
 }

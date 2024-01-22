@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import br.com.raphaelmaracaipe.core.R
-import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,28 +14,30 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.M])
-class ViewBindingAdapterKtTest {
+class ViewBindingAdapterTest {
 
-    private lateinit var mContext: Context
+    private lateinit var context: Context
 
     @Before
     fun setUp() {
-        mContext = RuntimeEnvironment.getApplication().applicationContext
-        mContext.setTheme(R.style.Theme_Portfolio)
+        context = RuntimeEnvironment.getApplication().applicationContext
+        context.setTheme(R.style.Theme_Portfolio)
     }
 
     @Test
-    fun `when set true should visible view`() {
-        val view = View(mContext)
+    fun `when change visibility to true should show`() {
+        val view = View(context)
         view.visible(true)
-        Assert.assertEquals(View.VISIBLE, view.visibility)
+
+        assertEquals(View.VISIBLE, view.visibility)
     }
 
     @Test
-    fun `when set false should gone view`() {
-        val view = View(mContext)
+    fun `when change visibility to false should hidden`() {
+        val view = View(context)
         view.visible(false)
-        Assert.assertEquals(View.GONE, view.visibility)
+
+        assertEquals(View.GONE, view.visibility)
     }
 
 }

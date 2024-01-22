@@ -15,7 +15,7 @@ class UserApiImpl(
     override suspend fun sendCode(userSendCodeRequest: UserSendCodeRequest): Boolean {
         val returnHttp = userService.sendCode(userSendCodeRequest)
         if (!returnHttp.isSuccessful) {
-            throw Exception()
+            throw NetworkException(returnHttp.errorBody()?.getCodeOfErrorBody())
         }
         return true
     }

@@ -10,11 +10,12 @@ import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepositoryImpl
-import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorApi
-import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorApiImpl
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptor
+import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.UserRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
+import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
@@ -64,8 +65,10 @@ class RepositoryModule {
     @Provides
     fun providerTokenWithoutApi(
         tokenSP: TokenSP,
-    ): TokenRepositoryInterceptorApi = TokenRepositoryInterceptorApiImpl(
-        tokenSP
+        tokenInterceptorApi: TokenInterceptorApi
+    ): TokenRepositoryInterceptor = TokenRepositoryInterceptorImpl(
+        tokenSP,
+        tokenInterceptorApi
     )
 
     @Provides

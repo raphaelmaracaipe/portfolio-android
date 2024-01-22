@@ -11,14 +11,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserRepositoryImpl(
-    private val api: UserApi,
+    private val userApi: UserApi,
     private val tokenSP: TokenSP,
     private val profileSP: ProfileSP
 ) : UserRepository {
 
     override suspend fun sendCode(userSendCode: UserSendCodeRequest) = withContext(Dispatchers.IO) {
         try {
-            api.sendCode(userSendCode)
+            userApi.sendCode(userSendCode)
         } catch (e: NetworkException) {
             throw NetworkException(e.code)
         } catch (e: Exception) {
@@ -28,7 +28,7 @@ class UserRepositoryImpl(
 
     override suspend fun validCode(code: String) = withContext(Dispatchers.IO) {
         try {
-            val tokens = api.validCode(code)
+            val tokens = userApi.validCode(code)
             tokenSP.save(tokens)
         } catch (e: NetworkException) {
             throw NetworkException(e.code)
@@ -39,7 +39,7 @@ class UserRepositoryImpl(
 
     override suspend fun profile(profile: ProfileRequest) = withContext(Dispatchers.IO) {
         try {
-            api.profile(profile)
+            userApi.profile(profile)
             profileSP.markWithExistProfile()
         } catch (e: NetworkException) {
             e.printStackTrace()
