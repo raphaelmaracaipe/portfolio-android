@@ -13,11 +13,14 @@ import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.consts.Location
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AuthViewModel(
+@HiltViewModel
+class AuthViewModel @Inject constructor(
     private val context: Context,
     private val assets: Assets,
     private val authSP: AuthSP,
@@ -68,7 +71,7 @@ class AuthViewModel(
     fun sendCodeToServer(phone: String) = viewModelScope.launch {
         try {
             userRepository.sendCode(UserSendCodeRequest(phone))
-            authSP.setPhone(phone)
+//            authSP.setPhone(phone)
             _sendCodePhone.postValue(Unit)
         } catch (e: Exception) {
             _error.postValue(context.getString(R.string.err_request_general))

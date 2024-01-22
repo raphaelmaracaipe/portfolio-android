@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -40,16 +42,41 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
+    implementation project(path: ':core')
+    implementation project(path: ':tests')
+
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$app_compact"
     implementation "com.google.android.material:material:$material"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+    implementation "com.google.dagger:hilt-android:$dagger_hil"
 
+    debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
+
+    kapt "com.google.dagger:hilt-compiler:$dagger_hil"
+    kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hil"
+
+    testImplementation "com.google.dagger:hilt-android-testing:$dagger_hil"
     testImplementation "junit:junit:$test_junit"
+    testImplementation "androidx.arch.core:core-testing:$test_core_testing"
+    testImplementation "org.robolectric:robolectric:$test_roboletric"
+    testImplementation "androidx.test:core:$test_core"
+    testImplementation "io.mockk:mockk:$test_mockk"
+    testImplementation "io.mockk:mockk-android:$test_mockk"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$test_coroutines"
 
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$android_test_espresso_core"

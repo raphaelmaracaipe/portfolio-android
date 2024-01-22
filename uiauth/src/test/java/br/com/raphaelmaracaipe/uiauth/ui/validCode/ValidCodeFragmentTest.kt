@@ -2,57 +2,94 @@ package br.com.raphaelmaracaipe.uiauth.ui.validCode
 
 import android.os.Build
 import android.widget.EditText
-import androidx.fragment.app.testing.FragmentScenario
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.test.core.app.ApplicationProvider
-import br.com.raphaelmaracaipe.TestApplication
+import br.com.raphaelmaracaipe.core.data.KeyRepository
+import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
-import br.com.raphaelmaracaipe.core.externals.ApiKeysDefault
-import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
+import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
+import br.com.raphaelmaracaipe.core.data.sp.KeySP
+import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
+import br.com.raphaelmaracaipe.core.data.sp.SeedSP
+import br.com.raphaelmaracaipe.core.data.sp.TokenSP
+import br.com.raphaelmaracaipe.core.data.sp.di.SpModule
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
-import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.di.AuthUiModule
 import com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.MockKAnnotations
+import io.mockk.mockk
+import io.mockk.unmockkAll
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.context.stopKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
-import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
-class ValidCodeFragmentTest {
+@Config(
+    manifest = Config.NONE,
+    sdk = [Build.VERSION_CODES.M],
+    application = HiltTestApplication::class
+)
+@UninstallModules(SpModule::class, RepositoryModule::class)
+class ValidCodeFragmentTest : FragmentTest() {
 
-    private val app: TestApplication = ApplicationProvider.getApplicationContext()
-    private val mockNavController = Mockito.mock(NavController::class.java)
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @BindValue
+    @JvmField
+    var deviceIdSP: DeviceIdSP = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var tokenSP: TokenSP = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var profileSP: ProfileSP = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var keySP: KeySP = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var seedSP: SeedSP = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var keyRepository: KeyRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var userRepository: UserRepository = mockk(relaxed = true)
+
     private val mockWebServer = MockWebServer()
-    private lateinit var modulesToTest: Module
 
     @Before
     fun setUp() {
+        hiltRule.inject()
+        MockKAnnotations.init(this)
+
         ShadowLog.stream = System.out
 
         mockWebServer.start()
         val baseURL = mockWebServer.url("").toString()
         NetworkUtils.URL_TO_MOCK = baseURL
-
-        modulesToTest = module {
-            single { KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX") }
-            single { ApiKeysDefault("aaa", "aaa") }
-            single { SpKeyDefault("a", "b", "c", "d", "e", "f") }
-        }
     }
 
     @Test
@@ -64,15 +101,15 @@ class ValidCodeFragmentTest {
             MockResponse().setResponseCode(400).setBody(jsonObject.toString())
         )
 
-        app.loadModules(listOf(*AuthUiModule.allModule().toTypedArray(), modulesToTest)) {
-            fragmentScenario().onFragment { fragment ->
-                fragment.view?.let {
-                    val etNumber = it.findViewById<EditText>(R.id.etNumber)
-                    etNumber.setText("999999")
+        fragmentScenario<ValidCodeFragment>(
+            R.navigation.nav_uiauth
+        ) { fragment ->
+            fragment.view?.let {
+                val etNumber = it.findViewById<EditText>(R.id.etNumber)
+                etNumber.setText("999999")
 
-                    val btnLogin = it.findViewById<CircularProgressButton>(R.id.btnLogin)
-                    btnLogin.performClick()
-                }
+                val btnLogin = it.findViewById<CircularProgressButton>(R.id.btnLogin)
+                btnLogin.performClick()
             }
         }
     }
@@ -84,36 +121,21 @@ class ValidCodeFragmentTest {
             MockResponse().setResponseCode(201).setBody(token.toJSON())
         )
 
-        app.loadModules(listOf(*AuthUiModule.allModule().toTypedArray(), modulesToTest)) {
-            fragmentScenario().onFragment { fragment ->
-                fragment.view?.let {
-                    val etNumber = it.findViewById<EditText>(R.id.etNumber)
-                    etNumber.setText("999999")
+        fragmentScenario<ValidCodeFragment>(
+            R.navigation.nav_uiauth
+        ) { fragment ->
+            fragment.view?.let {
+                val etNumber = it.findViewById<EditText>(R.id.etNumber)
+                etNumber.setText("999999")
 
-                    val btnLogin = it.findViewById<CircularProgressButton>(R.id.btnLogin)
-                    btnLogin.performClick()
-                }
+                val btnLogin = it.findViewById<CircularProgressButton>(R.id.btnLogin)
+                btnLogin.performClick()
             }
         }
-    }
-
-    private fun fragmentScenario(): FragmentScenario<ValidCodeFragment> {
-        val scenario = FragmentScenario.launch(ValidCodeFragment::class.java)
-        scenario.onFragment { fragment ->
-            Navigation.setViewNavController(fragment.requireView(), mockNavController)
-            mockNavController.setGraph(R.navigation.nav_uiauth)
-
-            fragment.viewLifecycleOwnerLiveData.observeForever {
-                if (it != null) {
-                    Navigation.setViewNavController(fragment.requireView(), mockNavController)
-                }
-            }
-        }
-        return scenario
     }
 
     @After
     fun tearDown() {
-        stopKoin()
+        unmockkAll()
     }
 }

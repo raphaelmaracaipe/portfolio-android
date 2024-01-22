@@ -4,6 +4,7 @@ plugins {
     id 'com.android.library' version '8.0.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id 'androidx.navigation.safeargs.kotlin' version '2.5.3' apply false
+    id 'com.google.dagger.hilt.android' version '2.44' apply false
 }
 
 ext {
@@ -19,13 +20,13 @@ ext {
     lifecycle_extensions = '2.2.0'
     lifecycle_livedata = '2.6.1'
     gson = '2.10.1'
-    koin = '3.4.0'
     navigation = '2.5.3'
     okhttp = '5.0.0-alpha.11'
     retrofit = '2.9.0'
     loading_button = '2.3.0'
     rgxgen = '1.4'
     http_logger_inteceptor = '4.9.1'
+    dagger_hil = '2.44'
 
     //tests
     test_junit = '4.13.2'
@@ -36,6 +37,7 @@ ext {
     test_fragment = '1.5.7'
     test_binding_compiler = '8.0.1'
     test_coroutines = '1.6.4'
+    test_mockito = '2.28.2'
 
     //android test
     android_test_junit = '1.1.5'

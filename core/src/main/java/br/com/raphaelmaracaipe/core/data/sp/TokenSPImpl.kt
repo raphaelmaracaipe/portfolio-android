@@ -64,4 +64,11 @@ class TokenSPImpl(
         }
     }
 
+    override fun clean() {
+        sp.edit {
+            putString(keyEdit, "")
+            commit()
+        }
+    }
+
 }

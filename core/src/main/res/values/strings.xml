@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Portfólio</string>
-    <string name="loading">Carregando</string>
+    <string name="loading">Carregando…</string>
     <string name="country">País</string>
+    <string name="copy">Raphael Maracaipe</string>
+    <string name="yes">Sim</string>
+    <string name="alert_empty_title">Atenção</string>
 </resources>

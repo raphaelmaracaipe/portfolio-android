@@ -15,7 +15,11 @@
         <action
             android:id="@+id/action_splashFragment_to_nav_uiprofile"
             app:destination="@id/nav_uiprofile" />
+        <action
+            android:id="@+id/action_splashFragment_to_nav_uicontacts"
+            app:destination="@id/nav_uicontacts" />
     </fragment>
     <include app:graph="@navigation/nav_uiauth" />
     <include app:graph="@navigation/nav_uiprofile" />
+    <include app:graph="@navigation/nav_uicontacts" />
 </navigation>

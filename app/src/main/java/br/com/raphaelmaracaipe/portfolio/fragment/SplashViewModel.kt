@@ -8,17 +8,26 @@ import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
+import br.com.raphaelmaracaipe.core.data.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.reflect.typeOf
 
-class SplashViewModel(
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val seedRepository: SeedRepository,
+    private val userRepository: UserRepository,
     private val handShakeRepository: HandShakeRepository,
     private val keyRepository: KeyRepository,
-    private val tokenRepository: TokenRepository,
-    private val seedRepository: SeedRepository
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _response: MutableLiveData<Boolean> = MutableLiveData()
     val response: LiveData<Boolean> = _response
+
+    private val _isExistProfile: MutableLiveData<Unit> = MutableLiveData()
+    val isExistProfile: LiveData<Unit> = _isExistProfile
 
     private val _errorRequest: MutableLiveData<Unit> = MutableLiveData()
     val errorRequest: LiveData<Unit> = _errorRequest
@@ -29,13 +38,19 @@ class SplashViewModel(
 
     fun send() = viewModelScope.launch {
         try {
-            if (keyRepository.isExistKeyRegistered()) {
-                _response.postValue(tokenRepository.isExistTokenRegistered())
-            } else {
-                val keySend = handShakeRepository.send()
-                keyRepository.saveKeyGenerated(keySend)
+            when {
+                userRepository.isExistProfileSaved() -> {
+                    _isExistProfile.postValue(Unit)
+                }
+                keyRepository.isExistKeyRegistered() -> {
+                    _response.postValue(tokenRepository.isExistTokenRegistered())
+                }
+                else -> {
+                    val keySend = handShakeRepository.send()
+                    keyRepository.saveKeyGenerated(keySend)
 
-                _response.postValue(false)
+                    _response.postValue(false)
+                }
             }
         } catch (e: Exception) {
             _errorRequest.postValue(Unit)

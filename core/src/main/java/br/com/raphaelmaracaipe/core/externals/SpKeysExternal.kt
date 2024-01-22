@@ -14,4 +14,8 @@ object SpKeysExternal {
 
     external fun getKeySpEdit(): String?
 
+    external fun getProfileSpKey(): String?
+
+    external fun getProfileEditSpKey(): String?
+
 }

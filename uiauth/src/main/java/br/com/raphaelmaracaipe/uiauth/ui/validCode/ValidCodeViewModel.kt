@@ -12,9 +12,12 @@ import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_SEND_CODE
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ValidCodeViewModel(
+@HiltViewModel
+class ValidCodeViewModel @Inject constructor(
     private val context: Context,
     private val userRepository: UserRepository,
     private val authSP: AuthSP

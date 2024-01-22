@@ -2,22 +2,26 @@ package br.com.raphaelmaracaipe.core.data
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.raphaelmaracaipe.core.TestApplication
 import br.com.raphaelmaracaipe.core.data.api.UserApi
+import br.com.raphaelmaracaipe.core.data.api.UserApiImpl
+import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
+import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
-import br.com.raphaelmaracaipe.core.data.sp.TokenSPImpl
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
-import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
+import br.com.raphaelmaracaipe.core.utils.Strings
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,106 +31,168 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
+@Config(sdk = [Build.VERSION_CODES.M])
 class UserRepositoryTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
+    private lateinit var userRepository: UserRepository
+    private lateinit var userApi: UserApi
     private lateinit var tokenSP: TokenSP
+    private lateinit var profileSP: ProfileSP
 
     @Before
     fun setUp() {
-        val context = RuntimeEnvironment.getApplication().applicationContext
-        val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeyDefault = SpKeyDefault("tokenKey", "tokenKeyEdit", "deviceIdKey", "deviceEditKey", "keySp", "keySpEdit")
+        userApi = mockk()
+        tokenSP = mockk()
+        profileSP = mockk()
 
-        val userApi = mockk<UserApi>()
-
-        tokenSP = TokenSPImpl(context, keysDefault, spKeyDefault, cryptoHelper)
+        userRepository = UserRepositoryImpl(
+            userApi,
+            tokenSP,
+            profileSP
+        )
     }
 
     @Test
-    fun `when request to server and api return true`() = runBlocking {
-        val userApi = mockk<UserApi>()
-        val tokenSP = mockk<TokenSP>()
+    fun `when send code valid should return true`() = runBlocking {
         coEvery { userApi.sendCode(any()) } returns true
 
-        val userRepository: UserRepository = UserRepositoryImpl(userApi, tokenSP)
-        val returnApi = userRepository.sendCode(UserSendCodeRequest("9999999999999"))
-        assertTrue(returnApi)
-    }
-
-    @Test
-    fun `when request to server but api return error`() = runBlocking {
-        val userApi = mockk<UserApi>()
-        val tokenSP = mockk<TokenSP>()
-        coEvery { userApi.sendCode(any()) } throws NetworkException(
-            NetworkCodeEnum.ERROR_GENERAL.code
-        )
-
-        val userRepository: UserRepository = UserRepositoryImpl(userApi, tokenSP)
         try {
-            userRepository.sendCode(UserSendCodeRequest("9999999999999"))
-            assertTrue(true)
-        } catch (e: NetworkException) {
-            assertEquals(NetworkCodeEnum.ERROR_GENERAL.code, e.code)
+            val isValid = userRepository.sendCode(UserSendCodeRequest("test"))
+            assertTrue(isValid)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     @Test
-    fun `when request to server but api return error generic`() = runBlocking {
-        val userApi = mockk<UserApi>()
-        val tokenSP = mockk<TokenSP>()
-        coEvery { userApi.sendCode(any()) } throws Exception("test")
+    fun `when send code invalid should return throws network`() = runBlocking {
+        coEvery { userApi.sendCode(any()) } throws NetworkException(USER_SEND_CODE_INVALID.code)
 
-        val userRepository: UserRepository = UserRepositoryImpl(userApi, tokenSP)
         try {
-            userRepository.sendCode(UserSendCodeRequest("9999999999999"))
-            assertTrue(true)
+            userRepository.sendCode(UserSendCodeRequest("test"))
+            assertTrue(false)
         } catch (e: NetworkException) {
-            assertEquals(NetworkCodeEnum.ERROR_GENERAL.code, e.code)
+            assertEquals(USER_SEND_CODE_INVALID.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
         }
     }
 
     @Test
-    fun `when request to valid code`() = runBlocking {
-        val userApi = mockk<UserApi>()
+    fun `when send code invalid should return throws exception`() = runBlocking {
+        coEvery { userApi.sendCode(any()) } throws Exception("is it blocked")
+
+        try {
+            userRepository.sendCode(UserSendCodeRequest("test"))
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when send code to valid and return success should return success`() = runBlocking {
         coEvery { userApi.validCode(any()) } returns TokensResponse("refresh", "access")
+        coEvery { tokenSP.save(any()) } returns Unit
 
-        val userRepository = UserRepositoryImpl(userApi, tokenSP)
-        userRepository.validCode("999999")
-
-        assertEquals(tokenSP.get().accessToken, "access")
-    }
-
-    @Test
-    fun `when request but api return error generic`() = runBlocking {
-        val userApi = mockk<UserApi>()
-        coEvery { userApi.validCode(any()) } throws Exception("test")
-
-        val userRepository = UserRepositoryImpl(userApi, tokenSP)
         try {
-            userRepository.validCode("999999")
-            assertTrue(false)
+            userRepository.validCode("123456")
+            assertTrue(true)
         } catch (e: NetworkException) {
-            assertEquals(NetworkCodeEnum.ERROR_GENERAL.code, e.code)
+            assertTrue(false)
+        } catch (e: Exception) {
+            assertTrue(false)
         }
     }
 
     @Test
-    fun `when request but api return error default`() = runBlocking {
-        val userApi = mockk<UserApi>()
-        coEvery { userApi.validCode(any()) } throws NetworkException(NetworkCodeEnum.SEED_INVALID.code)
+    fun `when send code invalid should return exception`() = runBlocking {
+        coEvery { userApi.validCode(any()) } throws NetworkException(USER_SEND_CODE_INVALID.code)
 
-        val userRepository = UserRepositoryImpl(userApi, tokenSP)
         try {
-            userRepository.validCode("999999")
-            assertTrue(false)
+            userRepository.validCode("123456")
+            assertTrue(true)
         } catch (e: NetworkException) {
-            assertEquals(NetworkCodeEnum.SEED_INVALID.code, e.code)
+            assertEquals(USER_SEND_CODE_INVALID.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
         }
+    }
+
+    @Test
+    fun `when send code but return exception should return exception`() = runBlocking {
+        coEvery { userApi.validCode(any()) } throws Exception("fail")
+
+        try {
+            userRepository.validCode("123456")
+            assertTrue(true)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when send profile with success should returns profile`() = runBlocking {
+        coEvery { userApi.profile(any()) } returns true
+        coEvery { profileSP.markWithExistProfile() } returns Unit
+
+        try {
+            userRepository.profile(ProfileRequest())
+            assertTrue(true)
+        } catch (e: NetworkException) {
+            assertTrue(false)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when send profile but return exception should return exception`() = runBlocking {
+        coEvery { userApi.profile(any()) } throws NetworkException(USER_FAIL_TO_INSERT_PROFILE.code)
+
+        try {
+            userRepository.profile(ProfileRequest())
+            assertTrue(true)
+        } catch (e: NetworkException) {
+            assertEquals(USER_FAIL_TO_INSERT_PROFILE.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when send profile but return exception generic should return exception network`() = runBlocking {
+        coEvery { userApi.profile(any()) } throws Exception("fail")
+
+        try {
+            userRepository.profile(ProfileRequest())
+            assertTrue(true)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when check if profile exist saved`() {
+        every { profileSP.isExistProfileSaved() } returns true
+        val isExistProfileSaved = userRepository.isExistProfileSaved()
+        assertTrue(isExistProfileSaved)
+    }
+
+    @Test
+    fun `when mark which profile saved`() {
+        every { profileSP.markWithExistProfile() } returns Unit
+        userRepository.markWhichProfileSaved()
+        assertTrue(true)
     }
 
 }

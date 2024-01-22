@@ -8,4 +8,6 @@ interface TokenSP {
     fun get(): TokensResponse
 
     fun save(tokens: TokensResponse)
+
+    fun clean()
 }

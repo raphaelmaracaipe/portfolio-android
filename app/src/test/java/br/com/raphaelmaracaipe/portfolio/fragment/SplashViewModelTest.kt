@@ -2,37 +2,35 @@ package br.com.raphaelmaracaipe.portfolio.fragment
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
-import br.com.raphaelmaracaipe.portfolio.TestApplication
+import br.com.raphaelmaracaipe.core.data.UserRepository
+import dagger.hilt.android.testing.HiltTestApplication
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.core.context.stopKoin
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M], application = TestApplication::class)
+@Config(sdk = [Build.VERSION_CODES.M], application = HiltTestApplication::class)
 class SplashViewModelTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
 
-    private val app: TestApplication = ApplicationProvider.getApplicationContext()
     private lateinit var handShakeRepository: HandShakeRepository
     private lateinit var keyRepository: KeyRepository
     private lateinit var tokenRepository: TokenRepository
     private lateinit var seedRepository: SeedRepository
+    private lateinit var userRepository: UserRepository
     private lateinit var splashViewModel: SplashViewModel
 
     @Before
@@ -41,12 +39,14 @@ class SplashViewModelTest {
         keyRepository = mockk()
         tokenRepository = mockk()
         seedRepository = mockk()
+        userRepository = mockk()
 
         splashViewModel = SplashViewModel(
+            seedRepository,
+            userRepository,
             handShakeRepository,
             keyRepository,
-            tokenRepository,
-            seedRepository
+            tokenRepository
         )
     }
 
@@ -67,12 +67,12 @@ class SplashViewModelTest {
         coEvery { keyRepository.isExistKeyRegistered() } returns true
         coEvery { tokenRepository.isExistTokenRegistered() } returns true
 
-        app.loadModules(listOf()) {
-            splashViewModel.send()
-            splashViewModel.response.observeForever {
-                assertTrue(it)
-            }
+        splashViewModel.send()
+
+        splashViewModel.response.observeForever {
+            assertTrue(it)
         }
+
     }
 
     @Test
@@ -82,11 +82,9 @@ class SplashViewModelTest {
             coEvery { keyRepository.saveKeyGenerated(any()) } returns Unit
             coEvery { handShakeRepository.send() } returns "AAA"
 
-            app.loadModules(listOf()) {
-                splashViewModel.send()
-                splashViewModel.response.observeForever {
-                    assertFalse(it)
-                }
+            splashViewModel.send()
+            splashViewModel.response.observeForever {
+                assertFalse(it)
             }
         }
 
@@ -100,9 +98,37 @@ class SplashViewModelTest {
         }
     }
 
-    @After
-    fun tearDown() {
-        stopKoin()
+    @Test
+    fun `when check if user is have profile saved should return observable`() {
+        coEvery { userRepository.isExistProfileSaved() } returns true
+
+        splashViewModel.send()
+        splashViewModel.isExistProfile.observeForever {
+            assertTrue(true)
+        }
+    }
+
+    @Test
+    fun `when check if user is have key registered should return observable`() {
+        coEvery { userRepository.isExistProfileSaved() } returns false
+        coEvery { keyRepository.isExistKeyRegistered() } returns true
+        coEvery { tokenRepository.isExistTokenRegistered() } returns true
+
+        splashViewModel.send()
+        splashViewModel.response.observeForever {
+            assertTrue(it)
+        }
+    }
+
+    @Test
+    fun `when check if user have token but not exist should return observable with false`() {
+        coEvery { userRepository.isExistProfileSaved() } returns false
+        coEvery { keyRepository.isExistKeyRegistered() } returns false
+
+        splashViewModel.send()
+        splashViewModel.response.observeForever {
+            assertFalse(it)
+        }
     }
 
 }

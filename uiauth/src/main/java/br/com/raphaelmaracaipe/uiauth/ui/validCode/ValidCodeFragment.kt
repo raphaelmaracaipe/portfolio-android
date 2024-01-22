@@ -6,15 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.core.navigation.NavigationURI
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentValidCodeBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class ValidCodeFragment : Fragment() {
+@AndroidEntryPoint
+class ValidCodeFragment @Inject constructor() : Fragment() {
 
     private lateinit var binding: FragmentValidCodeBinding
-    private val mViewModel: ValidCodeViewModel by viewModel()
+    private val mViewModel: ValidCodeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
