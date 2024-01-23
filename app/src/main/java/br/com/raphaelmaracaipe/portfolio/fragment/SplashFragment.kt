@@ -71,11 +71,8 @@ class SplashFragment @Inject constructor() : Fragment() {
 
     private fun animationOfIcon() {
         with(binding) {
-            imvIcon.visibility = View.VISIBLE
             pbrLoading.visibility = View.VISIBLE
-
-            imvIcon.startAnimation(createAnimation(true))
-            pbrLoading.startAnimation(createAnimation())
+            pbrLoading.startAnimation(createAnimation(true))
         }
     }
 
@@ -110,15 +107,10 @@ class SplashFragment @Inject constructor() : Fragment() {
             if (isExistTokenSaved) {
                 findNavController().navigate(R.id.action_splashFragment_to_nav_uiprofile)
             } else {
-                val extras = FragmentNavigatorExtras(
-                    binding.imvIcon to "icon_app_transition"
-                )
-
                 findNavController().navigate(
                     R.id.action_splashFragment_to_nav_uiauth,
                     null,
                     null,
-                    extras
                 )
             }
         } catch (_: Exception) {
