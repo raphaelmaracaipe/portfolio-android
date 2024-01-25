@@ -16,10 +16,17 @@ class TokenRepositoryInterceptorImpl(
 
     override fun getTokenRegistered(): TokensResponse = tokenSP.get()
 
-    override suspend fun updateToken() = withContext(Dispatchers.IO) {
+    override suspend fun updateToken(
+        apiKey: String,
+        seed: String,
+        deviceId: String
+    ) = withContext(Dispatchers.IO) {
         val tokensSaved = tokenSP.get()
         val tokenResponse = tokenInterceptorApi.updateToken(
-            TokenRefreshRequest(tokensSaved.refreshToken)
+            TokenRefreshRequest(tokensSaved.refreshToken),
+            apiKey,
+            seed,
+            deviceId
         )
         tokenSP.save(tokenResponse)
         tokenResponse

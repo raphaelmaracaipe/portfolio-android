@@ -31,6 +31,9 @@ class ProfileViewModel @Inject constructor(
     private val _isShowLoading = MutableLiveData<Boolean>()
     val isShowLoading: LiveData<Boolean> = _isShowLoading
 
+    private val _profileSaved = MutableLiveData<Unit>()
+    val profileSaved: LiveData<Unit> = _profileSaved
+
     fun onTextChange(text: CharSequence) {
         profile.name = text.toString()
     }
@@ -52,6 +55,7 @@ class ProfileViewModel @Inject constructor(
         _isShowLoading.postValue(true)
         try {
             userRepository.profile(profile)
+            _profileSaved.postValue(Unit)
         } catch (e: NetworkException) {
             _msgError.postValue(context.getString(R.string.error_to_send_profile))
         }

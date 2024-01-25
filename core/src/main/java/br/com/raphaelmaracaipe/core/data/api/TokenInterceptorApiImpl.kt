@@ -10,9 +10,14 @@ class TokenInterceptorApiImpl(
     private val tokenInterceptorService: TokenInterceptorService
 ) : TokenInterceptorApi {
 
-    override suspend fun updateToken(request: TokenRefreshRequest): TokensResponse {
-        val returnHttp = tokenInterceptorService.updateToken(request)
-        if(!returnHttp.isSuccessful) {
+    override suspend fun updateToken(
+        request: TokenRefreshRequest,
+        apiKey: String,
+        seed: String,
+        deviceId: String
+    ): TokensResponse {
+        val returnHttp = tokenInterceptorService.updateToken(request, apiKey, seed, deviceId)
+        if (!returnHttp.isSuccessful) {
             throw NetworkException(returnHttp.errorBody()?.getCodeOfErrorBody())
         }
         return returnHttp.body() ?: TokensResponse()
