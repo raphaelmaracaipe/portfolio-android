@@ -9,17 +9,18 @@
         app:backgroundColorLight="@{@color/colorPrimaryVariant}"
         app:backgroundColorDark="@{@color/black}">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/imvIconLottie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imvIcon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_icon"
+            android:transitionName="icon_app_transition"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="message.json"
-            app:lottie_loop="true" />
+            app:tint="@color/white"/>
 
         <ProgressBar
             android:id="@+id/pbrLoading"

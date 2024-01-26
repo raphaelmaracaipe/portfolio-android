@@ -85,7 +85,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
     implementation "com.google.dagger:hilt-android:$dagger_hil"
-    implementation "com.airbnb.android:lottie:$lottie"
 
     debugImplementation "androidx.fragment:fragment-testing:$test_fragment"
 
