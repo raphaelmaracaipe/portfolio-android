@@ -54,6 +54,8 @@ class NetworkImpl(
             ).addInterceptor(
                 DecryptedInterceptor(
                     keysDefault,
+                    apiKeys,
+                    deviceRepository,
                     seedRepository,
                     keyRepository,
                     cryptoHelper,

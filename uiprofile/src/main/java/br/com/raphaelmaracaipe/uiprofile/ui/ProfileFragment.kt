@@ -27,6 +27,7 @@ import br.com.raphaelmaracaipe.core.alerts.BottomSheetMessages
 import br.com.raphaelmaracaipe.core.extensions.toBase64
 import br.com.raphaelmaracaipe.core.extensions.toByteArray
 import br.com.raphaelmaracaipe.core.navigation.NavigationURI
+import br.com.raphaelmaracaipe.core.navigation.NavigationURI.CONTACTS
 import br.com.raphaelmaracaipe.uiprofile.R
 import br.com.raphaelmaracaipe.uiprofile.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -138,6 +139,10 @@ class ProfileFragment @Inject constructor() : Fragment() {
     private fun addObservable() {
         mViewModel.msgError.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+
+        mViewModel.profileSaved.observe(viewLifecycleOwner) {
+            findNavController().navigate(CONTACTS)
         }
     }
 

@@ -95,6 +95,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:hint="@string/input_name"
+                app:backgroundColorDark="@{@color/white}"
+                app:backgroundColorLight="@{@color/colorPrimary}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -118,6 +120,8 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="32dp"
                 android:text="@string/button_continue"
+                app:backgroundColorDark="@{@color/white}"
+                app:backgroundColorLight="@{@color/colorPrimary}"
                 app:layout_constraintBottom_toTopOf="@+id/tvwCopy"
                 app:layout_constraintEnd_toEndOf="@+id/tilNameProfile"
                 app:layout_constraintStart_toStartOf="@+id/tilNameProfile" />
