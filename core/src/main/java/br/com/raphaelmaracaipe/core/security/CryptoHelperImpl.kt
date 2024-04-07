@@ -6,8 +6,9 @@ import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import javax.inject.Inject
 
-class CryptoHelperImpl : CryptoHelper {
+class CryptoHelperImpl @Inject constructor() : CryptoHelper {
 
     private var cipher: Cipher? = null
     private lateinit var ivSpec: IvParameterSpec

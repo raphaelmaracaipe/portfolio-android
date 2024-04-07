@@ -17,33 +17,22 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryVariant">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/ic_icon"
-                android:transitionName="icon_app_transition"
-                app:layout_constraintBottom_toTopOf="@+id/lltAuth"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/white" />
+            app:backgroundColorDark="@{@color/black}"
+            app:backgroundColorLight="@{@color/colorPrimaryVariant}">
 
             <TextView
                 android:id="@+id/tvwTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/open_sans"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
                 android:textSize="34sp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/imageView"
-                app:layout_constraintStart_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintBottom_toTopOf="@+id/lltAuth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
 
             <TextView
@@ -154,7 +143,8 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
                             android:inputType="number"
-                            android:maxLength="6" />
+                            android:maxLength="6"
+                            android:textColor="@color/black" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,7 +164,8 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
                             android:inputType="phone"
-                            android:maxLength="20" />
+                            android:maxLength="20"
+                            android:textColor="@color/black" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,9 +179,12 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_button_loading"
+                    android:backgroundTint="@color/colorPrimaryVariant"
                     android:text="@string/btn_login"
                     android:textColor="@color/white"
                     android:textSize="18sp"
+                    app:backgroundTintColorDark="@{@color/black}"
+                    app:backgroundTintColorLight="@{@color/colorPrimary}"
                     app:spinning_bar_color="@color/white"
                     app:spinning_bar_padding="10dp"
                     app:spinning_bar_width="2dp" />

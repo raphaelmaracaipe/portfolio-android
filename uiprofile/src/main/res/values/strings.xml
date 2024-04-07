@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="input_name">Informe o nome do seu perfil.</string>
+    <string name="button_continue">Continuar</string>
+    <string name="title">Perfil</string>
+    <string name="close">Fechar</string>
+    <string name="close_description">Fechar a edição do profile.</string>
+    <string name="alert_empty_name">O nome do perfíl está vazio. Tem certeza que deseja continuar?</string>
+    <string name="alert_empty_image">A imagem do perfil está vazia. Tem certeza que deseja continuar?</string>
+    <string name="alert_yes">Sim</string>
+    <string name="bottom_sheet_options_images">Escolha uma das opções.</string>
+    <string name="bottom_sheet_options_gallery">Galeria</string>
+    <string name="bottom_sheet_options_camera">Câmera</string>
+    <string name="permission_not_granted_gallery">Para continuar é necessário permitir o acesso a ler arquivos. Posso te redirecionar para liberar a permissão?</string>
+    <string name="permission_not_granted_camera">Para continuar é necessário permitir o acesso a camera. Posso te redirecionar para liberar a permissão?</string>
+    <string name="error_to_send_profile">Ocorreu um erro para salvar seu perfíl. Por favor, tente novamente mais tarde.</string>
+</resources>

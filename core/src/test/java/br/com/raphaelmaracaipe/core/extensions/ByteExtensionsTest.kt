@@ -3,14 +3,18 @@ package br.com.raphaelmaracaipe.core.extensions
 import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Test
+import java.nio.charset.Charset
 
 class ByteExtensionsTest {
 
     @Test
-    fun `when you want convert byte to array`() {
-        val textOnByte: Array<Byte> = arrayOf(116, 101, 115, 116)
-        val textOnString = textOnByte.convertToString()
-        assertEquals("test", textOnString)
+    fun `when get byte array and convert to text`() {
+        val textTest = "test"
+        val textInArrayByte = textTest.toByteArray(Charset.defaultCharset())
+        val arrayByteToList = textInArrayByte.toList()
+        val byteListToArrayByte = arrayByteToList.toTypedArray()
+        val arrayByteToText = byteListToArrayByte.convertToString()
+        assertEquals(textTest, arrayByteToText)
     }
 
 }

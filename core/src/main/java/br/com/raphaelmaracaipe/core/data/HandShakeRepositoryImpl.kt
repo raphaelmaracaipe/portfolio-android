@@ -7,12 +7,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class HandShakeRepositoryImpl(
-    private val api: HandShakeApi
+    private val handShakeApi: HandShakeApi
 ) : HandShakeRepository {
 
     override suspend fun send() = withContext(Dispatchers.IO) {
         try {
-            api.send()
+            handShakeApi.send()
         } catch (e: NetworkException) {
             throw NetworkException(e.code)
         } catch (e: Exception) {

@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryVariant">
+        app:backgroundColorLight="@{@color/colorPrimaryVariant}"
+        app:backgroundColorDark="@{@color/black}">
 
         <ImageView
             android:id="@+id/imvIcon"
@@ -15,12 +16,23 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_icon"
             android:transitionName="icon_app_transition"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white"
+            app:tint="@color/white"/>
+
+        <ProgressBar
+            android:id="@+id/pbrLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:indeterminateTint="@color/ic_launcher_background"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
 
         <ProgressBar

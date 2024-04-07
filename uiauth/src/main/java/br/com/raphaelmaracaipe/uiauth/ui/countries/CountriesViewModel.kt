@@ -8,11 +8,14 @@ import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uiauth.consts.Location.LOCATION_JSON_IN_ASSETS
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class CountriesViewModel(
+@HiltViewModel
+class CountriesViewModel @Inject constructor (
     private val mAssets: Assets
 ) : ViewModel() {
 

@@ -14,12 +14,10 @@ class KeyRepositoryImpl(
         keysDefault.key
     }
 
-    override suspend fun saveKeyGenerated(key: String) = withContext(Dispatchers.IO) {
+    override fun saveKeyGenerated(key: String) {
         keySP.save(key)
     }
 
-    override suspend fun isExistKeyRegistered(): Boolean = withContext(Dispatchers.IO) {
-        keySP.get().isNotEmpty()
-    }
+    override fun isExistKeyRegistered(): Boolean = keySP.get().isNotEmpty()
 
 }

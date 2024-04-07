@@ -1,38 +1,44 @@
 package br.com.raphaelmaracaipe.core.data
 
 import android.os.Build
-import br.com.raphaelmaracaipe.core.TestApplication
-import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
-import br.com.raphaelmaracaipe.core.externals.KeysDefault
-import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
-import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
+import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
+@Config(sdk = [Build.VERSION_CODES.M])
 class DeviceRepositoryTest {
 
     private lateinit var deviceRepository: DeviceRepository
+    private lateinit var deviceIdSP: DeviceIdSP
 
     @Before
     fun setUp() {
-        val context = RuntimeEnvironment.getApplication().applicationContext
-        val cryptoHelper = CryptoHelperImpl()
-        val keysDefault = KeysDefault("nDHj82ZWov6r4bnu", "30rBgU6kuVSHPNXX")
-        val spKeysDefault = SpKeyDefault("AAA", "AAA", "AAA", "AAA", "AAA", "AAA")
-
-        deviceRepository = DeviceRepositoryImpl(DeviceIdSPImpl(context, keysDefault, spKeysDefault, cryptoHelper))
+        deviceIdSP = mockk()
+        deviceRepository = DeviceRepositoryImpl(deviceIdSP)
     }
 
     @Test
-    fun `when first start should register device id`() {
+    fun `when exist device id saved`() {
+        every { deviceIdSP.get() } returns "test"
+
         val deviceIdSaved = deviceRepository.getDeviceIDSaved()
-        assertNotEquals(deviceIdSaved, "")
+        assertEquals("test", deviceIdSaved)
     }
+
+    @Test
+    fun `when not exist device id saved`() {
+        every { deviceIdSP.get() } returns ""
+        every { deviceIdSP.save(any()) } returns Unit
+
+        val deviceIdSaved = deviceRepository.getDeviceIDSaved()
+        assertNotEquals("", deviceIdSaved)
+    }
+
 }

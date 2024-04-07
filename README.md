@@ -18,16 +18,19 @@ Bem-vindo ao meu aplicativo de mensagens! Aqui você poderá enviar e receber me
 Toda requisição que contém body em sua requisição e/ou resposta será encriptado ao sair do device e decriptado ao chegar do device
 
 ### Geração da chave
+Processo de geração de chaves para realizar a comunicação com o servidor
 <p align="center">
   <img src="./docs/geracao-key.png" width="600" />
 </p>
 
 ### Encripta os dados requisição
+Processo de encriptação dos dados enviados ao servidor.
 <p align="center">
   <img src="./docs/encrypted.png" width="600"/>
 </p>
 
 ### Decripta os dados da api
+Processo de decriptação dos dados recebidos pelo o servidor.
 <p align="center">
   <img src="./docs/decrypted.png" width="600"/>
 </p>
@@ -44,7 +47,7 @@ O app foi desenvolvido usando as seguintes tecnologias:
 - LiveData
 - ViewModel
 - Retrofit
-- Koin
+- Dagger
 - Navigation
 - Coroutines
 - Roboletric

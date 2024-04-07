@@ -3,8 +3,9 @@ package br.com.raphaelmaracaipe.core.data
 import br.com.raphaelmaracaipe.core.consts.REGEX_SEED
 import br.com.raphaelmaracaipe.core.data.sp.SeedSP
 import com.github.curiousoddman.rgxgen.RgxGen
+import javax.inject.Inject
 
-class SeedRepositoryImpl(
+class SeedRepositoryImpl @Inject constructor(
     private val seedSP: SeedSP
 ): SeedRepository {
 

@@ -1,60 +1,55 @@
 package br.com.raphaelmaracaipe.core.assets
 
-import android.content.Context
 import android.content.res.AssetManager
 import android.os.Build
-import br.com.raphaelmaracaipe.core.R
-import br.com.raphaelmaracaipe.core.TestApplication
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.runs
-import junit.framework.TestCase.assertEquals
 import org.json.JSONObject
+import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import java.io.ByteArrayInputStream
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = TestApplication::class, sdk = [Build.VERSION_CODES.M])
+@Config(sdk = [Build.VERSION_CODES.M])
 class AssetsTest {
 
-    private lateinit var mContext: Context
+    private lateinit var assertManager: AssetManager
+    private lateinit var asserts: Assets
 
     @Before
     fun setUp() {
-        mContext = RuntimeEnvironment.getApplication().applicationContext
+        val context = RuntimeEnvironment.getApplication().applicationContext
+        assertManager = mockk()
+        asserts = AssetsImpl(context, assertManager)
     }
 
     @Test
-    fun `when put location of json in assets should return success`() {
-        val jsonObject = JSONObject()
-        jsonObject.put("test", "is test")
-        val jsonString = jsonObject.toString()
+    fun `when get value in the assets and exist data`() {
+        val jsonMocked = JSONObject().apply {
+            put("test", 1)
+        }.toString()
 
-        val inputStream = jsonString.byteInputStream()
-        val assetsManager = mockk<AssetManager>()
-        every { assetsManager.open("test.json") } returns inputStream
+        val mockInputStream = ByteArrayInputStream(jsonMocked.toByteArray())
+        every { assertManager.open(any()) } returns mockInputStream
 
-        val mAssets: Assets = AssetsImpl(mContext, assetsManager)
-        val result = mAssets.read("test.json")
-
-        assertEquals(jsonString, result)
+        val returnAssets = asserts.read("test")
+        val containsData = returnAssets.contains("test")
+        assertTrue(containsData)
     }
 
     @Test
-    fun `when want get list of file in assets`() {
-        val assetsManager = mockk<AssetManager>()
-        every { assetsManager.list(any()) } returns arrayOf("test.png", "test1.png")
-        every { assetsManager.close() } just runs
+    fun `when get list of datas in assets`() {
+        every { assertManager.list(any()) } returns arrayOf("test1", "test2")
+        every { assertManager.close() } returns Unit
 
-        val mAssets: Assets = AssetsImpl(mContext, assetsManager)
-        val result = mAssets.list("/")
-
-        assertEquals(2, result.size)
+        val returnsAssetsList = asserts.list("test")
+        assertEquals(2, returnsAssetsList.size)
     }
 
 }
