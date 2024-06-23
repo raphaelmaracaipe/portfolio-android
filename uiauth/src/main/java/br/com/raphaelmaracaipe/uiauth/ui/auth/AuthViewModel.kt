@@ -71,7 +71,7 @@ class AuthViewModel @Inject constructor(
     fun sendCodeToServer(phone: String) = viewModelScope.launch {
         try {
             userRepository.sendCode(UserSendCodeRequest(phone))
-//            authSP.setPhone(phone)
+            authSP.setPhone(phone)
             _sendCodePhone.postValue(Unit)
         } catch (e: Exception) {
             _error.postValue(context.getString(R.string.err_request_general))
