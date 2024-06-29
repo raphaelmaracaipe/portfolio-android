@@ -27,6 +27,7 @@ ext {
     rgxgen = '1.4'
     http_logger_inteceptor = '4.9.1'
     dagger_hil = '2.44'
+    lottie = '6.4.1'
 
     //tests
     test_junit = '4.13.2'
