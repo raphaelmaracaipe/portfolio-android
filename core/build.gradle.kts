@@ -12,8 +12,6 @@ android {
 
     defaultConfig {
         minSdk = rootProject.extra["minSdkVersion"] as Int
-        targetSdk = rootProject.extra["targetSdkVersion"] as Int
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -22,17 +20,17 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "URL", "\"http://10.0.2.2:3000\"")
+            buildConfigField("String", "URL", "\"http://192.168.0.244:3000\"")
             buildConfigField("boolean", "IS_DEV", "false")
         }
         create("releaseDebuggable") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "URL", "\"http://10.0.2.2:3000\"")
+            buildConfigField("String", "URL", "\"http://192.168.0.244:3000\"")
             buildConfigField("boolean", "IS_DEV", "false")
         }
         getByName("debug") {
-            buildConfigField("String", "URL", "\"http://10.0.2.2:3000\"")
+            buildConfigField("String", "URL", "\"http://192.168.0.244:3000\"")
             buildConfigField("boolean", "IS_DEV", "true")
         }
     }

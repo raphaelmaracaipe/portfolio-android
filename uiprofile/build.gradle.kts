@@ -11,18 +11,18 @@ android {
     compileSdk = rootProject.ext["compileSdkVersion"] as Int
     defaultConfig {
         minSdk = rootProject.ext["minSdkVersion"] as Int
-        targetSdk = rootProject.ext["targetSdkVersion"] as Int
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
         create("releaseDebuggable") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
     }
 
