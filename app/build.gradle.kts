@@ -76,7 +76,6 @@ dependencies {
     implementation(project(path = ":core"))
     implementation(project(path = ":tests"))
 
-    implementation("com.airbnb.android:lottie:${rootProject.extra["lottie"]}")
     implementation("androidx.core:core-ktx:${rootProject.extra["core_ktx"]}")
     implementation("androidx.appcompat:appcompat:${rootProject.extra["app_compact"]}")
     implementation("com.google.android.material:material:${rootProject.extra["material"]}")
