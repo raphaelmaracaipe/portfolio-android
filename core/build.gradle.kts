@@ -84,10 +84,10 @@ dependencies {
     implementation("com.google.dagger:hilt-android:${rootProject.extra["dagger_hil"]}")
     implementation("androidx.test:runner:1.5.2")
 
-    debugImplementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
-    debugImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
-    debugImplementation("org.mockito:mockito-core:${rootProject.extra["test_mockito"]}")
-    debugImplementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["okhttp"]}")
+    implementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
+    implementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
+    implementation("org.mockito:mockito-core:${rootProject.extra["test_mockito"]}")
+    implementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["okhttp"]}")
 
     kapt("com.google.dagger:hilt-compiler:${rootProject.extra["dagger_hil"]}")
 

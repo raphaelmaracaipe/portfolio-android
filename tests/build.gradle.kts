@@ -22,6 +22,9 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
+        create("releaseDebuggable") {
+            isMinifyEnabled = false
+        }
     }
 
     compileOptions {

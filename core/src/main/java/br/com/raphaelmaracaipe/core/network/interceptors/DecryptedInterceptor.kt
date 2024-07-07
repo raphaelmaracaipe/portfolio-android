@@ -95,7 +95,7 @@ class DecryptedInterceptor(
     }
 
     private fun checkIfToUpdateToken(response: Response): Boolean {
-        val jsonBody = response.body.string()
+        val jsonBody = response.body?.string() ?: ""
         val objectOfError = Gson().fromJson(jsonBody, ErrorResponse::class.java)
         return objectOfError.codeError == TOKEN_INVALID.code
     }
@@ -112,10 +112,10 @@ class DecryptedInterceptor(
     }
 
     private fun bodyDecrypted(response: Response): String = try {
-        val bodyEncrypted = response.body.string().fromJSON<TransactionEncryptedModel>()
+        val bodyEncrypted = response.body?.string()?.fromJSON<TransactionEncryptedModel>()
         val keyAndSeed = getKeys()
         val bodyDecrypted = cryptoHelper.decrypt(
-            bodyEncrypted.data,
+            bodyEncrypted?.data,
             keyAndSeed.first,
             keyAndSeed.second
         )
