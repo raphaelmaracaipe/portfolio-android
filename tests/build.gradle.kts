@@ -11,19 +11,18 @@ android {
 
     defaultConfig {
         minSdk = rootProject.extra["minSdkVersion"] as Int
-        targetSdk = rootProject.extra["targetSdkVersion"] as Int
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
         create("releaseDebuggable") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("proguard-rules.pro"))
         }
     }
 
@@ -47,10 +46,10 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["navigation"]}")
     implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["navigation"]}")
 
-    debugImplementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
-    debugImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
-    debugImplementation("org.mockito:mockito-core:${rootProject.extra["test_mockito"]}")
-    debugImplementation("androidx.test:runner:1.5.2")
+    implementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
+    implementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
+    implementation("org.mockito:mockito-core:${rootProject.extra["test_mockito"]}")
+    implementation("androidx.test:runner:1.5.2")
 
     kapt("com.google.dagger:hilt-compiler:${rootProject.extra["dagger_hil"]}")
 

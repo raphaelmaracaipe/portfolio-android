@@ -19,3 +19,23 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes LineNumberTable,SourceFile
+-renamesourcefileattribute SourceFile
+
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-dontwarn java.lang.invoke.StringConcatFactory
+
+# Mantenha a classe AndroidJUnitRunner
+-keep class androidx.test.runner.AndroidJUnitRunner {
+    <init>(...);
+    *;
+}
+
+# Mantenha sua classe CustomTestRunner
+-keep class br.com.raphaelmaracaipe.tests.ruuners.CustomTestRunner {
+    <init>(...);
+    *;
+}
