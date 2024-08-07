@@ -11,15 +11,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "Portfólio"
 
-include ':app'
-include ':core'
-include ':uiauth'
-include ':uiprofile'
-include ':uicontacts'
-include ':tests'
+include(":app")
+include(":core")
+include(":uiauth")
+include(":uiprofile")
+include(":uicontacts")
+include(":tests")
