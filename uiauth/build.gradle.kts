@@ -76,6 +76,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:${rootProject.extra["okhttp"]}")
     implementation("com.github.leandroborgesferreira:loading-button-android:${rootProject.extra["loading_button"]}")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["dagger_hil"]}")
+    implementation("com.facebook.shimmer:shimmer:${rootProject.extra["shimmer"]}")
 
     debugImplementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
 

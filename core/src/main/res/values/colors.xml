@@ -16,4 +16,5 @@
     <color name="box">#79747E</color>
     <color name="error">#D21B08</color>
     <color name="opacity_80_black">#60000000</color>
+    <color name="shimmerColor">#C2C2C2</color>
 </resources>

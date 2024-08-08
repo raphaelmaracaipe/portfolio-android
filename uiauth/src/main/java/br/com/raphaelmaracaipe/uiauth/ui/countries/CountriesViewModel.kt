@@ -36,9 +36,4 @@ class CountriesViewModel @Inject constructor (
         }
     }
 
-    fun showLoading(isShow: Boolean) {
-        _showLoading.postValue(isShow)
-    }
-
-
 }
