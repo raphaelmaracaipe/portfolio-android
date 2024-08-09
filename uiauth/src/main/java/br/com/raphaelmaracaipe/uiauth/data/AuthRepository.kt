@@ -1,11 +1,7 @@
-package br.com.raphaelmaracaipe.uiauth.sp
+package br.com.raphaelmaracaipe.uiauth.data
 
-interface AuthSP {
-
+interface AuthRepository {
     fun setPhone(phone: String)
-
     fun getPhone(): String
-
     fun checkIfIsPhoneSaved(): Boolean
-
 }

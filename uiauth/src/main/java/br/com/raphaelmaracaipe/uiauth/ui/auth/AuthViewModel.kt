@@ -11,8 +11,8 @@ import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.consts.Location
+import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
-import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,8 +23,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val context: Context,
     private val assets: Assets,
-    private val authSP: AuthSP,
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _showLoading = MutableLiveData<Boolean>()
@@ -71,7 +71,7 @@ class AuthViewModel @Inject constructor(
     fun sendCodeToServer(phone: String) = viewModelScope.launch {
         try {
             userRepository.sendCode(UserSendCodeRequest(phone))
-            authSP.setPhone(phone)
+            authRepository.setPhone(phone)
             _sendCodePhone.postValue(Unit)
         } catch (e: Exception) {
             _error.postValue(context.getString(R.string.err_request_general))

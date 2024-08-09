@@ -9,7 +9,7 @@ import br.com.raphaelmaracaipe.core.assets.AssetsImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
-import br.com.raphaelmaracaipe.uiauth.sp.AuthSPImpl
+import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSPImpl
 import com.google.gson.Gson
 import io.mockk.coEvery
 import io.mockk.every
