@@ -28,6 +28,7 @@ ext {
     set("http_logger_inteceptor", "4.9.1")
     set("dagger_hil", "2.44")
     set("shimmer", "0.5.0")
+    set("room", "2.6.1")
 
     // Tests
     set("test_junit", "4.13.2")

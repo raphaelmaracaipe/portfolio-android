@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.consts.Locations.LOCATION_JSON_IN_ASSETS
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.consts.Location
 import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,8 +30,8 @@ class AuthViewModel @Inject constructor(
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading = _showLoading
 
-    private val _codeCountryWhenChangeCodePhone = MutableLiveData(CodeCountry())
-    val codeCountryWhenChangeCodePhone: LiveData<CodeCountry> = _codeCountryWhenChangeCodePhone
+    private val _codeCountryWhenChangeCodePhone = MutableLiveData(CodeCountryEntity())
+    val codeCountryWhenChangeCodePhone: LiveData<CodeCountryEntity> = _codeCountryWhenChangeCodePhone
 
     private val _isEnableTextCode = MutableLiveData(true)
     val isEnableTextCode: LiveData<Boolean> = _isEnableTextCode
@@ -42,14 +42,14 @@ class AuthViewModel @Inject constructor(
     private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String> = _error
 
-    private var _codesCountries: Array<CodeCountry> = arrayOf()
+    private var _codesCountries: Array<CodeCountryEntity> = arrayOf()
 
     fun readInformationAboutCodeOfCountry() {
         _showLoading.postValue(true)
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val codes: Array<CodeCountry> = assets.read(
-                    Location.LOCATION_JSON_IN_ASSETS
+                val codes: Array<CodeCountryEntity> = assets.read(
+                    LOCATION_JSON_IN_ASSETS
                 ).fromJSON()
 
                 _codesCountries = codes

@@ -12,7 +12,7 @@ import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
@@ -85,7 +85,7 @@ class AuthFragmentTest : FragmentTest() {
     @Test
     fun `when digit code 55 should return country Brasil`() {
         val arrayCountries = arrayOf(
-            CodeCountry("Brasil", "55", "BR / BRA")
+            CodeCountryEntity("Brasil", "55", "BR / BRA")
         )
         val json = Gson().toJson(arrayCountries)
         every { assets.read(any()) }.returns(json)
@@ -106,7 +106,7 @@ class AuthFragmentTest : FragmentTest() {
     @Test
     fun `when digit code country and apply format should return number formatted`() {
         val arrayCountries = arrayOf(
-            CodeCountry("Brasil", "55", "BR / BRA")
+            CodeCountryEntity("Brasil", "55", "BR / BRA")
         )
         val json = Gson().toJson(arrayCountries)
         every { assets.read(any()) }.returns(json)
@@ -142,7 +142,7 @@ class AuthFragmentTest : FragmentTest() {
     @Test
     fun `when click in the button but field of number phone is empty should msgError to user`() {
         val arrayCountries = arrayOf(
-            CodeCountry("Brasil", "55", "BR / BRA")
+            CodeCountryEntity("Brasil", "55", "BR / BRA")
         )
         val json = Gson().toJson(arrayCountries)
         every { assets.read(any()) }.returns(json)
@@ -165,7 +165,7 @@ class AuthFragmentTest : FragmentTest() {
     @Test
     fun `when send code phone but api return error`() {
         val arrayCountries = arrayOf(
-            CodeCountry("Brasil", "55", "BR / BRA")
+            CodeCountryEntity("Brasil", "55", "BR / BRA")
         )
         val json = Gson().toJson(arrayCountries)
 

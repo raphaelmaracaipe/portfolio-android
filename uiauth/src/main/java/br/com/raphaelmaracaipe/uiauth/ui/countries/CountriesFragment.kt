@@ -12,9 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentCountriesBinding
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class CountriesFragment @Inject constructor() : Fragment() {
     private lateinit var adapter: CountriesAdapter
     private val mViewModel: CountriesViewModel by viewModels()
     private val mSharedViewModel: AuthSharedViewModel by activityViewModels()
-    private var codes: List<CodeCountry> = arrayListOf()
+    private var codes: List<CodeCountryEntity> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -1,11 +1,8 @@
 package br.com.raphaelmaracaipe.uiauth.di
 
 import android.content.Context
-import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import br.com.raphaelmaracaipe.uiauth.data.AuthRepositoryImpl
-import br.com.raphaelmaracaipe.uiauth.data.CountriesRepository
-import br.com.raphaelmaracaipe.uiauth.data.CountriesRepositoryImpl
 import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSPImpl
 import dagger.Module
@@ -23,13 +20,6 @@ class UiAuthSPDI {
         authSP: AuthSP
     ): AuthRepository = AuthRepositoryImpl(
         authSP
-    )
-
-    @Provides
-    fun providerCountriesRepository(
-        assets: Assets
-    ): CountriesRepository = CountriesRepositoryImpl(
-        assets
     )
 
     @Provides

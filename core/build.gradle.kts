@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp") version("1.8.0-1.0.8")
 }
 
 android {
@@ -14,6 +15,8 @@ android {
         minSdk = rootProject.extra["minSdkVersion"] as Int
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "DATABASE_NAME", "\"portfolio\"")
+        buildConfigField("int", "DATABASE_VERSION", "1")
     }
 
     buildTypes {
@@ -81,12 +84,16 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:${rootProject.extra["http_logger_inteceptor"]}")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["dagger_hil"]}")
     implementation("androidx.test:runner:1.5.2")
-
     implementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
     implementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
     implementation("org.mockito:mockito-core:${rootProject.extra["test_mockito"]}")
     implementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["okhttp"]}")
+    implementation("androidx.room:room-runtime:${rootProject.extra["room"]}")
+    implementation("androidx.room:room-ktx:${rootProject.extra["room"]}")
 
+    annotationProcessor("androidx.room:room-compiler:${rootProject.extra["room"]}")
+
+    kapt("androidx.room:room-compiler:${rootProject.extra["room"]}")
     kapt("com.google.dagger:hilt-compiler:${rootProject.extra["dagger_hil"]}")
 
     testImplementation("junit:junit:${rootProject.extra["test_junit"]}")

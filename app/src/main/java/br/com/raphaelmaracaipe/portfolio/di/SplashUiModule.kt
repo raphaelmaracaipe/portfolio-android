@@ -1,5 +1,6 @@
 package br.com.raphaelmaracaipe.portfolio.di
 
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
@@ -23,13 +24,15 @@ object SplashUiModule {
         userRepository: UserRepository,
         handShakeRepository: HandShakeRepository,
         keyRepository: KeyRepository,
-        tokenRepository: TokenRepository
+        tokenRepository: TokenRepository,
+        countryRepository: CountryRepository
     ) = SplashViewModel(
         seedRepository,
         userRepository,
         handShakeRepository,
         keyRepository,
-        tokenRepository
+        tokenRepository,
+        countryRepository
     )
 
 }
