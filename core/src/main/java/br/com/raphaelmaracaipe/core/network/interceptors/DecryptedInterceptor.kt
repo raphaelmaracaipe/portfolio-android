@@ -94,10 +94,13 @@ class DecryptedInterceptor(
         apiKeys.prod
     }
 
-    private fun checkIfToUpdateToken(response: Response): Boolean {
+    private fun checkIfToUpdateToken(response: Response): Boolean = try {
         val jsonBody = response.body?.string() ?: ""
         val objectOfError = Gson().fromJson(jsonBody, ErrorResponse::class.java)
-        return objectOfError.codeError == TOKEN_INVALID.code
+        objectOfError.codeError == TOKEN_INVALID.code
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
     }
 
     private fun takeCareResponseEncrypted(response: Response): Response {
