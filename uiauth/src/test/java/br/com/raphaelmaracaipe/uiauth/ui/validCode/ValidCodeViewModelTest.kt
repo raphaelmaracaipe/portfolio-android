@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.UserRepository
-import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiauth.R
@@ -53,7 +52,7 @@ class ValidCodeViewModelTest {
         coEvery { mUserRepository.validCode(any()) } returns Unit
 
         mValidCodeViewModel.sendToServer()
-        mValidCodeViewModel.showLoading.observeForever { isLoading ->
+        mValidCodeViewModel.isShowLoading.observeForever { isLoading ->
             Assert.assertFalse(isLoading)
         }
     }
@@ -84,7 +83,7 @@ class ValidCodeViewModelTest {
     fun `when request again new code and api return success`() {
         coEvery { mUserRepository.sendCode(any()) } returns true
         mValidCodeViewModel.sendAgainToServer()
-        mValidCodeViewModel.showLoading.observeForever { isLoading ->
+        mValidCodeViewModel.isShowLoading.observeForever { isLoading ->
             Assert.assertFalse(isLoading)
         }
     }

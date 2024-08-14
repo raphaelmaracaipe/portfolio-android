@@ -1,7 +1,6 @@
 package br.com.raphaelmaracaipe.uiprofile.ui
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.provider.Settings
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +19,15 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.core.alerts.BottomSheetMessages
+import br.com.raphaelmaracaipe.core.consts.Locations.LOCATION_FOLDER_ROOT
+import br.com.raphaelmaracaipe.core.consts.Locations.LOCATION_PROFILE
 import br.com.raphaelmaracaipe.core.extensions.toBase64
 import br.com.raphaelmaracaipe.core.extensions.toByteArray
-import br.com.raphaelmaracaipe.core.navigation.NavigationURI
 import br.com.raphaelmaracaipe.core.navigation.NavigationURI.CONTACTS
 import br.com.raphaelmaracaipe.uiprofile.R
 import br.com.raphaelmaracaipe.uiprofile.databinding.FragmentProfileBinding
@@ -58,11 +59,15 @@ class ProfileFragment @Inject constructor() : Fragment() {
 
             bytes?.let {
                 val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                saveBitmap(bitmap)
-                mViewModel.addImage(bitmap)
-                imageProfile = Pair(bitmap, base64)
+                applyBitmapInViewModel(bitmap, base64)
             }
         }
+    }
+
+    private fun applyBitmapInViewModel(bitmap: Bitmap, base64: String) {
+        imageProfile = Pair(bitmap, base64)
+        mViewModel.addImage(bitmap)
+        mViewModel.markWhichProfileSaved(base64)
     }
 
     private val resultIntentCapture = registerForActivityResult(
@@ -78,22 +83,30 @@ class ProfileFragment @Inject constructor() : Fragment() {
             bitmap?.let {
                 val bytes = it.toByteArray()
                 val base64 = bytes.toBase64()
+                mViewModel.addImage(bitmap)
 
-                saveBitmap(it)
                 base64?.let { b64 ->
-                    mViewModel.addImage(bitmap)
                     imageProfile = Pair(it, b64)
+                    mViewModel.markWhichProfileSaved(base64)
                 }
             }
         }
     }
 
-    private fun saveBitmap(bitmap: Bitmap) {
-        val fileOutputStream: FileOutputStream
+    private fun saveBitmap() {
         try {
-            fileOutputStream = context?.openFileOutput("profile.png", Context.MODE_PRIVATE)!!
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
-            fileOutputStream.close()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!LOCATION_FOLDER_ROOT.exists()) {
+                    LOCATION_FOLDER_ROOT.mkdirs()
+                }
+                LOCATION_PROFILE.delete()
+            }
+
+            imageProfile?.first?.let { bitmap ->
+                val fos = FileOutputStream(LOCATION_PROFILE)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos)
+                fos.close()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -131,9 +144,6 @@ class ProfileFragment @Inject constructor() : Fragment() {
         binding = this
         lifecycleOwner = viewLifecycleOwner
         viewModel = mViewModel
-
-        addOnBack()
-        addObservable()
     }.root
 
     private fun addObservable() {
@@ -142,7 +152,23 @@ class ProfileFragment @Inject constructor() : Fragment() {
         }
 
         mViewModel.profileSaved.observe(viewLifecycleOwner) {
+            saveBitmap()
             findNavController().navigate(CONTACTS)
+        }
+
+        mViewModel.profileSavedServer.observe(viewLifecycleOwner) {
+            binding.name = it.name
+            transformBase64ToBitmap(it.photo)
+        }
+    }
+
+    private fun transformBase64ToBitmap(base64: String) {
+        try {
+            val decoderBytes = Base64.decode(base64, Base64.DEFAULT)
+            val bitmap = BitmapFactory.decodeByteArray(decoderBytes, 0, decoderBytes.size)
+            applyBitmapInViewModel(bitmap, base64)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -159,12 +185,17 @@ class ProfileFragment @Inject constructor() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         applyActionInButtons()
         checkIfPermissionWriteFile()
+        addObservable()
+        addOnBack()
+
+        mViewModel.getProfileSavedInServer()
     }
 
     private fun checkIfPermissionWriteFile() {
-        if (ContextCompat.checkSelfPermission(
+        if (checkSelfPermission(
                 requireContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_DENIED
@@ -200,7 +231,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
 
     private fun checkIfPermissionGalleryAndRequest() {
         when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
+            checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) -> openGallery()
@@ -215,7 +246,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
 
     private fun checkIfPermissionCameraAndRequest() {
         when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
+            checkSelfPermission(
                 requireContext(),
                 Manifest.permission.CAMERA
             ) -> openCamera()
@@ -279,7 +310,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
                     mViewModel.markWhichProfileSaved(it)
                 }
 
-                findNavController().navigate(NavigationURI.CONTACTS)
+                findNavController().navigate(CONTACTS)
             }
         )
     }

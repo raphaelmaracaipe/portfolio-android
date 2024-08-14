@@ -13,6 +13,10 @@
             name="viewModel"
             type="ProfileViewModel" />
 
+        <variable
+            name="name"
+            type="String" />
+
     </data>
 
     <RelativeLayout
@@ -52,8 +56,7 @@
                 app:shapeAppearanceOverlay="@style/circleImageView"
                 app:srcCompat="@drawable/ic_profile"
                 app:strokeColor="@color/gray"
-                app:strokeWidth="1dp"
-                app:tint="@color/gray" />
+                app:strokeWidth="1dp" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/sivCleanCamera"
@@ -110,7 +113,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChange(text)}" />
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChange(text)}"
+                    android:text="@{name}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
