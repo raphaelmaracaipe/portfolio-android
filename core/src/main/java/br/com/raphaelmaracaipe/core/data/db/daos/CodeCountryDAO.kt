@@ -10,10 +10,10 @@ import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 interface CodeCountryDAO {
 
     @Query("SELECT * FROM code_countries")
-    fun getAll(): List<CodeCountryEntity>
+    suspend fun getAll(): List<CodeCountryEntity>
 
     @Query("SELECT COUNT(*) FROM code_countries")
-    fun count(): Int
+    suspend fun count(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(codeCountries: List<CodeCountryEntity>)
