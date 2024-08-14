@@ -6,6 +6,7 @@ import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.api.UserApiImpl
 import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
+import br.com.raphaelmaracaipe.core.data.api.response.ProfileGetResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
@@ -168,18 +169,19 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `when send profile but return exception generic should return exception network`() = runBlocking {
-        coEvery { userApi.profile(any()) } throws Exception("fail")
+    fun `when send profile but return exception generic should return exception network`() =
+        runBlocking {
+            coEvery { userApi.profile(any()) } throws Exception("fail")
 
-        try {
-            userRepository.profile(ProfileRequest())
-            assertTrue(true)
-        } catch (e: NetworkException) {
-            assertEquals(ERROR_GENERAL.code, e.code)
-        } catch (e: Exception) {
-            assertTrue(false)
+            try {
+                userRepository.profile(ProfileRequest())
+                assertTrue(true)
+            } catch (e: NetworkException) {
+                assertEquals(ERROR_GENERAL.code, e.code)
+            } catch (e: Exception) {
+                assertTrue(false)
+            }
         }
-    }
 
     @Test
     fun `when check if profile exist saved`() {
@@ -193,6 +195,50 @@ class UserRepositoryTest {
         every { profileSP.markWithExistProfile() } returns Unit
         userRepository.markWhichProfileSaved()
         assertTrue(true)
+    }
+
+    @Test
+    fun `when call api to get profile but return exception`() = runBlocking {
+        coEvery { userApi.getProfile() } throws Exception("Error")
+
+        try {
+            userRepository.getProfileSavedInServer()
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when call api to get profile but return exception networking`() = runBlocking {
+        coEvery { userApi.getProfile() } throws NetworkException(AUTHORIZATION_INVALID.code)
+
+        try {
+            userRepository.getProfileSavedInServer()
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(AUTHORIZATION_INVALID.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when call api to get profile return with success`() = runBlocking {
+        coEvery { userApi.getProfile() } returns ProfileGetResponse(
+            "test name", "someone"
+        )
+
+        try {
+            val response = userRepository.getProfileSavedInServer()
+            assertEquals("test name", response.name)
+        } catch (e: NetworkException) {
+            assertTrue(false)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
     }
 
 }
