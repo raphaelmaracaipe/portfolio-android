@@ -6,6 +6,7 @@ import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApiTest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
+import br.com.raphaelmaracaipe.core.utils.Strings
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -70,10 +71,14 @@ class TokenRepositoryInterceptorTest {
         val newToken = TokensResponse("refresh2", "access2")
         every { tokenSP.get() } returns TokensResponse("refresh", "access")
         every { tokenSP.save(any()) } returns Unit
-        coEvery { tokenInterceptorApi.updateToken(any()) } returns newToken
+        coEvery { tokenInterceptorApi.updateToken(any(), any(), any(), any()) } returns newToken
 
         try {
-            val tokenReturns = tokenRepositoryInterceptor.updateToken()
+            val tokenReturns = tokenRepositoryInterceptor.updateToken(
+                Strings.generateStringRandom(10),
+                Strings.generateStringRandom(10),
+                Strings.generateStringRandom(10)
+            )
             assertEquals(newToken.accessToken, tokenReturns.accessToken)
         } catch (e: Exception) {
             assertTrue(false)
