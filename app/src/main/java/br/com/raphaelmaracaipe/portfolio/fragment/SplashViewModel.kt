@@ -57,6 +57,7 @@ class SplashViewModel @Inject constructor(
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             _errorRequest.postValue(Unit)
         }
     }
