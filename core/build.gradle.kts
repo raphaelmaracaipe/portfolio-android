@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp") version("1.8.0-1.0.8")
+    id("com.google.devtools.ksp") version ("1.8.0-1.0.8")
 }
 
 android {
@@ -22,13 +22,19 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             buildConfigField("String", "URL", "\"http://192.168.0.244:3000\"")
             buildConfigField("boolean", "IS_DEV", "false")
         }
         create("releaseDebuggable") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             buildConfigField("String", "URL", "\"http://192.168.0.244:3000\"")
             buildConfigField("boolean", "IS_DEV", "false")
         }

@@ -57,14 +57,14 @@ class SplashFragment @Inject constructor() : Fragment() {
             this.isExistTokenSaved = isExistTokenSaved
             this.hasFinishedToken = true
 
-            if(hasFinishedRegisterContries) {
+            if (hasFinishedRegisterContries) {
                 redirect(isExistTokenSaved)
             }
         }
 
         splashViewModel.finishedLoadCodeCountries.observe(viewLifecycleOwner) {
             hasFinishedRegisterContries = true
-            if(hasFinishedToken) {
+            if (hasFinishedToken) {
                 redirect(isExistTokenSaved)
             }
         }

@@ -12,7 +12,7 @@ class ProfileSPImpl(
     private val keysDefault: KeysDefault,
     private val spKeyDefault: SpKeyDefault,
     private val cryptoHelper: CryptoHelper
-): ProfileSP {
+) : ProfileSP {
 
     private val sp by lazy {
         val key = cryptoHelper.encrypt(

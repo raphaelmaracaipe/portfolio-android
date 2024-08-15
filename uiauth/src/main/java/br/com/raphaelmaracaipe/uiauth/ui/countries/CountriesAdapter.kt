@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.raphaelmaracaipe.core.assets.Assets
-import br.com.raphaelmaracaipe.uiauth.databinding.ItemCountriesBinding
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
+import br.com.raphaelmaracaipe.uiauth.databinding.ItemCountriesBinding
 import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
 
 class CountriesAdapter(
@@ -42,7 +42,7 @@ class CountriesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(position == (currentList.size - 1)) {
+        if (position == (currentList.size - 1)) {
             onHasFinished.invoke()
         }
         holder.bindView(getItem(position))
@@ -88,11 +88,17 @@ class CountriesAdapter(
 
     class CodeCountryDiffCallback : DiffUtil.ItemCallback<CodeCountryEntity>() {
 
-        override fun areItemsTheSame(oldItem: CodeCountryEntity, newItem: CodeCountryEntity): Boolean {
+        override fun areItemsTheSame(
+            oldItem: CodeCountryEntity,
+            newItem: CodeCountryEntity
+        ): Boolean {
             return (oldItem.countryName == newItem.countryName && oldItem.codeCountry == newItem.codeCountry)
         }
 
-        override fun areContentsTheSame(oldItem: CodeCountryEntity, newItem: CodeCountryEntity): Boolean {
+        override fun areContentsTheSame(
+            oldItem: CodeCountryEntity,
+            newItem: CodeCountryEntity
+        ): Boolean {
             return oldItem == newItem
         }
 

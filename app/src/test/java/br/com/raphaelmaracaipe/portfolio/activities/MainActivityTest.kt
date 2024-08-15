@@ -10,6 +10,7 @@ import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
+import br.com.raphaelmaracaipe.portfolio.R
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -28,7 +29,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import br.com.raphaelmaracaipe.portfolio.R
 
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)

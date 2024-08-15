@@ -43,7 +43,7 @@ class DeviceIdSPImpl @Inject constructor(
 
     override fun get(): String {
         val deviceIdSaved = sharedPreferences.getString(keyEdit, "") ?: ""
-        if(deviceIdSaved.isEmpty()) {
+        if (deviceIdSaved.isEmpty()) {
             return deviceIdSaved
         }
 

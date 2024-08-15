@@ -3,7 +3,6 @@ package br.com.raphaelmaracaipe.core.data
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
-import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApiTest
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.utils.Strings
@@ -11,7 +10,8 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

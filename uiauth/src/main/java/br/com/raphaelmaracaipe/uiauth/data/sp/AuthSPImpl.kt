@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class AuthSPImpl @Inject constructor(
     private val context: Context
-): AuthSP {
+) : AuthSP {
 
     private val AUTH_KEY = "authKey"
     private val PHONE = "phone"

@@ -9,11 +9,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
@@ -28,7 +28,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

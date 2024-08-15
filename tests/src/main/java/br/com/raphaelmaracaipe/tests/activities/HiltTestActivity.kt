@@ -6,4 +6,4 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @VisibleForTesting
 @AndroidEntryPoint
-class HiltTestActivity: AppCompatActivity()
+class HiltTestActivity : AppCompatActivity()

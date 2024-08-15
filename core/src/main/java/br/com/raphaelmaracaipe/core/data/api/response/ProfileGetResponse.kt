@@ -9,4 +9,4 @@ import kotlinx.parcelize.Parcelize
 data class ProfileGetResponse(
     val name: String = "",
     val photo: String = ""
-): Parcelable
+) : Parcelable

@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken
 import java.security.MessageDigest
 
 inline fun <reified T> String.fromJSON(): T {
-    val itemType = object : TypeToken<T> () {}.type
+    val itemType = object : TypeToken<T>() {}.type
     return Gson().fromJson(this, itemType)
 }
 

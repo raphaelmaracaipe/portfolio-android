@@ -4,8 +4,9 @@ import android.os.Build
 import br.com.raphaelmaracaipe.core.data.sp.SeedSP
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

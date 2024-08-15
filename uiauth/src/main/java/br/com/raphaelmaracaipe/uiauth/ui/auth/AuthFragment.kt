@@ -13,11 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import br.com.raphaelmaracaipe.uiauth.extensions.addMask
-import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

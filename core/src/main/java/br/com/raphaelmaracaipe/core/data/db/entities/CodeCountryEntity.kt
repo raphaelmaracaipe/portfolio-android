@@ -21,4 +21,4 @@ data class CodeCountryEntity(
     @ColumnInfo("code_ison")
     @SerializedName("code_ison")
     val codeIson: String? = null,
-): Parcelable
+) : Parcelable

@@ -2,8 +2,6 @@ package br.com.raphaelmaracaipe.core.data
 
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class KeyRepositoryImpl(
     private val keySP: KeySP,

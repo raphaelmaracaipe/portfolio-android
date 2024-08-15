@@ -4,12 +4,9 @@ import android.os.Build
 import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.RecyclerView
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
-import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
-import br.com.raphaelmaracaipe.core.utils.Strings
 import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
 import dagger.hilt.android.testing.BindValue
@@ -18,17 +15,14 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import dagger.hilt.android.testing.UninstallModules
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 

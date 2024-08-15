@@ -4,7 +4,7 @@ import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSP
 
 class AuthRepositoryImpl(
     private val authSP: AuthSP
-): AuthRepository {
+) : AuthRepository {
 
     override fun setPhone(phone: String) {
         authSP.setPhone(phone)

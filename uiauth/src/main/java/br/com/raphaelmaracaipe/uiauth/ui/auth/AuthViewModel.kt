@@ -9,10 +9,10 @@ import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.consts.Locations.LOCATION_JSON_IN_ASSETS
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
-import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +31,8 @@ class AuthViewModel @Inject constructor(
     val showLoading = _showLoading
 
     private val _codeCountryWhenChangeCodePhone = MutableLiveData(CodeCountryEntity())
-    val codeCountryWhenChangeCodePhone: LiveData<CodeCountryEntity> = _codeCountryWhenChangeCodePhone
+    val codeCountryWhenChangeCodePhone: LiveData<CodeCountryEntity> =
+        _codeCountryWhenChangeCodePhone
 
     private val _isEnableTextCode = MutableLiveData(true)
     val isEnableTextCode: LiveData<Boolean> = _isEnableTextCode

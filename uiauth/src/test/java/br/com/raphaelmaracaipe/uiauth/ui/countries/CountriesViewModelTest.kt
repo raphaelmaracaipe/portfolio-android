@@ -1,20 +1,15 @@
 package br.com.raphaelmaracaipe.uiauth.ui.countries
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import br.com.raphaelmaracaipe.core.assets.Assets
-import br.com.raphaelmaracaipe.core.assets.AssetsImpl
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.CountryRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
-import com.google.gson.Gson
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

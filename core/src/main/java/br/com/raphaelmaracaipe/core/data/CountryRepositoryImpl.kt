@@ -6,7 +6,6 @@ import br.com.raphaelmaracaipe.core.data.db.daos.CodeCountryDAO
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class CountryRepositoryImpl(

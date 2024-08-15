@@ -39,7 +39,7 @@ class BottomSheetMessages(
 
     private fun applyActionsInButtons() {
         binding.btnYes.setOnClickListener {
-            if(dismissWhenClickButton) {
+            if (dismissWhenClickButton) {
                 dismissNow()
             }
 

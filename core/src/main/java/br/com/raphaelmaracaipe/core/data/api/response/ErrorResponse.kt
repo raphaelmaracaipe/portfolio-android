@@ -13,7 +13,7 @@ data class ErrorResponse(
     val statusCode: Int,
     @SerializedName("message")
     val codeError: Int
-): Parcelable {
+) : Parcelable {
 
     fun toJSON() = Gson().toJson(this) ?: "{}"
 

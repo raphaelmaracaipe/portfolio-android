@@ -8,7 +8,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter(value = ["backgroundColorLight", "backgroundColorDark"])
 fun TextInputLayout.backgroundDarkOrLightMode(backgroundColorLight: Int, backgroundColorDark: Int) {
-    val color = if(System.isNightMode(context)) {
+    val color = if (System.isNightMode(context)) {
         backgroundColorDark
     } else {
         backgroundColorLight

@@ -9,7 +9,8 @@ import com.google.gson.Gson
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -71,11 +72,13 @@ class CountryRepositoryTest {
 
     @Test
     fun `when obtain countries saved in db with datas`() = runBlocking {
-        coEvery { codeCountryDAO.getAll() } returns listOf(CodeCountryEntity(
-            countryName = "test unit",
-            codeCountry = "999",
-            codeIson = "TU"
-        ))
+        coEvery { codeCountryDAO.getAll() } returns listOf(
+            CodeCountryEntity(
+                countryName = "test unit",
+                codeCountry = "999",
+                codeIson = "TU"
+            )
+        )
 
         val listSaved = countryRepository.getCountries()
         assertEquals("TU", listSaved[0].codeIson)

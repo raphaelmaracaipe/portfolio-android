@@ -46,9 +46,11 @@ class SplashViewModel @Inject constructor(
                 userRepository.isExistProfileSaved() -> {
                     _isExistProfile.postValue(Unit)
                 }
+
                 keyRepository.isExistKeyRegistered() -> {
                     _response.postValue(tokenRepository.isExistTokenRegistered())
                 }
+
                 else -> {
                     val keySend = handShakeRepository.send()
                     keyRepository.saveKeyGenerated(keySend)
