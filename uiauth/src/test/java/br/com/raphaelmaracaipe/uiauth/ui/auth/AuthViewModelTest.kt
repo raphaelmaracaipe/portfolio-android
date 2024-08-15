@@ -9,6 +9,7 @@ import br.com.raphaelmaracaipe.core.assets.AssetsImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
+import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSPImpl
 import com.google.gson.Gson
 import io.mockk.coEvery
@@ -34,6 +35,8 @@ class AuthViewModelTest {
     private lateinit var mContext: Context
     private lateinit var mAuthViewModel: AuthViewModel
     private lateinit var mUserRepository: UserRepository
+    private lateinit var mAuthRepository: AuthRepository
+
     private val codes = arrayOf(
         CodeCountryEntity(
             countryName = "Brasil",
@@ -58,12 +61,13 @@ class AuthViewModelTest {
 
         val mAssets: Assets = AssetsImpl(mContext, assetsManager)
         mUserRepository = mockk()
+        mAuthRepository = mockk()
 
         mAuthViewModel = AuthViewModel(
             mContext,
             mAssets,
-            AuthSPImpl(mContext),
-            mUserRepository
+            mUserRepository,
+            mAuthRepository
         )
     }
 
