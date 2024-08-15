@@ -6,8 +6,11 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
+import br.com.raphaelmaracaipe.core.data.CountryRepository
+import br.com.raphaelmaracaipe.core.data.CountryRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import com.google.gson.Gson
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -29,8 +32,9 @@ class CountriesViewModelTest {
 
     private lateinit var mContext: Context
     private lateinit var mCountriesViewModel: CountriesViewModel
+    private lateinit var mCountryRepository: CountryRepository
 
-    private val codes = arrayOf(
+    private val codes = listOf(
         CodeCountryEntity(
             countryName = "Brasil",
             codeCountry = "55",
@@ -46,23 +50,29 @@ class CountriesViewModelTest {
     @Before
     fun setUp() {
         mContext = RuntimeEnvironment.getApplication().applicationContext
-
-        val jsonString = Gson().toJson(codes)
-        val inputStream = jsonString.byteInputStream()
-        val assetsManager = mockk<AssetManager>()
-        every { assetsManager.open(any()) } returns inputStream
-        val mAssets: Assets = AssetsImpl(mContext, assetsManager)
-
-        mCountriesViewModel = CountriesViewModel(mAssets)
+        mCountryRepository = mockk<CountryRepositoryImpl>()
+        mCountriesViewModel = CountriesViewModel(mCountryRepository)
     }
 
     @Test
     fun `when search list of countries and return`() = runBlocking {
+        coEvery { mCountryRepository.getCountries() } returns codes
+
         mCountriesViewModel.readInformationAboutCodeOfCountry()
-        Thread.sleep(1000)
         mCountriesViewModel.codes.observeForever { codes ->
             assertEquals("Brasil", codes[0].countryName)
         }
     }
+
+    @Test
+    fun `when search list of countries but exception`() = runBlocking {
+        coEvery { mCountryRepository.getCountries() } throws Exception("error")
+
+        mCountriesViewModel.readInformationAboutCodeOfCountry()
+        mCountriesViewModel.codes.observeForever { codes ->
+            assertEquals(0, codes.size)
+        }
+    }
+
 
 }
