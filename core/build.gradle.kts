@@ -101,6 +101,7 @@ dependencies {
     testImplementation("io.mockk:mockk:${rootProject.extra["test_mockk"]}")
     testImplementation("androidx.arch.core:core-testing:${rootProject.extra["test_core_testing"]}")
     testImplementation("org.robolectric:robolectric:${rootProject.extra["test_roboletric"]}")
+    testImplementation("androidx.room:room-testing:${rootProject.extra["room"]}")
 
     androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["android_test_junit"]}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["android_test_espresso_core"]}")
