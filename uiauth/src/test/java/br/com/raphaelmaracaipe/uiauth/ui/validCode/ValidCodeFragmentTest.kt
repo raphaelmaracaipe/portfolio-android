@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.uiauth.ui.validCode
 
 import android.os.Build
 import android.widget.EditText
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
@@ -77,6 +78,10 @@ class ValidCodeFragmentTest : FragmentTest() {
     @BindValue
     @JvmField
     var userRepository: UserRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var countryRepository: CountryRepository = mockk(relaxed = true)
 
     private val mockWebServer = MockWebServer()
 

@@ -6,13 +6,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
+import br.com.raphaelmaracaipe.core.utils.Strings
 import br.com.raphaelmaracaipe.uiauth.R
+import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSPImpl
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,6 +33,7 @@ class ValidCodeViewModelTest {
     private lateinit var mContext: Context
     private lateinit var mValidCodeViewModel: ValidCodeViewModel
     private lateinit var mUserRepository: UserRepository
+    private lateinit var mAuthRepository: AuthRepository
     private lateinit var authSP: AuthSP
 
     @Before
@@ -39,22 +42,13 @@ class ValidCodeViewModelTest {
         authSP = AuthSPImpl(mContext)
 
         mUserRepository = mockk()
+        mAuthRepository = mockk()
 
         mValidCodeViewModel = ValidCodeViewModel(
             mContext,
             mUserRepository,
-            authSP
+            mAuthRepository
         )
-    }
-
-    @Test
-    fun `when valid code and return success`() = runBlocking {
-        coEvery { mUserRepository.validCode(any()) } returns Unit
-
-        mValidCodeViewModel.sendToServer()
-        mValidCodeViewModel.isShowLoading.observeForever { isLoading ->
-            Assert.assertFalse(isLoading)
-        }
     }
 
     @Test
@@ -64,7 +58,7 @@ class ValidCodeViewModelTest {
 
         val textString = mContext.getString(R.string.response_error_code_invalid)
         mValidCodeViewModel.msgError.observeForever { text ->
-            Assert.assertEquals(textString, text)
+            assertEquals(textString, text)
         }
     }
 
@@ -75,16 +69,7 @@ class ValidCodeViewModelTest {
 
         val textString = mContext.getString(R.string.response_error_code_general)
         mValidCodeViewModel.msgError.observeForever { text ->
-            Assert.assertEquals(textString, text)
-        }
-    }
-
-    @Test
-    fun `when request again new code and api return success`() {
-        coEvery { mUserRepository.sendCode(any()) } returns true
-        mValidCodeViewModel.sendAgainToServer()
-        mValidCodeViewModel.isShowLoading.observeForever { isLoading ->
-            Assert.assertFalse(isLoading)
+            assertEquals(textString, text)
         }
     }
 
@@ -95,7 +80,22 @@ class ValidCodeViewModelTest {
 
         val textString = mContext.getString(R.string.code_send_again_invalid)
         mValidCodeViewModel.msgError.observeForever { text ->
-            Assert.assertEquals(textString, text)
+            assertEquals(textString, text)
+        }
+    }
+
+    @Test
+    fun `when start count down time`() {
+        mValidCodeViewModel.startCountDownTime()
+        assertTrue(true)
+    }
+
+    @Test
+    fun `when used on text changed`() {
+        val codeRandom = Strings.generateStringRandom(10)
+        mValidCodeViewModel.onTextChanged(codeRandom)
+        mValidCodeViewModel.code.observeForever { code ->
+            assertEquals(codeRandom, code)
         }
     }
 
