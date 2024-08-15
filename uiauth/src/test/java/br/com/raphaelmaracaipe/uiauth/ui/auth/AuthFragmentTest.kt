@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule
@@ -63,6 +64,10 @@ class AuthFragmentTest : FragmentTest() {
 
     @BindValue
     @JvmField
+    var countryRepository: CountryRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
     var context: Context = RuntimeEnvironment.getApplication().applicationContext
 
     @Before
@@ -98,7 +103,10 @@ class AuthFragmentTest : FragmentTest() {
                 tilCodePhone.editText?.setText("55")
                 val textCountry = tvwCountry.text
 
-                assertEquals("Brasil", textCountry)
+                assertEquals(
+                    context.getString(br.com.raphaelmaracaipe.core.R.string.country),
+                    textCountry
+                )
             }
         }
     }
