@@ -15,7 +15,7 @@ android {
         minSdk = rootProject.extra["minSdkVersion"] as Int
         targetSdk = rootProject.extra["targetSdkVersion"] as Int
         versionCode = 1
-        versionName = "1.2.1"
+        versionName = "1.2.2"
 
         testInstrumentationRunner = "br.com.raphaelmaracaipe.core.testUnit.CustomTestRunner"
     }
