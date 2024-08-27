@@ -50,6 +50,18 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun getProfileSavedInServer() = withContext(Dispatchers.IO) {
+        try {
+            userApi.getProfile()
+        } catch (e: NetworkException) {
+            e.printStackTrace()
+            throw NetworkException(e.code)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw NetworkException(NetworkCodeEnum.ERROR_GENERAL.code)
+        }
+    }
+
     override fun isExistProfileSaved() = profileSP.isExistProfileSaved()
 
     override fun markWhichProfileSaved() {

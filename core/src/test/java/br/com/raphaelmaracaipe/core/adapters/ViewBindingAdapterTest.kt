@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import br.com.raphaelmaracaipe.core.R
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

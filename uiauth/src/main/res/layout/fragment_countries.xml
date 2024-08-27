@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isShowShimmer"
+            type="boolean" />
+
         <variable
             name="viewModel"
             type="br.com.raphaelmaracaipe.uiauth.ui.countries.CountriesViewModel" />
@@ -22,6 +28,7 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="@{isShowShimmer ? View.GONE : View.VISIBLE}"
                 app:layout_anchor="@+id/searchView"
                 app:layout_anchorGravity="center">
 
@@ -32,6 +39,21 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             </androidx.core.widget.NestedScrollView>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{isShowShimmer ? View.VISIBLE : View.GONE}"
+                tools:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/shimmerItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"

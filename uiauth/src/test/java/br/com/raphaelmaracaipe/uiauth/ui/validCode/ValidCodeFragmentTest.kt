@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.uiauth.ui.validCode
 
 import android.os.Build
 import android.widget.EditText
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
@@ -13,7 +14,7 @@ import br.com.raphaelmaracaipe.core.data.sp.SeedSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.data.sp.di.SpModule
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_SEND_CODE_INVALID
 import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uiauth.R
 import com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
@@ -77,6 +78,10 @@ class ValidCodeFragmentTest : FragmentTest() {
     @BindValue
     @JvmField
     var userRepository: UserRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var countryRepository: CountryRepository = mockk(relaxed = true)
 
     private val mockWebServer = MockWebServer()
 

@@ -5,8 +5,8 @@ import android.os.Build
 import io.mockk.every
 import io.mockk.mockk
 import org.json.JSONObject
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

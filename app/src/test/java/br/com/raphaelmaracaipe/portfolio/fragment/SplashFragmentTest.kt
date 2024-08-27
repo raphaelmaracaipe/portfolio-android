@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.fragment
 
 import android.os.Build
 import android.os.Looper.getMainLooper
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
@@ -20,7 +21,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,8 +65,9 @@ class SplashFragmentTest : FragmentTest() {
     @JvmField
     var tokenRepository: TokenRepository = mockk(relaxed = true)
 
-
-//    private val mockNavController = mock(NavController::class.java)
+    @BindValue
+    @JvmField
+    var countryRepository: CountryRepository = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -78,7 +80,6 @@ class SplashFragmentTest : FragmentTest() {
         coEvery { handShakeRepository.send() } throws Exception("test of fail")
         coEvery { keyRepository.isExistKeyRegistered() } returns false
         coEvery { seedRepository.cleanSeedSaved() } returns Unit
-
 
         fragmentScenario<SplashFragment>(R.navigation.nav_graph) { fragment ->
             fragment.parentFragmentManager.executePendingTransactions()

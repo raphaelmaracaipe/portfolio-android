@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.fragment
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
@@ -11,7 +12,8 @@ import dagger.hilt.android.testing.HiltTestApplication
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +23,8 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.M], application = HiltTestApplication::class)
-class SplashViewModelTest {
+class
+SplashViewModelTest {
 
     @get:Rule
     val instantTaskRule = InstantTaskExecutorRule()
@@ -32,6 +35,7 @@ class SplashViewModelTest {
     private lateinit var seedRepository: SeedRepository
     private lateinit var userRepository: UserRepository
     private lateinit var splashViewModel: SplashViewModel
+    private lateinit var countryRepository: CountryRepository
 
     @Before
     fun setUp() {
@@ -40,13 +44,15 @@ class SplashViewModelTest {
         tokenRepository = mockk()
         seedRepository = mockk()
         userRepository = mockk()
+        countryRepository = mockk()
 
         splashViewModel = SplashViewModel(
             seedRepository,
             userRepository,
             handShakeRepository,
             keyRepository,
-            tokenRepository
+            tokenRepository,
+            countryRepository
         )
     }
 
@@ -122,12 +128,34 @@ class SplashViewModelTest {
 
     @Test
     fun `when check if user have token but not exist should return observable with false`() {
+        coEvery { handShakeRepository.send() } returns "AAA"
         coEvery { userRepository.isExistProfileSaved() } returns false
         coEvery { keyRepository.isExistKeyRegistered() } returns false
+        coEvery { keyRepository.saveKeyGenerated(any()) } returns Unit
 
         splashViewModel.send()
         splashViewModel.response.observeForever {
             assertFalse(it)
+        }
+    }
+
+    @Test
+    fun `when insert countries but return error`() {
+        coEvery { countryRepository.insert() } throws Exception("Error")
+
+        splashViewModel.insertCountries()
+        splashViewModel.finishedLoadCodeCountries.observeForever {
+            assertTrue(true)
+        }
+    }
+
+    @Test
+    fun `when insert countries success`() {
+        coEvery { countryRepository.insert() } returns Unit
+
+        splashViewModel.insertCountries()
+        splashViewModel.finishedLoadCodeCountries.observeForever {
+            assertTrue(true)
         }
     }
 

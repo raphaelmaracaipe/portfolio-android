@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.uiauth.databinding.ItemCountriesBinding
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
 
 class CountriesAdapter(
     private val assets: Assets,
-    private val onClickItem: (countrySelected: CodeCountry) -> Unit,
+    private val onClickItem: (countrySelected: CodeCountryEntity) -> Unit,
     private val onHasFinished: () -> Unit
-) : ListAdapter<CodeCountry, CountriesAdapter.ViewHolder>(CodeCountryDiffCallback()) {
+) : ListAdapter<CodeCountryEntity, CountriesAdapter.ViewHolder>(CodeCountryDiffCallback()) {
 
-    fun searchItem(text: String, items: List<CodeCountry>) {
+    fun searchItem(text: String, items: List<CodeCountryEntity>) {
         val itemsFound = items.filter { codeCountry ->
             (codeCountry.countryName?.lowercase()?.contains(text.lowercase()) ?: false)
         }
@@ -42,7 +42,7 @@ class CountriesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(position == (currentList.size - 1)) {
+        if (position == (currentList.size - 1)) {
             onHasFinished.invoke()
         }
         holder.bindView(getItem(position))
@@ -57,10 +57,10 @@ class CountriesAdapter(
         private val context: Context,
         private val assets: Assets,
         private val binding: ItemCountriesBinding,
-        private val onClickItem: (countrySelected: CodeCountry) -> Unit
+        private val onClickItem: (countrySelected: CodeCountryEntity) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindView(country: CodeCountry) {
+        fun bindView(country: CodeCountryEntity) {
             with(binding) {
                 text = country.countryName
                 imvFlag.setImageDrawable(CountryCodeFlags.getFlag(assets, country))
@@ -86,13 +86,19 @@ class CountriesAdapter(
 
     }
 
-    class CodeCountryDiffCallback : DiffUtil.ItemCallback<CodeCountry>() {
+    class CodeCountryDiffCallback : DiffUtil.ItemCallback<CodeCountryEntity>() {
 
-        override fun areItemsTheSame(oldItem: CodeCountry, newItem: CodeCountry): Boolean {
+        override fun areItemsTheSame(
+            oldItem: CodeCountryEntity,
+            newItem: CodeCountryEntity
+        ): Boolean {
             return (oldItem.countryName == newItem.countryName && oldItem.codeCountry == newItem.codeCountry)
         }
 
-        override fun areContentsTheSame(oldItem: CodeCountry, newItem: CodeCountry): Boolean {
+        override fun areContentsTheSame(
+            oldItem: CodeCountryEntity,
+            newItem: CodeCountryEntity
+        ): Boolean {
             return oldItem == newItem
         }
 

@@ -11,7 +11,7 @@ import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_SEND_CODE_INVALID
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
+import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class ValidCodeViewModel @Inject constructor(
     private val context: Context,
     private val userRepository: UserRepository,
-    private val authSP: AuthSP
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _countDownTime: MutableLiveData<String> = MutableLiveData()
@@ -59,7 +59,7 @@ class ValidCodeViewModel @Inject constructor(
     fun sendAgainToServer() = viewModelScope.launch {
         _showLoading.postValue(true)
         try {
-            userRepository.sendCode(UserSendCodeRequest(authSP.getPhone()))
+            userRepository.sendCode(UserSendCodeRequest(authRepository.getPhone()))
             startCountDownTime()
         } catch (e: Exception) {
             _msgError.postValue(context.getString(R.string.code_send_again_invalid))

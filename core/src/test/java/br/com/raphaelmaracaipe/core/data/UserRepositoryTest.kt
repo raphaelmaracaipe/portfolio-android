@@ -3,31 +3,28 @@ package br.com.raphaelmaracaipe.core.data
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.api.UserApi
-import br.com.raphaelmaracaipe.core.data.api.UserApiImpl
 import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
+import br.com.raphaelmaracaipe.core.data.api.response.ProfileGetResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
-import br.com.raphaelmaracaipe.core.externals.KeysDefault
-import br.com.raphaelmaracaipe.core.externals.SpKeyDefault
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.AUTHORIZATION_INVALID
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.ERROR_GENERAL
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_FAIL_TO_INSERT_PROFILE
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_SEND_CODE_INVALID
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
-import br.com.raphaelmaracaipe.core.security.CryptoHelperImpl
-import br.com.raphaelmaracaipe.core.utils.Strings
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
@@ -168,18 +165,19 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun `when send profile but return exception generic should return exception network`() = runBlocking {
-        coEvery { userApi.profile(any()) } throws Exception("fail")
+    fun `when send profile but return exception generic should return exception network`() =
+        runBlocking {
+            coEvery { userApi.profile(any()) } throws Exception("fail")
 
-        try {
-            userRepository.profile(ProfileRequest())
-            assertTrue(true)
-        } catch (e: NetworkException) {
-            assertEquals(ERROR_GENERAL.code, e.code)
-        } catch (e: Exception) {
-            assertTrue(false)
+            try {
+                userRepository.profile(ProfileRequest())
+                assertTrue(true)
+            } catch (e: NetworkException) {
+                assertEquals(ERROR_GENERAL.code, e.code)
+            } catch (e: Exception) {
+                assertTrue(false)
+            }
         }
-    }
 
     @Test
     fun `when check if profile exist saved`() {
@@ -193,6 +191,50 @@ class UserRepositoryTest {
         every { profileSP.markWithExistProfile() } returns Unit
         userRepository.markWhichProfileSaved()
         assertTrue(true)
+    }
+
+    @Test
+    fun `when call api to get profile but return exception`() = runBlocking {
+        coEvery { userApi.getProfile() } throws Exception("Error")
+
+        try {
+            userRepository.getProfileSavedInServer()
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when call api to get profile but return exception networking`() = runBlocking {
+        coEvery { userApi.getProfile() } throws NetworkException(AUTHORIZATION_INVALID.code)
+
+        try {
+            userRepository.getProfileSavedInServer()
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(AUTHORIZATION_INVALID.code, e.code)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when call api to get profile return with success`() = runBlocking {
+        coEvery { userApi.getProfile() } returns ProfileGetResponse(
+            "test name", "someone"
+        )
+
+        try {
+            val response = userRepository.getProfileSavedInServer()
+            assertEquals("test name", response.name)
+        } catch (e: NetworkException) {
+            assertTrue(false)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
     }
 
 }

@@ -12,8 +12,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
+import br.com.raphaelmaracaipe.uiauth.R
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentCountriesBinding
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
 import br.com.raphaelmaracaipe.uiauth.ui.auth.AuthSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,7 +29,7 @@ class CountriesFragment @Inject constructor() : Fragment() {
     private lateinit var adapter: CountriesAdapter
     private val mViewModel: CountriesViewModel by viewModels()
     private val mSharedViewModel: AuthSharedViewModel by activityViewModels()
-    private var codes: List<CodeCountry> = arrayListOf()
+    private var codes: List<CodeCountryEntity> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,8 +55,32 @@ class CountriesFragment @Inject constructor() : Fragment() {
 
     }
 
+    private fun showShimmer() {
+        with(binding) {
+            isShowShimmer = true
+            shimmerLayout.startShimmer()
+
+            if (shimmerItems.childCount == 0) {
+                val layoutInflater = LayoutInflater.from(context)
+                for (x in 1..30) {
+                    val includeLayout = layoutInflater.inflate(
+                        R.layout.item_countries_shimmer, null
+                    )
+                    shimmerItems.addView(includeLayout)
+                }
+            }
+        }
+    }
+
+    private fun hiddenShimmer() {
+        with(binding) {
+            isShowShimmer = false
+            shimmerLayout.stopShimmer()
+        }
+    }
+
     private fun callLoadingWithCodeCountry() {
-        mViewModel.showLoading(true)
+        showShimmer()
         if (!Build.FINGERPRINT.contains("roboletric", ignoreCase = true)) {
             mViewModel.readInformationAboutCodeOfCountry()
         } else {
@@ -67,6 +92,7 @@ class CountriesFragment @Inject constructor() : Fragment() {
 
     private fun initObservable() {
         mViewModel.codes.observe(viewLifecycleOwner) { codes ->
+            hiddenShimmer()
             this.codes = codes
             adapter.submitList(codes)
         }
@@ -77,7 +103,7 @@ class CountriesFragment @Inject constructor() : Fragment() {
             mSharedViewModel.setCountrySelected(it)
             findNavController().navigateUp()
         }, onHasFinished = {
-            mViewModel.showLoading(false)
+            hiddenShimmer()
         })
 
         with(binding) {

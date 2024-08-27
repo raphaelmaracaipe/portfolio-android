@@ -1,7 +1,6 @@
 package br.com.raphaelmaracaipe.core.extensions
 
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.nio.charset.Charset
 

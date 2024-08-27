@@ -34,7 +34,7 @@ class KeySPImpl(
 
     override fun get(): String {
         val keySaved = sharedPreferences.getString(keyEdit, "") ?: ""
-        if(keySaved.isEmpty()) {
+        if (keySaved.isEmpty()) {
             return keySaved
         }
 

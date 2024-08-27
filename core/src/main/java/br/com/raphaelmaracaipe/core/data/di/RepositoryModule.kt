@@ -1,5 +1,11 @@
 package br.com.raphaelmaracaipe.core.data.di
 
+import android.content.Context
+import androidx.room.Room
+import br.com.raphaelmaracaipe.core.BuildConfig
+import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.CountryRepository
+import br.com.raphaelmaracaipe.core.data.CountryRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.DeviceRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
@@ -17,6 +23,7 @@ import br.com.raphaelmaracaipe.core.data.UserRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
 import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.UserApi
+import br.com.raphaelmaracaipe.core.data.db.AppDataBase
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
 import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
@@ -26,6 +33,7 @@ import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -81,5 +89,21 @@ class RepositoryModule {
         tokenSP,
         profileSP
     )
+
+    @Provides
+    fun providerCountryRepository(
+        @ApplicationContext context: Context,
+        assert: Assets,
+    ): CountryRepository {
+        val db = Room.databaseBuilder(
+            context,
+            AppDataBase::class.java,
+            BuildConfig.DATABASE_NAME
+        ).build()
+        return CountryRepositoryImpl(
+            assert,
+            db.codeCountryDao()
+        )
+    }
 
 }

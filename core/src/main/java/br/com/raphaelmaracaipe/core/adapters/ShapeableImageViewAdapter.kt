@@ -6,7 +6,10 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.imageview.ShapeableImageView
 
 @BindingAdapter("imageBitmapAD", "imageResourceIfNotExistBitmap")
-fun ShapeableImageView.setImage(image: Bitmap? = null, imageResourceIfNotExistBitmap: Drawable? = null) {
+fun ShapeableImageView.setImage(
+    image: Bitmap? = null,
+    imageResourceIfNotExistBitmap: Drawable? = null
+) {
     image?.let {
         setImageBitmap(image)
         return

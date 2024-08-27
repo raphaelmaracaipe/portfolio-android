@@ -1,7 +1,7 @@
 package br.com.raphaelmaracaipe.core.navigation
 
 import android.os.Build
-import org.junit.Assert.*
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

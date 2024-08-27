@@ -7,13 +7,13 @@ import javax.inject.Inject
 
 class SeedRepositoryImpl @Inject constructor(
     private val seedSP: SeedSP
-): SeedRepository {
+) : SeedRepository {
 
     override fun cleanSeedSaved() {
         seedSP.clean()
     }
 
-    override fun get() : String = seedSP.get().ifEmpty {
+    override fun get(): String = seedSP.get().ifEmpty {
         val seedGenerated = RgxGen(REGEX_SEED).generate()
         seedSP.save(seedGenerated)
         seedGenerated
