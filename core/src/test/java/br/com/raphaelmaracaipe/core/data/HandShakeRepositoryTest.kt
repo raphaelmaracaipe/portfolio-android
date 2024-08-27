@@ -3,12 +3,14 @@ package br.com.raphaelmaracaipe.core.data
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.DEVICE_ID_INVALID
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.ERROR_GENERAL
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

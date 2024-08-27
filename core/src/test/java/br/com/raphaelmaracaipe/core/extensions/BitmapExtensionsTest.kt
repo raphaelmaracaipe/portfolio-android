@@ -3,8 +3,7 @@ package br.com.raphaelmaracaipe.core.extensions
 import android.os.Build
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

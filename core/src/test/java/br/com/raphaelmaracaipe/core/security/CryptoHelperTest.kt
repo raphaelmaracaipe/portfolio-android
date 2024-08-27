@@ -2,8 +2,7 @@ package br.com.raphaelmaracaipe.core.security
 
 import android.os.Build
 import br.com.raphaelmaracaipe.core.utils.Strings
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

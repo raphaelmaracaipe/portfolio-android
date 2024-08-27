@@ -11,7 +11,6 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.portfolio.R
 import br.com.raphaelmaracaipe.portfolio.databinding.FragmentSplashBinding
@@ -23,6 +22,9 @@ class SplashFragment @Inject constructor() : Fragment() {
 
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var binding: FragmentSplashBinding
+    private var isExistTokenSaved: Boolean = false
+    private var hasFinishedToken: Boolean = false
+    private var hasFinishedRegisterContries: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +45,7 @@ class SplashFragment @Inject constructor() : Fragment() {
         observableHandShake()
 
         splashViewModel.cleanSeedSaved()
+        splashViewModel.insertCountries()
     }
 
     private fun observableHandShake() {
@@ -51,7 +54,19 @@ class SplashFragment @Inject constructor() : Fragment() {
         }
 
         splashViewModel.response.observe(viewLifecycleOwner) { isExistTokenSaved ->
-            redirect(isExistTokenSaved)
+            this.isExistTokenSaved = isExistTokenSaved
+            this.hasFinishedToken = true
+
+            if (hasFinishedRegisterContries) {
+                redirect(isExistTokenSaved)
+            }
+        }
+
+        splashViewModel.finishedLoadCodeCountries.observe(viewLifecycleOwner) {
+            hasFinishedRegisterContries = true
+            if (hasFinishedToken) {
+                redirect(isExistTokenSaved)
+            }
         }
 
         splashViewModel.isExistProfile.observe(viewLifecycleOwner) {

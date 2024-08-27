@@ -8,8 +8,7 @@ import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.TokenInterceptorService
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.ERROR_GENERAL
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.test.setBodyEncrypted
 import br.com.raphaelmaracaipe.core.utils.Strings
@@ -17,8 +16,8 @@ import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import org.junit.After
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,7 +57,12 @@ class TokenInterceptorApiTest {
         )
 
         try {
-            val tokenReturn = tokenInterceptorApi.updateToken(TokenRefreshRequest("ddd"))
+            val tokenReturn = tokenInterceptorApi.updateToken(
+                TokenRefreshRequest("ddd"),
+                Strings.generateStringRandom(5),
+                Strings.generateStringRandom(5),
+                Strings.generateStringRandom(5)
+            )
             assertEquals(tokenResponse.accessToken, tokenReturn.accessToken)
         } catch (_: Exception) {
             assertTrue(false)
@@ -72,7 +76,12 @@ class TokenInterceptorApiTest {
         )
 
         try {
-            tokenInterceptorApi.updateToken(TokenRefreshRequest("ddd"))
+            tokenInterceptorApi.updateToken(
+                TokenRefreshRequest("ddd"),
+                Strings.generateStringRandom(5),
+                Strings.generateStringRandom(5),
+                Strings.generateStringRandom(5)
+            )
             assertTrue(false)
         } catch (e: NetworkException) {
             assertEquals(ERROR_GENERAL.code, e.code)

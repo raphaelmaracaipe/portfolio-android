@@ -30,7 +30,7 @@ fun View.backgroundTintDarkOrLightMode(
     backgroundTintColorLight: Int,
     backgroundTintColorDark: Int
 ) {
-    val color = if(isNightMode(context)) {
+    val color = if (isNightMode(context)) {
         backgroundTintColorDark
     } else {
         backgroundTintColorLight

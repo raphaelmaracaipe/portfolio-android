@@ -1,11 +1,11 @@
-package br.com.raphaelmaracaipe.uiauth.sp
+package br.com.raphaelmaracaipe.uiauth.data.sp
 
 import android.content.Context
 import javax.inject.Inject
 
 class AuthSPImpl @Inject constructor(
     private val context: Context
-): AuthSP {
+) : AuthSP {
 
     private val AUTH_KEY = "authKey"
     private val PHONE = "phone"
@@ -21,7 +21,5 @@ class AuthSPImpl @Inject constructor(
         AUTH_KEY,
         Context.MODE_PRIVATE
     ).getString(PHONE, "") ?: ""
-
-    override fun checkIfIsPhoneSaved() = getPhone().isNotEmpty()
 
 }

@@ -3,13 +3,11 @@ package br.com.raphaelmaracaipe.uiauth.extensions
 import android.content.Context
 import android.os.Build
 import android.telephony.PhoneNumberUtils
-import android.util.Log
 import br.com.raphaelmaracaipe.core.R
 import com.google.android.material.textfield.TextInputEditText
 import io.mockk.every
 import io.mockk.mockkStatic
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

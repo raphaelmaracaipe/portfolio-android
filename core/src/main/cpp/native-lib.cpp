@@ -3,14 +3,16 @@
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_br_com_raphaelmaracaipe_core_externals_ApiKeysExternal_getApiKeyDev(JNIEnv *env, jobject thiz) {
+Java_br_com_raphaelmaracaipe_core_externals_ApiKeysExternal_getApiKeyDev(JNIEnv *env,
+                                                                         jobject thiz) {
     std::string hello = "V!QFCVVd09KWbRd@a7TZF-A1W8d!aSZ5?2@B2!#f";
     return env->NewStringUTF(hello.c_str());
 }
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_br_com_raphaelmaracaipe_core_externals_ApiKeysExternal_getApiKeyProd(JNIEnv *env, jobject thiz) {
+Java_br_com_raphaelmaracaipe_core_externals_ApiKeysExternal_getApiKeyProd(JNIEnv *env,
+                                                                          jobject thiz) {
     std::string hello = "";
     return env->NewStringUTF(hello.c_str());
 }
@@ -38,7 +40,8 @@ Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getTokenKey(JNIEnv *e
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getTokenEditAccessAndRefreshKey(JNIEnv *env, jobject thiz) {
+Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getTokenEditAccessAndRefreshKey(
+        JNIEnv *env, jobject thiz) {
     std::string hello = "tokenKeyAccessAndRefreshSp";
     return env->NewStringUTF(hello.c_str());
 }
@@ -51,7 +54,8 @@ Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getDeviceKey(JNIEnv *
 }
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getDeviceEditKey(JNIEnv *env, jobject thiz) {
+Java_br_com_raphaelmaracaipe_core_externals_SpKeysExternal_getDeviceEditKey(JNIEnv *env,
+                                                                            jobject thiz) {
     std::string hello = "deviceIdKeyEdit";
     return env->NewStringUTF(hello.c_str());
 }

@@ -3,18 +3,15 @@ package br.com.raphaelmaracaipe.uicontacts.ui
 import android.os.Build
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
-import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
 import br.com.raphaelmaracaipe.uicontacts.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import dagger.hilt.android.testing.UninstallModules
 import io.mockk.MockKAnnotations
 import io.mockk.unmockkAll
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,7 +26,7 @@ import org.robolectric.annotation.Config
     sdk = [Build.VERSION_CODES.M],
     application = HiltTestApplication::class
 )
-class ContactFragmentTest: FragmentTest() {
+class ContactFragmentTest : FragmentTest() {
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)

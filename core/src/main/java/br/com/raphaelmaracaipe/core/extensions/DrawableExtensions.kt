@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 
 fun Drawable.toBitmap(): Bitmap {
-    if(this is BitmapDrawable) {
+    if (this is BitmapDrawable) {
         return bitmap
     }
 

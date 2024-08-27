@@ -17,7 +17,7 @@ fun TextInputEditText.addMask(
     override fun afterTextChanged(editable: Editable?) {
         val splitCountry = country.split(" / ")
         var phoneNumberFormat = PhoneNumberUtils.formatNumber(editable.toString(), splitCountry[0])
-        if(phoneNumberFormat == null) {
+        if (phoneNumberFormat == null) {
             phoneNumberFormat = editable.toString()
         }
 

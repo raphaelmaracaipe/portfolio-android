@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.raphaelmaracaipe.uiprofile.R
-import br.com.raphaelmaracaipe.uiprofile.ui.ProfileImageOptionsBottomSheetAdapter.*
+import br.com.raphaelmaracaipe.uiprofile.ui.ProfileImageOptionsBottomSheetAdapter.ViewHolder
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Assert
 import org.junit.Test

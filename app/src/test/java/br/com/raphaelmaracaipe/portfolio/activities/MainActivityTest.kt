@@ -3,12 +3,14 @@ package br.com.raphaelmaracaipe.portfolio.activities
 import android.os.Build
 import android.view.View
 import androidx.fragment.app.FragmentContainerView
+import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
+import br.com.raphaelmaracaipe.portfolio.R
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -27,7 +29,6 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import br.com.raphaelmaracaipe.portfolio.R
 
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
@@ -61,6 +62,10 @@ class MainActivityTest {
     @BindValue
     @JvmField
     var tokenRepository: TokenRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var countryRepository: CountryRepository = mockk(relaxed = true)
 
     @Before
     fun setUp() {

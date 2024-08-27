@@ -13,11 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.ChangeBounds
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.uiauth.R
+import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
 import br.com.raphaelmaracaipe.uiauth.databinding.FragmentAuthBinding
 import br.com.raphaelmaracaipe.uiauth.extensions.addMask
-import br.com.raphaelmaracaipe.uiauth.models.CodeCountry
-import br.com.raphaelmaracaipe.uiauth.sp.AuthSP
 import br.com.raphaelmaracaipe.uiauth.utils.CountryCodeFlags
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,7 +29,7 @@ class AuthFragment @Inject constructor() : Fragment() {
     lateinit var mAssets: Assets
 
     @Inject
-    lateinit var mAuthSP: AuthSP
+    lateinit var mAuthRepository: AuthRepository
 
     private lateinit var binding: FragmentAuthBinding
     private val mViewModel: AuthViewModel by viewModels()
@@ -68,7 +68,7 @@ class AuthFragment @Inject constructor() : Fragment() {
     }
 
     private fun checkIfIsCode() {
-        if(mAuthSP.checkIfIsPhoneSaved()) {
+        if (mAuthRepository.checkIfIsPhoneSaved()) {
             findNavController().navigate(AuthFragmentDirections.goToValidCodeFragment())
         }
     }
@@ -158,7 +158,7 @@ class AuthFragment @Inject constructor() : Fragment() {
         }
     }
 
-    private fun applyFlagAndCountryName(country: CodeCountry) {
+    private fun applyFlagAndCountryName(country: CodeCountryEntity) {
         country.countryName?.let {
             with(binding) {
                 tvwCountry.text = country.countryName
@@ -190,7 +190,7 @@ class AuthFragment @Inject constructor() : Fragment() {
         }
     }
 
-    private fun applyMaskInInput(codeCountry: CodeCountry) {
+    private fun applyMaskInInput(codeCountry: CodeCountryEntity) {
         with(binding) {
             tietNumPhone.addMask((codeCountry.codeIson ?: "BR"))
             tietNumPhone.addTextChangedListener {

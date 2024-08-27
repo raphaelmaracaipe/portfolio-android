@@ -9,7 +9,7 @@ fun Button.backgroundTintDarkOrLightMode(
     backgroundTintColorLight: Int,
     backgroundTintColorDark: Int
 ) {
-    val color = if(System.isNightMode(context)) {
+    val color = if (System.isNightMode(context)) {
         backgroundTintColorDark
     } else {
         backgroundTintColorLight

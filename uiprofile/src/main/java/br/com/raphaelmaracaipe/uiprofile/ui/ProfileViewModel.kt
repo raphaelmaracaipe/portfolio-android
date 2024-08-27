@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
+import br.com.raphaelmaracaipe.core.data.api.response.ProfileGetResponse
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiprofile.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,6 +35,9 @@ class ProfileViewModel @Inject constructor(
     private val _profileSaved = MutableLiveData<Unit>()
     val profileSaved: LiveData<Unit> = _profileSaved
 
+    private val _profileSavedServer = MutableLiveData<ProfileGetResponse>()
+    val profileSavedServer: LiveData<ProfileGetResponse> = _profileSavedServer
+
     fun onTextChange(text: CharSequence) {
         profile.name = text.toString()
     }
@@ -48,6 +52,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun cleanImageSelectedToPreview() {
+        profile.photo = ""
         _imagePreview.postValue(null)
     }
 
@@ -63,5 +68,16 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun ifExistData(): Boolean = profile.name.isNotEmpty() || profile.photo.isNotEmpty()
+
+    fun getProfileSavedInServer() = viewModelScope.launch {
+        _isShowLoading.postValue(true)
+        try {
+            val profileOfServer = userRepository.getProfileSavedInServer()
+            _profileSavedServer.postValue(profileOfServer)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        _isShowLoading.postValue(false)
+    }
 
 }

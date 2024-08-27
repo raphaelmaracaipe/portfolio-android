@@ -5,18 +5,21 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.configRetrofitTest
 import br.com.raphaelmaracaipe.core.data.api.request.ProfileRequest
 import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
+import br.com.raphaelmaracaipe.core.data.api.response.ProfileGetResponse
 import br.com.raphaelmaracaipe.core.data.api.response.TokensResponse
 import br.com.raphaelmaracaipe.core.data.api.services.UserService
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
 import br.com.raphaelmaracaipe.core.externals.NetworkUtils
-import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.*
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.ERROR_GENERAL
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.test.setBodyEncrypted
+import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -130,7 +133,42 @@ class UserApiTest {
             assertTrue(false)
         } catch (e: NetworkException) {
             assertEquals(ERROR_GENERAL.code, e.code)
-        }  catch (_: Exception) {
+        } catch (_: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when call to obtain profile but api return error 500`() = runBlocking {
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(500).setBody("{}")
+        )
+
+        try {
+            userApi.getProfile()
+            assertTrue(false)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (_: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when call to obtain profile and return success`() = runBlocking {
+        val profile = ProfileGetResponse("test name", "someone")
+        val json = Gson().toJson(profile)
+
+        mockWebServer.enqueue(
+            MockResponse().setResponseCode(200).setBodyEncrypted(json)
+        )
+
+        try {
+            val profileServer = userApi.getProfile()
+            assertEquals("test name", profileServer.name)
+        } catch (e: NetworkException) {
+            assertEquals(ERROR_GENERAL.code, e.code)
+        } catch (_: Exception) {
             assertTrue(false)
         }
     }
