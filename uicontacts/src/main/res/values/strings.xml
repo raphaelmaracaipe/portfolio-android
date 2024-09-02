@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="error_permission_contact">Para iniciar uma troca de mensagens, precisamos da liberação da permissão de leitura de contatos.</string>
+</resources>

@@ -3,6 +3,7 @@ package br.com.raphaelmaracaipe.portfolio.activities
 import android.os.Build
 import android.view.View
 import androidx.fragment.app.FragmentContainerView
+import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
@@ -66,6 +67,10 @@ class MainActivityTest {
     @BindValue
     @JvmField
     var countryRepository: CountryRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var contactRepository: ContactRepository = mockk(relaxed = true)
 
     @Before
     fun setUp() {

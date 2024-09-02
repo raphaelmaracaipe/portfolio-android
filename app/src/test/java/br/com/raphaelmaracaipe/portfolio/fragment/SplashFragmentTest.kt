@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.portfolio.fragment
 
 import android.os.Build
 import android.os.Looper.getMainLooper
+import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.HandShakeRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
@@ -68,6 +69,10 @@ class SplashFragmentTest : FragmentTest() {
     @BindValue
     @JvmField
     var countryRepository: CountryRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var contactRepository: ContactRepository = mockk(relaxed = true)
 
     @Before
     fun setUp() {
