@@ -44,6 +44,13 @@ Processo de decriptação dos dados recebidos pelo o servidor.
   <img src="./docs/decrypted.png" width="600"/>
 </p>
 
+### Consultar contatos
+
+Processo para envio de contatos para servidor validar.
+<p align="center">
+  <img src="./docs/consulta-contatos.png" width="600"/>
+</p>
+
 ## Esquema das branchs
 
 Aqui é a estrutura das branchs para o repositório.
