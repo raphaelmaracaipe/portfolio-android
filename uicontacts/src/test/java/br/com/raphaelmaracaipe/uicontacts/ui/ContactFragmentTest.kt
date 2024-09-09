@@ -3,6 +3,7 @@ package br.com.raphaelmaracaipe.uicontacts.ui
 import android.content.Context
 import android.os.Build
 import android.view.View
+import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.raphaelmaracaipe.core.data.ContactRepository
@@ -64,7 +65,7 @@ class ContactFragmentTest : FragmentTest() {
             R.navigation.nav_uicontacts
         ) { fragment ->
             fragment.view?.let { view ->
-                val cltContainer = view.findViewById<ConstraintLayout>(R.id.cltContainer)
+                val cltContainer = view.findViewById<RelativeLayout>(R.id.rltContainer)
                 assertEquals(View.VISIBLE, cltContainer.visibility)
             }
         }

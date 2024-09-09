@@ -29,6 +29,7 @@ ext {
     set("dagger_hil", "2.44")
     set("shimmer", "0.5.0")
     set("room", "2.6.1")
+    set("glide", "4.16.0")
 
     // Tests
     set("test_junit", "4.13.2")

@@ -15,4 +15,15 @@ interface ContactDAO {
     @Query("SELECT * FROM contacts")
     suspend fun getValues(): List<ContactEntity>
 
+    @Query("SELECT * FROM contacts")
+    suspend fun getAll(): List<ContactEntity>
+
+    @Query("SELECT * FROM contacts LIMIT :limitPerPage OFFSET :currentPage")
+    suspend fun getContactPagination(limitPerPage: Int, currentPage: Int): List<ContactEntity>
+
+    @Query("SELECT * FROM contacts WHERE name LIKE '%' || :textToSearch || '%' OR phone LIKE '%' || :textToSearch || '%'")
+    suspend fun getContactPaginationAndSearch(
+        textToSearch: String,
+    ): List<ContactEntity>
+
 }

@@ -6,6 +6,7 @@ import br.com.raphaelmaracaipe.core.data.db.daos.ContactDAO
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,7 +40,43 @@ class ContactDAOTest {
         dao.insert(entities)
 
         val datas = dao.getValues()
-        Assert.assertEquals(1, datas.size)
+        assertEquals(1, datas.size)
+    }
+
+    @Test
+    fun `when get all values inserted`() = runBlocking {
+        val entities = arrayListOf(
+            ContactEntity("PHONE", "NAME", "PHOTO"),
+            ContactEntity("PHONE", "NAME", "PHOTO")
+        )
+        dao.insert(entities)
+
+        val datas = dao.getAll()
+        assertNotEquals(0, datas.size)
+    }
+
+    @Test
+    fun `when get values pagination`() = runBlocking {
+        val entities = arrayListOf(
+            ContactEntity("PHONE", "NAME", "PHOTO"),
+            ContactEntity("PHONE", "NAME", "PHOTO")
+        )
+        dao.insert(entities)
+
+        val datas = dao.getContactPagination(1, 0)
+        assertEquals(1, datas.size)
+    }
+
+    @Test
+    fun `when search values`() = runBlocking {
+        val entities = arrayListOf(
+            ContactEntity("PHONE", "NAME", "PHOTO"),
+            ContactEntity("PHONE1", "NAME1", "PHOTO")
+        )
+        dao.insert(entities)
+
+        val datas = dao.getContactPaginationAndSearch("NAME1")
+        assertEquals(1, datas.size)
     }
 
 }

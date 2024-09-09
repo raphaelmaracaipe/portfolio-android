@@ -19,13 +19,35 @@ class ContactRepositoryImpl(
         contactsEntityCopied.copyOf(contactsConsulted)
         contactDAO.insert(contactsEntityCopied)
 
-        contactsConsulted
+        contactsEntityCopied
     } catch (e: NetworkException) {
         e.printStackTrace()
         throw NetworkException(e.code)
     } catch (e: Exception) {
         e.printStackTrace()
         throw NetworkException(NetworkCodeEnum.ERROR_GENERAL.code)
+    }
+
+    override suspend fun contactSaved(
+        limitPerPage: Int, currentPage: Int
+    ): ArrayList<ContactEntity> = try {
+        ArrayList(contactDAO.getContactPagination(limitPerPage, currentPage))
+    } catch (e: Exception) {
+        e.printStackTrace()
+        arrayListOf()
+    }
+
+    override suspend fun searchItem(
+        text: String,
+        itemPerPage: Int,
+        pageCurrent: Int
+    ): ArrayList<ContactEntity> = try {
+        ArrayList(
+            contactDAO.getContactPaginationAndSearch(text)
+        )
+    } catch (e: Exception) {
+        e.printStackTrace()
+        arrayListOf()
     }
 
 }

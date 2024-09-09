@@ -52,6 +52,7 @@ class CountriesFragment @Inject constructor() : Fragment() {
         backPressed()
         applyValueInList()
         callLoadingWithCodeCountry()
+        showShimmer()
 
     }
 
@@ -80,7 +81,6 @@ class CountriesFragment @Inject constructor() : Fragment() {
     }
 
     private fun callLoadingWithCodeCountry() {
-        showShimmer()
         if (!Build.FINGERPRINT.contains("roboletric", ignoreCase = true)) {
             mViewModel.readInformationAboutCodeOfCountry()
         } else {
@@ -94,7 +94,7 @@ class CountriesFragment @Inject constructor() : Fragment() {
         mViewModel.codes.observe(viewLifecycleOwner) { codes ->
             hiddenShimmer()
             this.codes = codes
-            adapter.submitList(codes)
+            adapter.submitList(ArrayList(codes))
         }
     }
 

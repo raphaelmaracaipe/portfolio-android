@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.ContactRepository
-import br.com.raphaelmaracaipe.core.data.api.response.ContactResponse
+import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,18 +19,39 @@ import javax.inject.Inject
 class ContactViewModel @Inject constructor(
     private val context: Context,
     private val contactRepository: ContactRepository,
-): ViewModel() {
+) : ViewModel() {
 
-    private val _contacts: MutableLiveData<ArrayList<ContactResponse>> = MutableLiveData()
-    val contact: LiveData<ArrayList<ContactResponse>> = _contacts
+    private val _contactsOfSearch: MutableLiveData<ArrayList<ContactEntity>> = MutableLiveData()
+    val contactsOfSearch: LiveData<ArrayList<ContactEntity>> = _contactsOfSearch
+
+    private val _contacts: MutableLiveData<ArrayList<ContactEntity>> = MutableLiveData()
+    val contacts: LiveData<ArrayList<ContactEntity>> = _contacts
 
     fun sendContactsToConsult() = viewModelScope.launch {
         try {
-            val contactsConsulted = contactRepository.consult(getContacts())
-            _contacts.postValue(contactsConsulted)
+            contactRepository.consult(getContacts())
         } catch (e: NetworkException) {
             e.printStackTrace()
+        }
+    }
+
+    fun contactSaved(itemPerPage: Int, pageCurrent: Int) = viewModelScope.launch {
+        try {
+            _contacts.postValue(
+                contactRepository.contactSaved(itemPerPage, pageCurrent)
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
             _contacts.postValue(arrayListOf())
+        }
+    }
+
+    fun searchItem(text: String, itemPerPage: Int, pageCurrent: Int) = viewModelScope.launch {
+        try {
+            _contactsOfSearch.postValue(contactRepository.searchItem(text, itemPerPage, pageCurrent))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            _contactsOfSearch.postValue(arrayListOf())
         }
     }
 
@@ -81,4 +102,5 @@ class ContactViewModel @Inject constructor(
 
         return contactList
     }
+
 }

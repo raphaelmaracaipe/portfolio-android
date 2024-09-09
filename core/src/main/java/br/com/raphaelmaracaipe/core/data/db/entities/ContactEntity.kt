@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import java.util.UUID
 
 @Entity(tableName = "contacts")
 @Parcelize
@@ -21,4 +20,7 @@ data class ContactEntity(
     @ColumnInfo("photo")
     @SerializedName("photo")
     val photo: String? = null,
-): Parcelable
+    @ColumnInfo("status")
+    @SerializedName("status")
+    val status: String? = null
+) : Parcelable

@@ -5,6 +5,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.data.api.ContactApi
 import br.com.raphaelmaracaipe.core.data.api.response.ContactResponse
 import br.com.raphaelmaracaipe.core.data.db.daos.ContactDAO
+import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
+import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
+import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -37,6 +40,20 @@ class ContactRepositoryTest {
     }
 
     @Test
+    fun `when api return erro network should return`() = runBlocking {
+        coEvery { contactApi.consult(any()) } throws NetworkException(
+            NetworkCodeEnum.ERROR_GENERAL.code
+        )
+
+        try {
+            contactRepository.consult(arrayListOf("555", "666"))
+            assertTrue(false)
+        } catch (e: Exception) {
+            assertTrue(true)
+        }
+    }
+
+    @Test
     fun `when api return erro should return`() = runBlocking {
         coEvery { contactApi.consult(any()) } throws Exception("fail")
 
@@ -51,11 +68,13 @@ class ContactRepositoryTest {
     @Test
     fun `when api and return success`() = runBlocking {
         coEvery { contactDAO.insert(any()) } returns Unit
-        coEvery { contactApi.consult(any()) } returns arrayListOf(ContactResponse(
-            "test",
-            "=AA",
-            "555"
-        ))
+        coEvery { contactApi.consult(any()) } returns arrayListOf(
+            ContactResponse(
+                "test",
+                "=AA",
+                "555"
+            )
+        )
 
         try {
             val returnConsult = contactRepository.consult(arrayListOf("555", "666"))
@@ -65,5 +84,44 @@ class ContactRepositoryTest {
         }
     }
 
+    @Test
+    fun `when contact saved and return success`() = runBlocking {
+        coEvery { contactDAO.getContactPagination(any(), any()) } returns listOf(ContactEntity())
+
+        try {
+            val consult = contactRepository.contactSaved(1, 0)
+            assertEquals(1, consult.size)
+        } catch (_: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when contact saved but return error`() = runBlocking {
+        coEvery { contactDAO.getContactPagination(any(), any()) } throws Exception("test")
+
+        val returns = contactRepository.contactSaved(1, 0)
+        assertEquals(0, returns.size)
+    }
+
+    @Test
+    fun `when search item and return success`() = runBlocking {
+        coEvery { contactDAO.getContactPaginationAndSearch(any()) } returns listOf(ContactEntity())
+
+        try {
+            val dataOfConsults = contactRepository.searchItem("t", 1, 0)
+            assertEquals(1, dataOfConsults.size)
+        } catch (_: Exception) {
+            assertTrue(false)
+        }
+    }
+
+    @Test
+    fun `when search item and return error`() = runBlocking {
+        coEvery { contactDAO.getContactPaginationAndSearch(any()) } throws Exception("fail")
+
+        val returns = contactRepository.searchItem("t", 1, 0)
+        assertEquals(0, returns.size)
+    }
 
 }

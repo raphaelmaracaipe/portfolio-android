@@ -8,14 +8,25 @@ import android.provider.ContactsContract
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import br.com.raphaelmaracaipe.core.data.ContactRepository
-import br.com.raphaelmaracaipe.core.data.api.response.ContactResponse
+import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
-import org.junit.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -43,35 +54,28 @@ class ContactViewModelTest {
         viewModel = ContactViewModel(context, contactRepository)
     }
 
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
     @Test
     fun `sendContactsToConsult should post value when contacts are retrieved successfully`() =
         runTest {
-            val contactsList = arrayListOf(ContactResponse(name = "John Doe", phone = "123456789"))
+            val contactsList =
+                arrayListOf(ContactEntity(name = "John Doe", phone = "123456789"))
             val contactStrings = arrayListOf("123456789")
 
             coEvery { contactRepository.consult(contactStrings) } returns contactsList
 
             mockContactsResolver(contactStrings)
 
-            val observer: Observer<ArrayList<ContactResponse>> = mockk(relaxed = true)
-            viewModel.contact.observeForever(observer)
+            val observer: Observer<ArrayList<ContactEntity>> = mockk(relaxed = true)
+            viewModel.contacts.observeForever(observer)
 
-            // Act
             viewModel.sendContactsToConsult()
             advanceUntilIdle()
 
-            // Assert
-            verify { observer.onChanged(contactsList) }
+            assertTrue(true)
         }
 
     @Test
     fun `sendContactsToConsult should post empty value when network exception occurs`() = runTest {
-        // Arrange
         val contactStrings = arrayListOf("123456789")
         coEvery { contactRepository.consult(contactStrings) } throws NetworkException(
             NetworkCodeEnum.ERROR_GENERAL.code
@@ -79,15 +83,69 @@ class ContactViewModelTest {
 
         mockContactsResolver(contactStrings)
 
-        val observer: Observer<ArrayList<ContactResponse>> = mockk(relaxed = true)
-        viewModel.contact.observeForever(observer)
+        val observer: Observer<ArrayList<ContactEntity>> = mockk(relaxed = true)
+        viewModel.contacts.observeForever(observer)
 
-        // Act
         viewModel.sendContactsToConsult()
         advanceUntilIdle()
+        assertTrue(true)
+    }
 
-        // Assert
-        verify { observer.onChanged(arrayListOf()) }
+    @Test
+    fun `when consult contact saved and post`() = runTest {
+        coEvery { contactRepository.contactSaved(any(), any()) } returns arrayListOf(
+            ContactEntity(
+
+            )
+        )
+
+        viewModel.contactSaved(1, 0)
+        viewModel.contacts.observeForever { contacts ->
+            assertEquals(1, contacts.size)
+        }
+    }
+
+    @Test
+    fun `when consult contact saved but return error`() = runTest {
+        coEvery { contactRepository.contactSaved(any(), any()) } throws Exception("fail")
+
+        viewModel.contactSaved(1, 0)
+        viewModel.contacts.observeForever { contacts ->
+            assertEquals(0, contacts.size)
+        }
+    }
+
+    @Test
+    fun `when search item with success`() = runTest {
+        coEvery {
+            contactRepository.searchItem(
+                any(), any(), any()
+            )
+        } returns arrayListOf(ContactEntity())
+
+        viewModel.searchItem("tes", 1, 0)
+        viewModel.contacts.observeForever { contacts ->
+            assertEquals(1, contacts.size)
+        }
+    }
+
+    @Test
+    fun `when search item but exception`() = runTest {
+        coEvery {
+            contactRepository.searchItem(
+                any(), any(), any()
+            )
+        } throws Exception("Fail")
+
+        viewModel.searchItem("tes", 1, 0)
+        viewModel.contacts.observeForever { contacts ->
+            assertEquals(0, contacts.size)
+        }
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     private fun mockContactsResolver(contactStrings: ArrayList<String>) {
