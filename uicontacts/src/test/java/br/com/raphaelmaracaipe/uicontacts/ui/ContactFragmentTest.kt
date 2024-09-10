@@ -5,7 +5,6 @@ import android.os.Build
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule

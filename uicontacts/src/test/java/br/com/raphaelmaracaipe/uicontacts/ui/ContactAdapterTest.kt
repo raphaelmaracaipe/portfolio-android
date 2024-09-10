@@ -2,20 +2,19 @@ package br.com.raphaelmaracaipe.uicontacts.ui
 
 import android.content.Context
 import android.os.Build
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
-import br.com.raphaelmaracaipe.uicontacts.databinding.ItemContactBinding
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config

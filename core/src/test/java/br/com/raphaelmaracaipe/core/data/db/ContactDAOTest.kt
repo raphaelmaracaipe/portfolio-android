@@ -5,8 +5,8 @@ import androidx.room.Room
 import br.com.raphaelmaracaipe.core.data.db.daos.ContactDAO
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

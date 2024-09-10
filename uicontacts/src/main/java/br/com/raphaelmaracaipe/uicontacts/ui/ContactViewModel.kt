@@ -48,7 +48,13 @@ class ContactViewModel @Inject constructor(
 
     fun searchItem(text: String, itemPerPage: Int, pageCurrent: Int) = viewModelScope.launch {
         try {
-            _contactsOfSearch.postValue(contactRepository.searchItem(text, itemPerPage, pageCurrent))
+            _contactsOfSearch.postValue(
+                contactRepository.searchItem(
+                    text,
+                    itemPerPage,
+                    pageCurrent
+                )
+            )
         } catch (e: Exception) {
             e.printStackTrace()
             _contactsOfSearch.postValue(arrayListOf())

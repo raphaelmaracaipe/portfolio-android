@@ -20,7 +20,6 @@ import br.com.raphaelmaracaipe.core.alerts.BottomSheetMessages
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.uicontacts.R
 import br.com.raphaelmaracaipe.uicontacts.databinding.FragmentContactBinding
-import br.com.raphaelmaracaipe.uicontacts.databinding.ItemContactBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.system.exitProcess
@@ -106,7 +105,7 @@ class ContactFragment @Inject constructor() : Fragment() {
     private fun initObservable() {
         mViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
             inLoading = false
-            pageCurrent+= 1
+            pageCurrent += 1
 
             this.contacts.addAll(contacts)
             adapter.chargeContacts(this.contacts)
