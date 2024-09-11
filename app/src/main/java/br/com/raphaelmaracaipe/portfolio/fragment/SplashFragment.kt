@@ -44,7 +44,6 @@ class SplashFragment @Inject constructor() : Fragment() {
         animationOfIcon()
         observableHandShake()
 
-        splashViewModel.cleanSeedSaved()
         splashViewModel.insertCountries()
     }
 
