@@ -16,6 +16,8 @@ class ContactAdapter : ListAdapter<ContactEntity, ContactAdapter.ViewHolder>(
     ContactDiffCallback()
 ) {
 
+    private var onClickItem: ((ContactEntity) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemContactBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -25,7 +27,10 @@ class ContactAdapter : ListAdapter<ContactEntity, ContactAdapter.ViewHolder>(
 
         return ViewHolder(
             parent.context,
-            binding
+            binding = binding,
+            onClickItem = { contactEntity ->
+                onClickItem?.invoke(contactEntity)
+            }
         )
     }
 
@@ -37,15 +42,26 @@ class ContactAdapter : ListAdapter<ContactEntity, ContactAdapter.ViewHolder>(
         submitList(ArrayList(contacts))
     }
 
+    fun setOnClickItem(onClickItem: (ContactEntity) -> Unit) {
+        this.onClickItem = onClickItem
+    }
+
     inner class ViewHolder(
         private val context: Context,
+        private val onClickItem: (item: ContactEntity) -> Unit,
         val binding: ItemContactBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindView(item: ContactEntity?) {
-            with(binding) {
-                contactEntity = item
-                applyImage(context, item)
+            item?.let { ce ->
+                with(binding) {
+                    contactEntity = ce
+                    applyImage(context, ce)
+
+                    cltContact.setOnClickListener {
+                        onClickItem.invoke(ce)
+                    }
+                }
             }
         }
     }

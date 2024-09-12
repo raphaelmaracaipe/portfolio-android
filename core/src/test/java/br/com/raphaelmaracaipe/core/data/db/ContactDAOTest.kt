@@ -79,4 +79,16 @@ class ContactDAOTest {
         assertEquals(1, datas.size)
     }
 
+    @Test
+    fun `when check if exist phone saved`() = runBlocking {
+        val entities = arrayListOf(
+            ContactEntity("PHONE", "NAME", "PHOTO"),
+            ContactEntity("PHONE1", "NAME1", "PHOTO")
+        )
+        dao.insert(entities)
+
+        val countPhone = dao.countContacts("pho")
+        assertEquals(0, countPhone)
+    }
+
 }

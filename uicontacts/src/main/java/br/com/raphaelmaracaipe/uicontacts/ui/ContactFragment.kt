@@ -12,12 +12,16 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import br.com.raphaelmaracaipe.core.alerts.BottomSheetMessages
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
+import br.com.raphaelmaracaipe.core.navigation.NavigationURI.MESSAGE
 import br.com.raphaelmaracaipe.uicontacts.R
 import br.com.raphaelmaracaipe.uicontacts.databinding.FragmentContactBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +35,6 @@ class ContactFragment @Inject constructor() : Fragment() {
     private val itemPerPage = 20
     private var pageCurrent = 0
     private var inLoading = false
-    private val contacts: ArrayList<ContactEntity> = arrayListOf()
     private val mViewModel: ContactViewModel by viewModels()
     private lateinit var binding: FragmentContactBinding
     private lateinit var adapter: ContactAdapter
@@ -39,7 +42,7 @@ class ContactFragment @Inject constructor() : Fragment() {
 
     private val requestPermission = registerForActivityResult(RequestPermission()) { isGranted ->
         if (isGranted) {
-            mViewModel.sendContactsToConsult()
+            mViewModel.sendContactsToConsult(itemPerPage, pageCurrent)
         } else {
             showMessagePermissionNotGranted()
         }
@@ -63,13 +66,13 @@ class ContactFragment @Inject constructor() : Fragment() {
         settingsAdapter()
         addBackPressed()
         initObservable()
+        loadingData()
 
     }
 
     override fun onStart() {
         super.onStart()
         requestPermission()
-        loadingData()
     }
 
     private fun settingsAdapter() {
@@ -96,6 +99,22 @@ class ContactFragment @Inject constructor() : Fragment() {
                 mViewModel.searchItem(it.toString(), itemPerPage, pageCurrent)
             }
         }
+
+        adapter.setOnClickItem {
+            goToMessage(it)
+        }
+
+        adapterToSearch.setOnClickItem {
+            goToMessage(it)
+        }
+    }
+
+    private fun goToMessage(contactEntity: ContactEntity) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri("$MESSAGE?contact=${contactEntity.toJSON()}".toUri())
+            .build()
+
+        findNavController().navigate(request)
     }
 
     private fun loadingData() {
@@ -105,10 +124,10 @@ class ContactFragment @Inject constructor() : Fragment() {
     private fun initObservable() {
         mViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
             inLoading = false
-            pageCurrent += 1
-
-            this.contacts.addAll(contacts)
-            adapter.chargeContacts(this.contacts)
+            if(contacts.size > 0) {
+                pageCurrent += 1
+                adapter.chargeContacts(contacts)
+            }
         }
 
         mViewModel.contactsOfSearch.observe(viewLifecycleOwner) { contacts ->
@@ -121,7 +140,7 @@ class ContactFragment @Inject constructor() : Fragment() {
             checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_CONTACTS
-            ) -> mViewModel.sendContactsToConsult()
+            ) -> mViewModel.sendContactsToConsult(itemPerPage, pageCurrent)
 
             else -> requestPermission.launch(Manifest.permission.READ_CONTACTS)
         }

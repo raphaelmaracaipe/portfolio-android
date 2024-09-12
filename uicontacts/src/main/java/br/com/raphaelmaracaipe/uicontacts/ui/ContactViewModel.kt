@@ -12,7 +12,9 @@ import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,9 +29,10 @@ class ContactViewModel @Inject constructor(
     private val _contacts: MutableLiveData<ArrayList<ContactEntity>> = MutableLiveData()
     val contacts: LiveData<ArrayList<ContactEntity>> = _contacts
 
-    fun sendContactsToConsult() = viewModelScope.launch {
+    fun sendContactsToConsult(itemPerPage: Int, pageCurrent: Int) = viewModelScope.launch {
         try {
             contactRepository.consult(getContacts())
+            contactSaved(itemPerPage, pageCurrent)
         } catch (e: NetworkException) {
             e.printStackTrace()
         }
@@ -62,7 +65,7 @@ class ContactViewModel @Inject constructor(
     }
 
     @SuppressLint("Range")
-    private fun getContacts(): ArrayList<String> {
+    private suspend fun getContacts(): ArrayList<String> = withContext(Dispatchers.IO) {
         val contactList = arrayListOf<String>()
         context.contentResolver?.let { contentResolver ->
             val cursor = contentResolver.query(
@@ -75,7 +78,11 @@ class ContactViewModel @Inject constructor(
 
             cursor?.use {
                 while (it.moveToNext()) {
-                    val hasPhoneNumber = it.getInt(it.getColumnIndex(Contacts.HAS_PHONE_NUMBER)) > 0
+                    val hasPhoneNumber = it.getInt(
+                        it.getColumnIndex(
+                            Contacts.HAS_PHONE_NUMBER
+                        )
+                    ) > 0
                     if (hasPhoneNumber) {
                         val id = it.getString(it.getColumnIndex(Contacts._ID))
 
@@ -97,7 +104,9 @@ class ContactViewModel @Inject constructor(
 
                                 phoneNumber?.let { phone ->
                                     val phoneCleaned = phone.replace("[^\\d]".toRegex(), "")
-                                    contactList.add(phoneCleaned)
+                                    if (!contactRepository.isExistSaved(phoneCleaned)) {
+                                        contactList.add(phoneCleaned)
+                                    }
                                 }
                             }
                         }
@@ -106,7 +115,7 @@ class ContactViewModel @Inject constructor(
             }
         }
 
-        return contactList
+        contactList
     }
 
 }

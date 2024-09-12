@@ -26,4 +26,8 @@ interface ContactDAO {
         textToSearch: String,
     ): List<ContactEntity>
 
+
+    @Query("SELECT COUNT(*) FROM contacts WHERE phone = :phone")
+    suspend fun countContacts(phone: String): Int
+
 }

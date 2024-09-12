@@ -40,6 +40,14 @@ class ContactRepositoryTest {
     }
 
     @Test
+    fun `when check if exist contact saved in db`() = runBlocking {
+        coEvery { contactDAO.countContacts(any()) } returns 1
+
+        val isExist = contactRepository.isExistSaved("test")
+        assertTrue(isExist)
+    }
+
+    @Test
     fun `when api return erro network should return`() = runBlocking {
         coEvery { contactApi.consult(any()) } throws NetworkException(
             NetworkCodeEnum.ERROR_GENERAL.code

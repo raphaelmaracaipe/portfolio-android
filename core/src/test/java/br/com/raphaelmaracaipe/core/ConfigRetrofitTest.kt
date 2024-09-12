@@ -33,6 +33,8 @@ fun <T : Any> configRetrofitTest(
         Strings.generateStringRandom(8),
         Strings.generateStringRandom(8),
         Strings.generateStringRandom(8),
+        Strings.generateStringRandom(8),
+        Strings.generateStringRandom(8),
         Strings.generateStringRandom(8)
     )
     val apiKeys = ApiKeysDefault(

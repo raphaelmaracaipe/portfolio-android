@@ -68,7 +68,7 @@ class ContactViewModelTest {
             val observer: Observer<ArrayList<ContactEntity>> = mockk(relaxed = true)
             viewModel.contacts.observeForever(observer)
 
-            viewModel.sendContactsToConsult()
+            viewModel.sendContactsToConsult(0, 1)
             advanceUntilIdle()
 
             assertTrue(true)
@@ -86,7 +86,7 @@ class ContactViewModelTest {
         val observer: Observer<ArrayList<ContactEntity>> = mockk(relaxed = true)
         viewModel.contacts.observeForever(observer)
 
-        viewModel.sendContactsToConsult()
+        viewModel.sendContactsToConsult(1, 0)
         advanceUntilIdle()
         assertTrue(true)
     }

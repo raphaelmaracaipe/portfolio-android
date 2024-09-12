@@ -1,5 +1,6 @@
 package br.com.raphaelmaracaipe.core.data
 
+import android.util.Log
 import br.com.raphaelmaracaipe.core.data.api.ContactApi
 import br.com.raphaelmaracaipe.core.data.db.daos.ContactDAO
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
@@ -36,6 +37,10 @@ class ContactRepositoryImpl(
         e.printStackTrace()
         arrayListOf()
     }
+
+    override suspend fun isExistSaved(
+        phone: String
+    ): Boolean = contactDAO.countContacts(phone) > 0
 
     override suspend fun searchItem(
         text: String,
