@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.raphaelmaracaipe.core.alerts.BottomSheetMessages
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.core.navigation.NavigationURI.MESSAGE
@@ -35,6 +37,7 @@ class ContactFragment @Inject constructor() : Fragment() {
     private val itemPerPage = 20
     private var pageCurrent = 0
     private var inLoading = false
+    private var contacts: ArrayList<ContactEntity> = arrayListOf()
     private val mViewModel: ContactViewModel by viewModels()
     private lateinit var binding: FragmentContactBinding
     private lateinit var adapter: ContactAdapter
@@ -72,7 +75,9 @@ class ContactFragment @Inject constructor() : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         requestPermission()
+        adapter.chargeContacts(contacts)
     }
 
     private fun settingsAdapter() {
@@ -90,13 +95,16 @@ class ContactFragment @Inject constructor() : Fragment() {
 
                     if (diff == 0 && !inLoading) {
                         inLoading = true
+                        pageCurrent += 1
                         loadingData()
                     }
                 }
             })
 
-            searchView.editText.addTextChangedListener {
-                mViewModel.searchItem(it.toString(), itemPerPage, pageCurrent)
+            searchView.editText.addTextChangedListener { textToSearch ->
+                if(textToSearch.toString().isNotEmpty()) {
+                    mViewModel.searchItem(textToSearch.toString(), itemPerPage, pageCurrent)
+                }
             }
         }
 
@@ -124,10 +132,8 @@ class ContactFragment @Inject constructor() : Fragment() {
     private fun initObservable() {
         mViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
             inLoading = false
-            if(contacts.size > 0) {
-                pageCurrent += 1
-                adapter.chargeContacts(contacts)
-            }
+            this.contacts = contacts
+            adapter.chargeContacts(contacts)
         }
 
         mViewModel.contactsOfSearch.observe(viewLifecycleOwner) { contacts ->
