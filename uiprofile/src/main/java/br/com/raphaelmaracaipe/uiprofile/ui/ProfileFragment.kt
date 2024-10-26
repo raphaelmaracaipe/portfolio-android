@@ -157,7 +157,7 @@ class ProfileFragment @Inject constructor() : Fragment() {
         }
 
         mViewModel.profileSavedServer.observe(viewLifecycleOwner) {
-            binding.name = it.name
+            binding.profile = it
             transformBase64ToBitmap(it.photo)
         }
     }

@@ -8,5 +8,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ProfileGetResponse(
     val name: String = "",
-    val photo: String = ""
+    val photo: String = "",
+    val reminder: String = "",
 ) : Parcelable

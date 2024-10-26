@@ -14,8 +14,8 @@
             type="ProfileViewModel" />
 
         <variable
-            name="name"
-            type="String" />
+            name="profile"
+            type="br.com.raphaelmaracaipe.core.data.api.response.ProfileGetResponse" />
 
     </data>
 
@@ -113,8 +113,34 @@
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChange(text)}"
-                    android:text="@{name}" />
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChangeName(text)}"
+                    android:text="@{profile.name}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="@string/input_status"
+                app:backgroundColorDark="@{@color/white}"
+                app:backgroundColorLight="@{@color/colorPrimary}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilNameProfile">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:onTextChanged="@{(text, start, before, count) -> viewModel.onTextChangeReminder(text)}"
+                    android:text="@{profile.reminder}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
