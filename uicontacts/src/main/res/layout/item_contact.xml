@@ -68,7 +68,7 @@
             android:layout_marginTop="2dp"
             android:background="@{isShowShimmer ? @color/shimmerColor: @android:color/transparent}"
             android:fontFamily="@font/open_sans"
-            android:text="@{contactEntity.status}"
+            android:text="@{contactEntity.reminder}"
             app:layout_constraintEnd_toEndOf="@+id/viewSeparator"
             app:layout_constraintStart_toStartOf="@+id/viewSeparator"
             app:layout_constraintTop_toBottomOf="@+id/viewSeparator"

@@ -21,9 +21,9 @@ data class ContactEntity(
     @ColumnInfo("photo")
     @SerializedName("photo")
     val photo: String? = null,
-    @ColumnInfo("status")
-    @SerializedName("status")
-    val status: String? = null,
+    @ColumnInfo("reminder")
+    @SerializedName("reminder")
+    val reminder: String? = null,
     @ColumnInfo("key")
     @SerializedName("key")
     val key: String? = null
