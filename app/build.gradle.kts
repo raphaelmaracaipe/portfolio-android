@@ -77,6 +77,7 @@ android {
 
 dependencies {
     implementation(project(path = ":uiauth"))
+    implementation(project(path = ":uimessage"))
     implementation(project(path = ":uiprofile"))
     implementation(project(path = ":uicontacts"))
     implementation(project(path = ":core"))

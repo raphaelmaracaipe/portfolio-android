@@ -4,6 +4,8 @@ import br.com.raphaelmaracaipe.core.data.DeviceRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptor
+import br.com.raphaelmaracaipe.core.data.api.ContactApi
+import br.com.raphaelmaracaipe.core.data.api.ContactApiImpl
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApiImpl
 import br.com.raphaelmaracaipe.core.data.api.TokenApi
@@ -12,6 +14,7 @@ import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApiImpl
 import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.api.UserApiImpl
+import br.com.raphaelmaracaipe.core.data.api.services.ContactService
 import br.com.raphaelmaracaipe.core.data.api.services.HandShakeService
 import br.com.raphaelmaracaipe.core.data.api.services.TokenInterceptorService
 import br.com.raphaelmaracaipe.core.data.api.services.TokenService
@@ -66,6 +69,24 @@ class ApiModule {
     )
 
     @Provides
+    fun getProviderContactService(
+        cryptoHelper: CryptoHelper,
+        deviceRepository: DeviceRepository,
+        keyRepository: KeyRepository,
+        seedRepository: SeedRepository,
+        tokenRepositoryWithoutApi: TokenRepositoryInterceptor
+    ): ContactService = configRetrofit(
+        ContactService::class.java,
+        cryptoHelper,
+        KeysDefault(),
+        ApiKeysDefault(),
+        deviceRepository,
+        keyRepository,
+        seedRepository,
+        tokenRepositoryWithoutApi
+    )
+
+    @Provides
     fun getProviderTokenInterceptorService(): TokenInterceptorService = configRetrofit(
         TokenInterceptorService::class.java
     )
@@ -89,6 +110,13 @@ class ApiModule {
         tokenService: TokenService
     ): TokenApi = TokenApiImpl(
         tokenService
+    )
+
+    @Provides
+    fun getProviderContactApi(
+        contactService: ContactService
+    ): ContactApi = ContactApiImpl(
+        contactService
     )
 
     @Provides

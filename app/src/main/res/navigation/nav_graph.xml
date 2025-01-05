@@ -18,8 +18,12 @@
         <action
             android:id="@+id/action_splashFragment_to_nav_uicontacts"
             app:destination="@id/nav_uicontacts" />
+        <action
+            android:id="@+id/action_splashFragment_to_nav_uimessage"
+            app:destination="@id/nav_uimessage.xml" />
     </fragment>
     <include app:graph="@navigation/nav_uiauth" />
     <include app:graph="@navigation/nav_uiprofile" />
     <include app:graph="@navigation/nav_uicontacts" />
+    <include app:graph="@navigation/nav_uimessage" />
 </navigation>

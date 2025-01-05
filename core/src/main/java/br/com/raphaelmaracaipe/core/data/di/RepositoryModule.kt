@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import br.com.raphaelmaracaipe.core.BuildConfig
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.ContactRepository
+import br.com.raphaelmaracaipe.core.data.ContactRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.CountryRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.DeviceRepository
@@ -20,6 +22,7 @@ import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptor
 import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptorImpl
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.UserRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.api.ContactApi
 import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
 import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.UserApi
@@ -91,19 +94,30 @@ class RepositoryModule {
     )
 
     @Provides
+    fun providerDB(
+        @ApplicationContext context: Context
+    ): AppDataBase = Room.databaseBuilder(
+        context,
+        AppDataBase::class.java,
+        BuildConfig.DATABASE_NAME
+    ).build()
+
+    @Provides
+    fun providerContact(
+        contactApi: ContactApi,
+        db: AppDataBase
+    ): ContactRepository = ContactRepositoryImpl(
+        contactApi,
+        db.contactsDAO()
+    )
+
+    @Provides
     fun providerCountryRepository(
-        @ApplicationContext context: Context,
         assert: Assets,
-    ): CountryRepository {
-        val db = Room.databaseBuilder(
-            context,
-            AppDataBase::class.java,
-            BuildConfig.DATABASE_NAME
-        ).build()
-        return CountryRepositoryImpl(
-            assert,
-            db.codeCountryDao()
-        )
-    }
+        db: AppDataBase
+    ): CountryRepository = CountryRepositoryImpl(
+        assert,
+        db.codeCountryDAO()
+    )
 
 }

@@ -66,6 +66,10 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["navigation"]}")
     implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["navigation"]}")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["dagger_hil"]}")
+    implementation("com.facebook.shimmer:shimmer:${rootProject.extra["shimmer"]}")
+    implementation("com.github.bumptech.glide:glide:${rootProject.extra["glide"]}")
+
+    kapt("com.github.bumptech.glide:compiler:${rootProject.extra["glide"]}")
 
     debugImplementation("androidx.fragment:fragment-testing:${rootProject.extra["test_fragment"]}")
 
