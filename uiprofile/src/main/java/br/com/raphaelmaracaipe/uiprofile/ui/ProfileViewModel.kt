@@ -38,8 +38,12 @@ class ProfileViewModel @Inject constructor(
     private val _profileSavedServer = MutableLiveData<ProfileGetResponse>()
     val profileSavedServer: LiveData<ProfileGetResponse> = _profileSavedServer
 
-    fun onTextChange(text: CharSequence) {
+    fun onTextChangeName(text: CharSequence) {
         profile.name = text.toString()
+    }
+
+    fun onTextChangeReminder(text: CharSequence) {
+        profile.reminder = text.toString()
     }
 
     fun addImage(bitmap: Bitmap) {

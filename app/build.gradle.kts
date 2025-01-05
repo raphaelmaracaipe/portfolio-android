@@ -15,7 +15,7 @@ android {
         minSdk = rootProject.extra["minSdkVersion"] as Int
         targetSdk = rootProject.extra["targetSdkVersion"] as Int
         versionCode = 1
-        versionName = "1.2.2"
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "br.com.raphaelmaracaipe.core.testUnit.CustomTestRunner"
     }
@@ -77,6 +77,7 @@ android {
 
 dependencies {
     implementation(project(path = ":uiauth"))
+    implementation(project(path = ":uimessage"))
     implementation(project(path = ":uiprofile"))
     implementation(project(path = ":uicontacts"))
     implementation(project(path = ":core"))

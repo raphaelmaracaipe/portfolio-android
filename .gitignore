@@ -17,3 +17,5 @@ local.properties
 keys.properties
 app/release
 *.log
+*.kt~
+*.properties~

@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.0.0" apply false
-    id("com.android.library") version "8.0.0" apply false
+    id("com.android.application") version "8.6.0" apply false
+    id("com.android.library") version "8.6.0" apply false
     id("org.jetbrains.kotlin.android") version "1.8.0" apply false
     id("androidx.navigation.safeargs.kotlin") version "2.5.3" apply false
     id("com.google.dagger.hilt.android") version "2.44" apply false
@@ -29,6 +29,7 @@ ext {
     set("dagger_hil", "2.44")
     set("shimmer", "0.5.0")
     set("room", "2.6.1")
+    set("glide", "4.16.0")
 
     // Tests
     set("test_junit", "4.13.2")

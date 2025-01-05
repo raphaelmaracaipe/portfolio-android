@@ -30,7 +30,7 @@ class CodeCountryDAOTest {
             AppDataBase::class.java
         ).build()
 
-        dao = db.codeCountryDao()
+        dao = db.codeCountryDAO()
     }
 
     @Test
