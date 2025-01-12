@@ -2,4 +2,5 @@
 <resources>
     <string name="error_permission_contact">Para iniciar uma troca de mensagens, precisamos da liberação da permissão de leitura de contatos.</string>
     <string name="contact_empty_message">Olá, vamos iniciar uma conversa?</string>
+    <string name="search_title_contact">Buscar contato…</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="input_name">Informe o nome do seu perfil.</string>
-    <string name="input_status">Informe o seu status.</string>
+    <string name="input_status">Informe o recardo para seus contatos.</string>
     <string name="button_continue">Continuar</string>
     <string name="title">Perfil</string>
     <string name="close">Fechar</string>

@@ -104,7 +104,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mtbToolbar">
+                app:layout_constraintTop_toBottomOf="@+id/mtbToolbar"
+                app:startIconDrawable="@drawable/ic_profile">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietNameProfile"
@@ -130,7 +131,8 @@
                 app:backgroundColorLight="@{@color/colorPrimary}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilNameProfile">
+                app:layout_constraintTop_toBottomOf="@+id/tilNameProfile"
+                app:startIconDrawable="@drawable/ic_recardo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietStatus"
