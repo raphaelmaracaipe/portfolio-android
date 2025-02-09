@@ -1,6 +1,8 @@
 package br.com.raphaelmaracaipe.core.data.sp.di
 
 import android.content.Context
+import br.com.raphaelmaracaipe.core.data.sp.AuthSP
+import br.com.raphaelmaracaipe.core.data.sp.AuthSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSPImpl
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
@@ -70,5 +72,16 @@ class SpModule {
 
     @Provides
     fun getSeedSP(@ApplicationContext context: Context): SeedSP = SeedSPImpl(context)
+
+    @Provides
+    fun getAuthSP(
+        @ApplicationContext context: Context,
+        cryptoHelper: CryptoHelper
+    ): AuthSP = AuthSPImpl(
+        context,
+        KeysDefault(),
+        SpKeyDefault(),
+        cryptoHelper
+    )
 
 }

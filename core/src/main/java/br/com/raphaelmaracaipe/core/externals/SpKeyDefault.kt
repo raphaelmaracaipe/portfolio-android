@@ -9,5 +9,7 @@ data class SpKeyDefault(
     val keySp: String = (SpKeysExternal.getKeySp() ?: ""),
     val keySpEdit: String = (SpKeysExternal.getKeySpEdit() ?: ""),
     val profileSp: String = (SpKeysExternal.getProfileSpKey() ?: ""),
-    val profileSpEdit: String = (SpKeysExternal.getProfileEditSpKey() ?: "")
+    val profileSpEdit: String = (SpKeysExternal.getProfileEditSpKey() ?: ""),
+    val authSpKey: String = (SpKeysExternal.getAuthSpKey() ?: ""),
+    val authPhoneKey: String = (SpKeysExternal.getAuthPhoneKey() ?: "")
 )

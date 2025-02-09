@@ -18,4 +18,8 @@ object SpKeysExternal {
 
     external fun getProfileEditSpKey(): String?
 
+    external fun getAuthSpKey(): String?
+
+    external fun getAuthPhoneKey(): String?
+
 }
