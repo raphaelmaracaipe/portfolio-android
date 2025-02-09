@@ -11,7 +11,7 @@ import br.com.raphaelmaracaipe.core.data.api.request.UserSendCodeRequest
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum.USER_SEND_CODE_INVALID
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

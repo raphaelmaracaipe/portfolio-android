@@ -8,9 +8,9 @@ import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
 import br.com.raphaelmaracaipe.core.utils.Strings
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.uiauth.data.AuthRepository
-import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSP
-import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSPImpl
+import br.com.raphaelmaracaipe.core.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.sp.AuthSP
+import br.com.raphaelmaracaipe.core.data.sp.AuthSPImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
