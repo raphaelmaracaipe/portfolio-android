@@ -30,6 +30,7 @@ ext {
     set("shimmer", "0.5.0")
     set("room", "2.6.1")
     set("glide", "4.16.0")
+    set("socket", "2.1.1")
 
     // Tests
     set("test_junit", "4.13.2")

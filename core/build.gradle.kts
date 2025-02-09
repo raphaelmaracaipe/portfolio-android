@@ -96,6 +96,7 @@ dependencies {
     implementation("com.squareup.okhttp3:mockwebserver:${rootProject.extra["okhttp"]}")
     implementation("androidx.room:room-runtime:${rootProject.extra["room"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room"]}")
+    implementation("io.socket:socket.io-client:${rootProject.extra["socket"]}")
 
     annotationProcessor("androidx.room:room-compiler:${rootProject.extra["room"]}")
 
