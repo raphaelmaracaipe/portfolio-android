@@ -20,7 +20,7 @@
             app:destination="@id/nav_uicontacts" />
         <action
             android:id="@+id/action_splashFragment_to_nav_uimessage"
-            app:destination="@id/nav_uimessage.xml" />
+            app:destination="@id/nav_uimessage" />
     </fragment>
     <include app:graph="@navigation/nav_uiauth" />
     <include app:graph="@navigation/nav_uiprofile" />
