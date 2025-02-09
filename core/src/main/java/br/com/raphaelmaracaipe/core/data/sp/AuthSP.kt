@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.uiauth.data.sp
+package br.com.raphaelmaracaipe.core.data.sp
 
 interface AuthSP {
 
