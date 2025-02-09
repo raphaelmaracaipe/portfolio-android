@@ -16,6 +16,8 @@ import br.com.raphaelmaracaipe.core.data.KeyRepository
 import br.com.raphaelmaracaipe.core.data.KeyRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.SeedRepository
 import br.com.raphaelmaracaipe.core.data.SeedRepositoryImpl
+import br.com.raphaelmaracaipe.core.data.StatusRepository
+import br.com.raphaelmaracaipe.core.data.StatusRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.TokenRepository
 import br.com.raphaelmaracaipe.core.data.TokenRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.TokenRepositoryInterceptor
@@ -33,6 +35,7 @@ import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
 import br.com.raphaelmaracaipe.core.data.sp.SeedSP
 import br.com.raphaelmaracaipe.core.data.sp.TokenSP
 import br.com.raphaelmaracaipe.core.externals.KeysDefault
+import br.com.raphaelmaracaipe.core.socket.Socket
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -118,6 +121,11 @@ class RepositoryModule {
     ): CountryRepository = CountryRepositoryImpl(
         assert,
         db.codeCountryDAO()
+    )
+
+    @Provides
+    fun providerStatusRepository(): StatusRepository = StatusRepositoryImpl(
+        socket = Socket.getInstance()
     )
 
 }

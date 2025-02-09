@@ -1,6 +1,6 @@
-package br.com.raphaelmaracaipe.uiauth.data
+package br.com.raphaelmaracaipe.core.data
 
-import br.com.raphaelmaracaipe.uiauth.data.sp.AuthSP
+import br.com.raphaelmaracaipe.core.data.sp.AuthSP
 
 class AuthRepositoryImpl(
     private val authSP: AuthSP

@@ -1,4 +1,4 @@
-package br.com.raphaelmaracaipe.uiauth.data
+package br.com.raphaelmaracaipe.core.data
 
 interface AuthRepository {
     fun setPhone(phone: String)
