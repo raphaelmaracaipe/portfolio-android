@@ -9,7 +9,7 @@ plugins {
 
 ext {
     // Versions android
-    set("compileSdkVersion", 34)
+    set("compileSdkVersion", 35)
     set("minSdkVersion", 21)
     set("targetSdkVersion", 33)
 

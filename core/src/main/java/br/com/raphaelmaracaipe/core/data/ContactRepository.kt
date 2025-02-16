@@ -9,4 +9,5 @@ interface ContactRepository {
     suspend fun searchItem(
         text: String, itemPerPage: Int, pageCurrent: Int
     ): ArrayList<ContactEntity>
+    suspend fun lastSeen(phone: String)
 }

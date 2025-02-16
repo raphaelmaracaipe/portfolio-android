@@ -66,6 +66,8 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["navigation"]}")
     implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["navigation"]}")
     implementation("com.google.dagger:hilt-android:${rootProject.extra["dagger_hil"]}")
+    implementation("androidx.work:work-runtime:2.10.0")
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
 
     testImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
     testImplementation("junit:junit:${rootProject.extra["test_junit"]}")

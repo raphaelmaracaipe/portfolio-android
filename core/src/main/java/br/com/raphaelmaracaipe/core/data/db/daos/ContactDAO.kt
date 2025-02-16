@@ -26,8 +26,10 @@ interface ContactDAO {
         textToSearch: String,
     ): List<ContactEntity>
 
-
     @Query("SELECT COUNT(*) FROM contacts WHERE phone = :phone")
     suspend fun countContacts(phone: String): Int
+
+    @Query("UPDATE contacts SET lastSeen = :lastSeen WHERE phone = :phone")
+    suspend fun lastSeen(phone: String, lastSeen: Long)
 
 }

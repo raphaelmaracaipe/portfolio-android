@@ -132,4 +132,16 @@ class ContactRepositoryTest {
         assertEquals(0, returns.size)
     }
 
+    @Test
+    fun `when get information about status online contact`() = runBlocking{
+        try {
+            coEvery { contactDAO.lastSeen(any(), any()) } returns Unit
+
+            contactRepository.lastSeen("999999999")
+            assertTrue(true)
+        } catch (e: Exception) {
+            assertTrue(false)
+        }
+    }
+
 }

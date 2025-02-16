@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import java.time.Instant
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.M])
@@ -35,7 +36,9 @@ class ContactDAOTest {
     @Test
     fun `when insert data and get`() = runBlocking {
         val entities = arrayListOf(
-            ContactEntity("PHONE", "NAME", "PHOTO")
+            ContactEntity(
+                "PHONE", "NAME", "PHOTO", lastSeen = Instant.now().toEpochMilli()
+            )
         )
         dao.insert(entities)
 

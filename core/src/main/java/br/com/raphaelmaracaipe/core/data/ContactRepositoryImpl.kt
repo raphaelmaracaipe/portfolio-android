@@ -1,12 +1,13 @@
 package br.com.raphaelmaracaipe.core.data
 
-import android.util.Log
 import br.com.raphaelmaracaipe.core.data.api.ContactApi
 import br.com.raphaelmaracaipe.core.data.db.daos.ContactDAO
 import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.core.extensions.copyOf
+import br.com.raphaelmaracaipe.core.extensions.getTimeStamp
 import br.com.raphaelmaracaipe.core.network.enums.NetworkCodeEnum
 import br.com.raphaelmaracaipe.core.network.exceptions.NetworkException
+import java.util.Date
 
 class ContactRepositoryImpl(
     private val contactApi: ContactApi,
@@ -53,6 +54,10 @@ class ContactRepositoryImpl(
     } catch (e: Exception) {
         e.printStackTrace()
         arrayListOf()
+    }
+
+    override suspend fun lastSeen(phone: String) {
+        contactDAO.lastSeen(phone, Date().getTimeStamp() )
     }
 
 }

@@ -26,7 +26,10 @@ data class ContactEntity(
     val reminder: String? = null,
     @ColumnInfo("key")
     @SerializedName("key")
-    val key: String? = null
+    val key: String? = null,
+    @ColumnInfo("lastSeen")
+    @SerializedName("lastSeen")
+    val lastSeen: Long? = null
 ) : Parcelable {
 
     fun toJSON(): String = Gson().toJson(this) ?: "{}"
