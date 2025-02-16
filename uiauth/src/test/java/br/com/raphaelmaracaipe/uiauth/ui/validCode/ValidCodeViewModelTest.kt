@@ -39,7 +39,7 @@ class ValidCodeViewModelTest {
     @Before
     fun setUp() {
         mContext = RuntimeEnvironment.getApplication().applicationContext
-        authSP = AuthSPImpl(mContext)
+        authSP = AuthSPImpl(mContext, mockk(), mockk(), mockk())
 
         mUserRepository = mockk()
         mAuthRepository = mockk()

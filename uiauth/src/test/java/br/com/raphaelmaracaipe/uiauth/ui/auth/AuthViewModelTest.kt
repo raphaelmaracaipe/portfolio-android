@@ -6,11 +6,15 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import br.com.raphaelmaracaipe.core.assets.Assets
 import br.com.raphaelmaracaipe.core.assets.AssetsImpl
+import br.com.raphaelmaracaipe.core.data.AuthRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
 import br.com.raphaelmaracaipe.uiauth.R
-import br.com.raphaelmaracaipe.core.data.AuthRepository
 import com.google.gson.Gson
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import dagger.hilt.android.testing.UninstallModules
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -26,8 +30,9 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [Build.VERSION_CODES.M])
+@Config(sdk = [Build.VERSION_CODES.M], application = HiltTestApplication::class)
 class AuthViewModelTest {
 
     @get:Rule
@@ -35,8 +40,9 @@ class AuthViewModelTest {
 
     private lateinit var mContext: Context
     private lateinit var mAuthViewModel: AuthViewModel
-    private lateinit var mUserRepository: UserRepository
-    private lateinit var mAuthRepository: AuthRepository
+
+    val mUserRepository: UserRepository = mockk(relaxed = true)
+    val mAuthRepository: AuthRepository = mockk(relaxed = true)
 
     private val codes = arrayOf(
         CodeCountryEntity(
@@ -61,8 +67,6 @@ class AuthViewModelTest {
         every { assetsManager.open(any()) } returns inputStream
 
         val mAssets: Assets = AssetsImpl(mContext, assetsManager)
-        mUserRepository = mockk()
-        mAuthRepository = mockk()
 
         mAuthViewModel = AuthViewModel(
             mContext,

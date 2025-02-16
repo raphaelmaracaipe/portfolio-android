@@ -4,6 +4,7 @@ import android.os.Build
 import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import br.com.raphaelmaracaipe.core.data.AuthRepository
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
@@ -49,6 +50,10 @@ class CountriesViewFragmentTest : FragmentTest() {
     @BindValue
     @JvmField
     var userRepository: UserRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var authRepository: AuthRepository = mockk(relaxed = true)
 
     @Before
     fun setUp() {

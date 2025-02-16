@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.constraintlayout.widget.ConstraintLayout
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.AuthRepository
 import br.com.raphaelmaracaipe.core.data.CountryRepository
 import br.com.raphaelmaracaipe.core.data.UserRepository
 import br.com.raphaelmaracaipe.core.data.db.entities.CodeCountryEntity
@@ -65,6 +66,10 @@ class AuthFragmentTest : FragmentTest() {
     @BindValue
     @JvmField
     var countryRepository: CountryRepository = mockk(relaxed = true)
+
+    @BindValue
+    @JvmField
+    var authRepository: AuthRepository = mockk(relaxed = true)
 
     @BindValue
     @JvmField
