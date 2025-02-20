@@ -5,7 +5,13 @@ import android.os.Build
 import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
+import androidx.work.Configuration
+import androidx.work.testing.WorkManagerTestInitHelper
+import br.com.raphaelmaracaipe.core.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.StatusRepository
+import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.core.data.di.RepositoryModule
 import br.com.raphaelmaracaipe.core.di.CoreModule
 import br.com.raphaelmaracaipe.tests.fragments.FragmentTest
@@ -16,9 +22,11 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import dagger.hilt.android.testing.UninstallModules
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -52,16 +60,38 @@ class MessageFragmentTest : FragmentTest() {
     @JvmField
     var statusRepository: StatusRepository = mockk()
 
+    @BindValue
+    @JvmField
+    var authRepository: AuthRepository = mockk()
+
+    @BindValue
+    @JvmField
+    var contactRepository: ContactRepository = mockk()
+
     @Before
     fun setUp() {
         hiltRule.inject()
         MockKAnnotations.init(this)
+
+        val config = Configuration.Builder()
+            .setMinimumLoggingLevel(android.util.Log.DEBUG)
+            .build()
+        WorkManagerTestInitHelper.initializeTestWorkManager(context, config)
     }
 
     @Test
-    fun `when init view should show container`() {
+    fun `when init view should show container`() = runTest {
+        coEvery { statusRepository.connect() } returns Unit
+        coEvery { statusRepository.onIAmOnline(any()) } returns Unit
+
+        val contact = ContactEntity()
+        val bundle = bundleOf(
+            "contact" to contact.toJSON()
+        )
+
         fragmentScenario<MessageFragment>(
-            R.navigation.nav_uimessage
+            fragmentArgs = bundle,
+            navigationRes = R.navigation.nav_uimessage
         ) { fragment ->
             fragment.view?.let { view ->
                 val cltContainer = view.findViewById<ConstraintLayout>(R.id.containerMain)

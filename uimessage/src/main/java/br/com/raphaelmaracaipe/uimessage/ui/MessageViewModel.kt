@@ -1,13 +1,18 @@
 package br.com.raphaelmaracaipe.uimessage.ui
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.StatusRepository
+import br.com.raphaelmaracaipe.uimessage.flow.StatusNotificationFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,7 +20,8 @@ import javax.inject.Inject
 class MessageViewModel @Inject constructor(
     private val context: Context,
     private val statusRepository: StatusRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val contactRepository: ContactRepository
 ) : ViewModel() {
 
     private val _doesConnected: MutableLiveData<Boolean> = MutableLiveData()
@@ -23,6 +29,9 @@ class MessageViewModel @Inject constructor(
 
     private val _onIAmOnline: MutableLiveData<Unit> = MutableLiveData()
     val onIAmOnline: LiveData<Unit> = _onIAmOnline
+
+    private val _onBack: MutableLiveData<Unit> = MutableLiveData()
+    val onBack: LiveData<Unit> = _onBack
 
     fun connect() = viewModelScope.launch {
         try {
@@ -36,9 +45,15 @@ class MessageViewModel @Inject constructor(
 
     fun consultStatus(phone: String) = viewModelScope.launch {
         try {
-            statusRepository.checkStatus(phone)
-            statusRepository.onIsHeOnline(phone) {
-                _onIAmOnline.postValue(Unit)
+            with(statusRepository) {
+                checkStatus(phone)
+                onIsHeOnline(phone) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        contactRepository.lastSeen(phone)
+                    }
+                    _onIAmOnline.postValue(Unit)
+
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -46,9 +61,20 @@ class MessageViewModel @Inject constructor(
     }
 
     fun iAmOnline() = viewModelScope.launch {
-        // TODO: APENAS PARA TESTE
-        statusRepository.onIAmOnline("5561991939006")
-//        statusRepository.onIAmOnline(authRepository.getPhone())
+        statusRepository.onIAmOnline(authRepository.getPhone())
+    }
+
+    fun returnConsultFlow(phone: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            StatusNotificationFlow.statusFlow.collect {
+                Log.i("RAPHAEL", "RETURN CONSULT FLOW")
+                consultStatus(phone)
+            }
+        }
+    }
+
+    fun onClickBack() {
+        _onBack.postValue(Unit)
     }
 
 }

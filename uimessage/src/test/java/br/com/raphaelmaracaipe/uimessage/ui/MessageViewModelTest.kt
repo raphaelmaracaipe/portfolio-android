@@ -3,11 +3,16 @@ package br.com.raphaelmaracaipe.uimessage.ui
 import android.content.Context
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
+import br.com.raphaelmaracaipe.core.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.StatusRepository
+import br.com.raphaelmaracaipe.uimessage.flow.StatusNotificationFlow
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -31,6 +36,8 @@ class MessageViewModelTest {
     private lateinit var context: Context
     private lateinit var viewModel: MessageViewModel
     private lateinit var statusRepository: StatusRepository
+    private lateinit var authRepository: AuthRepository
+    private lateinit var contactRepository: ContactRepository
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -38,12 +45,15 @@ class MessageViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
 
-        context = mockk()
         statusRepository = mockk()
+        authRepository = mockk()
+        contactRepository = mockk()
 
         viewModel = MessageViewModel(
-            context = context,
-            statusRepository = statusRepository
+            context = ApplicationProvider.getApplicationContext<Context?>().applicationContext,
+            statusRepository = statusRepository,
+            authRepository = authRepository,
+            contactRepository = contactRepository
         )
     }
 
@@ -70,6 +80,10 @@ class MessageViewModelTest {
     @Test
     fun `when send request to consult status`() = runTest {
         coEvery { statusRepository.checkStatus(any()) } returns Unit
+        coEvery { contactRepository.lastSeen(any()) } returns Unit
+        coEvery { statusRepository.onIsHeOnline(any(), any()) } answers {
+            secondArg<() -> Unit>().invoke()
+        }
 
         viewModel.consultStatus("1234567890")
         assertTrue(true)
@@ -83,4 +97,16 @@ class MessageViewModelTest {
         assertTrue(true)
     }
 
+    @Test
+    fun `when create socket with my number to inform status`() = runTest {
+        coEvery { statusRepository.onIAmOnline(any()) } returns Unit
+
+        viewModel.iAmOnline()
+    }
+
+    @Test
+    fun `when receive flow`() = runTest {
+        viewModel.returnConsultFlow("1234567890")
+        StatusNotificationFlow.notifyStatus()
+    }
 }

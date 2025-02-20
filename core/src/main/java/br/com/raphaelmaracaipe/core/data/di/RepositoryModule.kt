@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import br.com.raphaelmaracaipe.core.BuildConfig
 import br.com.raphaelmaracaipe.core.assets.Assets
+import br.com.raphaelmaracaipe.core.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.AuthRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.ContactRepositoryImpl
 import br.com.raphaelmaracaipe.core.data.CountryRepository
@@ -29,6 +31,7 @@ import br.com.raphaelmaracaipe.core.data.api.HandShakeApi
 import br.com.raphaelmaracaipe.core.data.api.TokenInterceptorApi
 import br.com.raphaelmaracaipe.core.data.api.UserApi
 import br.com.raphaelmaracaipe.core.data.db.AppDataBase
+import br.com.raphaelmaracaipe.core.data.sp.AuthSP
 import br.com.raphaelmaracaipe.core.data.sp.DeviceIdSP
 import br.com.raphaelmaracaipe.core.data.sp.KeySP
 import br.com.raphaelmaracaipe.core.data.sp.ProfileSP
@@ -126,6 +129,13 @@ class RepositoryModule {
     @Provides
     fun providerStatusRepository(): StatusRepository = StatusRepositoryImpl(
         socket = Socket.getInstance()
+    )
+
+    @Provides
+    fun providerAuthRepository(
+        authSP: AuthSP
+    ): AuthRepository = AuthRepositoryImpl(
+        authSP
     )
 
 }

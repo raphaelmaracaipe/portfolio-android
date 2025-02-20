@@ -35,6 +35,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding = true
     }
 
     compileOptions {
@@ -69,6 +70,7 @@ dependencies {
     implementation("androidx.work:work-runtime:2.10.0")
     implementation("androidx.work:work-runtime-ktx:2.10.0")
 
+    testImplementation("androidx.work:work-testing:2.7.1")
     testImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["dagger_hil"]}")
     testImplementation("junit:junit:${rootProject.extra["test_junit"]}")
     testImplementation("org.robolectric:robolectric:${rootProject.extra["test_roboletric"]}")

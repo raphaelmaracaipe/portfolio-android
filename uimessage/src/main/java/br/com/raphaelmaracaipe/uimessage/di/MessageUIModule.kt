@@ -2,6 +2,7 @@ package br.com.raphaelmaracaipe.uimessage.di
 
 import android.content.Context
 import br.com.raphaelmaracaipe.core.data.AuthRepository
+import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.StatusRepository
 import br.com.raphaelmaracaipe.uimessage.ui.MessageViewModel
 import dagger.Module
@@ -20,11 +21,13 @@ object MessageUIModule {
     fun providerMessageViewModel(
         @ApplicationContext context: Context,
         statusRepository: StatusRepository,
-        authRepository: AuthRepository
+        authRepository: AuthRepository,
+        contactRepository: ContactRepository
     ) = MessageViewModel(
         context,
         statusRepository,
-        authRepository
+        authRepository,
+        contactRepository
     )
 
 }
