@@ -144,4 +144,11 @@ class ContactRepositoryTest {
         }
     }
 
+    @Test
+    fun `when consult information about contact`() = runBlocking{
+        coEvery { contactDAO.getContact(any()) } returns ContactEntity(phone = "AA")
+
+        val contact = contactRepository.getContact("1234567890")
+        assertEquals("AA", contact.phone)
+    }
 }

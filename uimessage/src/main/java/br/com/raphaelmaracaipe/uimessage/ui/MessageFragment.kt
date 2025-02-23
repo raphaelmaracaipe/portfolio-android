@@ -1,7 +1,6 @@
 package br.com.raphaelmaracaipe.uimessage.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
-import br.com.raphaelmaracaipe.core.extensions.fromJSON
 import br.com.raphaelmaracaipe.uimessage.databinding.FragmentMessageBinding
 import br.com.raphaelmaracaipe.uimessage.workers.StatusWorker
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,10 +27,6 @@ class MessageFragment @Inject constructor() : Fragment() {
     private val workName = "ConsultStatusContact"
     private val args: MessageFragmentArgs by navArgs()
     private val mViewModel: MessageViewModel by viewModels()
-
-    private val contact: ContactEntity by lazy {
-        args.contact.fromJSON()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,14 +56,14 @@ class MessageFragment @Inject constructor() : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.i("RAPHAEL", "DESTROY VIEW OF MESSAGE")
         cancelWork()
     }
 
     private fun initViewModel() {
         with(mViewModel) {
             connect()
-            returnConsultFlow(contact.phone)
+            returnConsultFlow(args.contactPhone)
+            consultDataAboutContact(args.contactPhone)
             iAmOnline()
         }
     }

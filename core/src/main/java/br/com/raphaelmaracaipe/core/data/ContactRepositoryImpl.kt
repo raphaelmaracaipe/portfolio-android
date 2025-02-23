@@ -57,7 +57,11 @@ class ContactRepositoryImpl(
     }
 
     override suspend fun lastSeen(phone: String) {
-        contactDAO.lastSeen(phone, Date().getTimeStamp() )
+        contactDAO.lastSeen(phone, Date().getTimeStamp())
     }
+
+    override suspend fun getContact(
+        contactPhone: String
+    ) = contactDAO.getContact(contactPhone)
 
 }

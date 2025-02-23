@@ -32,4 +32,7 @@ interface ContactDAO {
     @Query("UPDATE contacts SET lastSeen = :lastSeen WHERE phone = :phone")
     suspend fun lastSeen(phone: String, lastSeen: Long)
 
+    @Query("SELECT * FROM contacts WHERE phone = :contactPhone")
+    suspend fun getContact(contactPhone: String): ContactEntity
+
 }

@@ -29,6 +29,7 @@ import br.com.raphaelmaracaipe.core.consts.Locations.LOCATION_PROFILE
 import br.com.raphaelmaracaipe.core.extensions.toBase64
 import br.com.raphaelmaracaipe.core.extensions.toByteArray
 import br.com.raphaelmaracaipe.core.navigation.NavigationURI.CONTACTS
+import br.com.raphaelmaracaipe.core.utils.Images.transformBase64ToBitmap
 import br.com.raphaelmaracaipe.uiprofile.R
 import br.com.raphaelmaracaipe.uiprofile.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -158,17 +159,9 @@ class ProfileFragment @Inject constructor() : Fragment() {
 
         mViewModel.profileSavedServer.observe(viewLifecycleOwner) {
             binding.profile = it
-            transformBase64ToBitmap(it.photo)
-        }
-    }
-
-    private fun transformBase64ToBitmap(base64: String) {
-        try {
-            val decoderBytes = Base64.decode(base64, Base64.DEFAULT)
-            val bitmap = BitmapFactory.decodeByteArray(decoderBytes, 0, decoderBytes.size)
-            applyBitmapInViewModel(bitmap, base64)
-        } catch (e: Exception) {
-            e.printStackTrace()
+            transformBase64ToBitmap(it.photo)?.let { bitmap ->
+                applyBitmapInViewModel(bitmap, it.photo)
+            }
         }
     }
 

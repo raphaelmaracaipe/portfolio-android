@@ -10,9 +10,9 @@
         android:name="br.com.raphaelmaracaipe.uimessage.ui.MessageFragment"
         android:label="FragmentMessage"
         tools:layout="@layout/fragment_message">
-        <deepLink app:uri="android-app://br.com.raphaelmaracaipe.portfolio/message?contact={contact}" />
+        <deepLink app:uri="android-app://br.com.raphaelmaracaipe.portfolio/message?contactPhone={contactPhone}" />
         <argument
-            android:name="contact"
+            android:name="contactPhone"
             app:argType="string" />
     </fragment>
 </navigation>

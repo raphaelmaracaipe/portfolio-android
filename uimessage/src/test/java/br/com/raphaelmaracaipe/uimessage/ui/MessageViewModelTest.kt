@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import br.com.raphaelmaracaipe.core.data.AuthRepository
 import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.StatusRepository
+import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.uimessage.flow.StatusNotificationFlow
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -16,6 +17,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -108,5 +110,15 @@ class MessageViewModelTest {
     fun `when receive flow`() = runTest {
         viewModel.returnConsultFlow("1234567890")
         StatusNotificationFlow.notifyStatus()
+    }
+
+    @Test
+    fun `when consult information about contact`() = runTest {
+        coEvery { contactRepository.getContact(any()) } returns ContactEntity(photo = "DD")
+
+        viewModel.consultDataAboutContact("1234567890")
+        viewModel.contact.observeForever {
+            assertEquals("DD", it.photo)
+        }
     }
 }

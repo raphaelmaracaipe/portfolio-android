@@ -1,7 +1,6 @@
 package br.com.raphaelmaracaipe.uimessage.ui
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.raphaelmaracaipe.core.data.AuthRepository
 import br.com.raphaelmaracaipe.core.data.ContactRepository
 import br.com.raphaelmaracaipe.core.data.StatusRepository
+import br.com.raphaelmaracaipe.core.data.db.entities.ContactEntity
 import br.com.raphaelmaracaipe.uimessage.flow.StatusNotificationFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +32,9 @@ class MessageViewModel @Inject constructor(
 
     private val _onBack: MutableLiveData<Unit> = MutableLiveData()
     val onBack: LiveData<Unit> = _onBack
+
+    private val _contact: MutableLiveData<ContactEntity> = MutableLiveData()
+    val contact: LiveData<ContactEntity> = _contact
 
     fun connect() = viewModelScope.launch {
         try {
@@ -67,7 +70,6 @@ class MessageViewModel @Inject constructor(
     fun returnConsultFlow(phone: String) {
         CoroutineScope(Dispatchers.Main).launch {
             StatusNotificationFlow.statusFlow.collect {
-                Log.i("RAPHAEL", "RETURN CONSULT FLOW")
                 consultStatus(phone)
             }
         }
@@ -75,6 +77,10 @@ class MessageViewModel @Inject constructor(
 
     fun onClickBack() {
         _onBack.postValue(Unit)
+    }
+
+    fun consultDataAboutContact(contactPhone: String) = viewModelScope.launch {
+        _contact.postValue(contactRepository.getContact(contactPhone))
     }
 
 }

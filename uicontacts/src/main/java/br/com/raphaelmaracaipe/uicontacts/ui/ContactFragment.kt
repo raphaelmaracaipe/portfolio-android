@@ -119,7 +119,7 @@ class ContactFragment @Inject constructor() : Fragment() {
 
     private fun goToMessage(contactEntity: ContactEntity) {
         val request = NavDeepLinkRequest.Builder
-            .fromUri("$MESSAGE?contact=${contactEntity.toJSON()}".toUri())
+            .fromUri("$MESSAGE?contactPhone=${contactEntity.phone}".toUri())
             .build()
 
         findNavController().navigate(request)

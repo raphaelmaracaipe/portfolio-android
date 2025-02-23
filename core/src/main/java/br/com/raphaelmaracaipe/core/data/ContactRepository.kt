@@ -10,4 +10,5 @@ interface ContactRepository {
         text: String, itemPerPage: Int, pageCurrent: Int
     ): ArrayList<ContactEntity>
     suspend fun lastSeen(phone: String)
+    suspend fun getContact(contactPhone: String) : ContactEntity
 }

@@ -83,10 +83,11 @@ class MessageFragmentTest : FragmentTest() {
     fun `when init view should show container`() = runTest {
         coEvery { statusRepository.connect() } returns Unit
         coEvery { statusRepository.onIAmOnline(any()) } returns Unit
+        coEvery { contactRepository.getContact(any()) } returns ContactEntity()
+        coEvery { authRepository.getPhone() } returns "1234567890"
 
-        val contact = ContactEntity()
         val bundle = bundleOf(
-            "contact" to contact.toJSON()
+            "contactPhone" to "1234567890"
         )
 
         fragmentScenario<MessageFragment>(

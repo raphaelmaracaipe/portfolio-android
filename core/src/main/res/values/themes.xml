@@ -20,4 +20,9 @@
         <item name="android:fontFamily">@font/open_sans</item>
         <item name="android:textSize">10sp</item>
     </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

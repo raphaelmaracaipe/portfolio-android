@@ -11,8 +11,6 @@ class StatusWorker(
     workerParameters: WorkerParameters
 ) : Worker(context, workerParameters) {
     override fun doWork(): Result {
-        Log.i("RAPHAEL", "STATUS WORKER...")
-
         StatusNotificationFlow.notifyStatus()
 
         return Result.retry()

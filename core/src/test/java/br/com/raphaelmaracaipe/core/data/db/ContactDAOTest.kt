@@ -94,4 +94,16 @@ class ContactDAOTest {
         assertEquals(0, countPhone)
     }
 
+    @Test
+    fun `when check information abount contact`() = runBlocking {
+        val entities = arrayListOf(
+            ContactEntity("PHONE", "NAME", "PHOTO"),
+            ContactEntity("PHONE1", "NAME1", "PHOTO")
+        )
+        dao.insert(entities)
+
+        val contact = dao.getContact("PHONE")
+        assertEquals("PHONE", contact.phone)
+    }
+
 }
